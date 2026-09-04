@@ -1,0 +1,16 @@
+[2026-08-16T23:32:34.903Z] [error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-08-16T23:32:36.158Z] [log] [DX-LAYOUT-RASTI-LIB] onLoad function
+[2026-08-16T23:32:37.037Z] [error] requestStorageAccessFor: Permission denied.
+[2026-08-16T23:32:37.037Z] [log] requestStorageAccessFor error:NotAllowedError: requestStorageAccessFor not allowed
+[2026-08-16T23:32:37.037Z] [error] requestStorageAccessFor: Must be handling a user gesture to use.
+[2026-08-16T23:32:37.037Z] [error] requestStorageAccessFor: Must be handling a user gesture to use.
+[2026-08-16T23:32:37.037Z] [error] requestStorageAccessFor: Must be handling a user gesture to use.
+[2026-08-16T23:32:37.037Z] [error] requestStorageAccessFor: Must be handling a user gesture to use.
+[2026-08-16T23:32:37.052Z] [error] requestStorageAccessFor: Permission denied.
+[2026-08-16T23:32:37.053Z] [log] requestStorageAccessFor error:NotAllowedError: requestStorageAccessFor not allowed
+[2026-08-16T23:32:37.053Z] [error] requestStorageAccessFor: Permission denied.
+[2026-08-16T23:32:37.053Z] [log] requestStorageAccessFor error:NotAllowedError: requestStorageAccessFor not allowed
+[2026-08-16T23:32:37.053Z] [error] requestStorageAccessFor: Permission denied.
+[2026-08-16T23:32:37.054Z] [log] requestStorageAccessFor error:NotAllowedError: requestStorageAccessFor not allowed
+[2026-08-16T23:32:37.517Z] [log] Initialized ChatAI with given config:  {open: false, splash: true, setOpen: , setSplash: , id: __devsite-chat-ai__}
+[2026-08-16T23:32:37.547Z] [log] Initialized ChatAI with given config:  {open: false, splash: true, setOpen: , setSplash: , id: __devsite-chat-ai__}

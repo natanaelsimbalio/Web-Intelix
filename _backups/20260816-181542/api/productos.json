@@ -1,0 +1,121 @@
+{
+  "productos": [
+    {
+      "sku": "macbook-air-m1",
+      "nombre": "Apple MacBook Air M1 8GB 512GB",
+      "descripcion": "Apple MacBook Air M1, 8GB RAM, 512GB SSD, macOS.",
+      "precio": 999,
+      "moneda": "USD",
+      "imagenes": [
+        "assets/img/macbook-air-m1-1.jpg",
+        "assets/img/macbook-air-m1-2.jpg",
+        "assets/img/macbook-air-m1-3.jpg"
+      ],
+      "stock": 5,
+      "activo": true
+    },
+    {
+      "sku": "notebook-cx",
+      "nombre": "Notebook CX de Inicio 14\"",
+      "descripcion": "Notebook CX 14\", 4GB RAM, 64GB, Intel x5, pantalla Full HD, Windows 11, batería 11hs, WiFi/Bluetooth. Nueva, con garantía 12 meses.",
+      "precio": 199,
+      "moneda": "USD",
+      "imagenes": [
+        "assets/img/notebook-cx-1.jpg",
+        "assets/img/notebook-cx-2.jpg"
+      ],
+      "stock": 10,
+      "activo": true
+    },
+    {
+      "sku": "informes-periciales",
+      "nombre": "Informes periciales y copias de seguridad forenses",
+      "descripcion": "Realización de imágenes forenses de discos y celulares, por unidad. Incluye informe pericial individual. Precio + IVA 21% (se factura aparte).",
+      "precio": 570000,
+      "moneda": "ARS",
+      "imagenes": ["assets/img/informes-periciales.jpg"],
+      "stock": 99,
+      "activo": true
+    },
+    {
+      "sku": "asesoria-forense",
+      "nombre": "Asesoría forense informática y ciberseguridad (por hora)",
+      "descripcion": "Hora de servicio de asesoría en informática forense y ciberseguridad. Precio + IVA 21% (se factura aparte).",
+      "precio": 198500,
+      "moneda": "ARS",
+      "imagenes": ["assets/img/asesoria-forense.jpg"],
+      "stock": 99,
+      "activo": true
+    },
+    {
+      "sku": "inhibidores-senal",
+      "nombre": "Inhibidor bloqueador de señales WiFi/Bluetooth/DECT/4G",
+      "descripcion": "Sistema de inhibición y bloqueo de señales de interior. Ideal para empresas de seguridad y reuniones que requieran cero comunicaciones. Protege bandas 2G/3G/4G, Bluetooth, WiFi y teléfonos inalámbricos.",
+      "precio": 2499,
+      "moneda": "USD",
+      "imagenes": ["assets/img/inhibidores.jpg"],
+      "stock": 8,
+      "activo": true
+    },
+    {
+      "sku": "detector-senales",
+      "nombre": "Detector profesional de señales, micrófonos y cámaras",
+      "descripcion": "Detector profesional de señales de radio, rango 50MHz a 6GHz (LTE, WiFi, micrófonos). Detección de cámaras ocultas vía infrarrojo y lente. Batería recargable, auricular incluido, modo de escucha directa de cables.",
+      "precio": 850,
+      "moneda": "USD",
+      "imagenes": ["assets/img/detector-senales.jpg"],
+      "stock": 12,
+      "activo": true
+    },
+    {
+      "sku": "robots-dash-dot",
+      "nombre": "Robots educativos Bluetooth Dash y Dot (Wonder Pack)",
+      "descripcion": "Robots educativos programables Dash y Dot, con accesorios (Wonder Pack).",
+      "precio": 379,
+      "moneda": "USD",
+      "imagenes": ["assets/img/robots-dash-dot.jpg"],
+      "stock": 1,
+      "activo": true
+    },
+    {
+      "sku": "nas-qnap-231k",
+      "nombre": "Almacenamiento de red NAS QNAP 231K 4TB",
+      "descripcion": "NAS QNAP 231K, 4TB (discos WD Black), dual Gigabit, 3x USB 3.0, 2 bahías, ARM.",
+      "precio": 599,
+      "moneda": "USD",
+      "imagenes": ["assets/img/nas-qnap.jpg"],
+      "stock": 4,
+      "activo": true
+    },
+    {
+      "sku": "dell-latitude-3420",
+      "nombre": "Notebook Dell Latitude 3420",
+      "descripcion": "Notebook Dell Latitude 3420, i7, 64GB RAM, 512GB SSD, video NVIDIA MX450 2GB, WiFi 11ax.",
+      "precio": 1399,
+      "moneda": "USD",
+      "imagenes": ["assets/img/dell-latitude-3420.jpg"],
+      "stock": 2,
+      "activo": true
+    },
+    {
+      "sku": "prueba-1-peso",
+      "nombre": "Producto de prueba (no comprar)",
+      "descripcion": "Producto a $1 para probar el flujo completo de pago. Sacar del catálogo antes de lanzar la tienda al público.",
+      "precio": 1,
+      "moneda": "ARS",
+      "imagenes": ["../assets/logo-intelix.jpg"],
+      "stock": 999,
+      "activo": true
+    },
+    {
+      "sku": "xpg-xenia-15kc",
+      "nombre": "Notebook gamer XPG Xenia 15KC",
+      "descripcion": "Notebook gamer XPG Xenia 15KC, i7, 64GB RAM, RTX 3070 8GB, 1TB SSD, WiFi 11ax, pantalla 2K 165Hz.",
+      "precio": 1799,
+      "moneda": "USD",
+      "imagenes": ["assets/img/xpg-xenia-15kc.jpg"],
+      "stock": 2,
+      "activo": true
+    }
+  ]
+}

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon-192.png">
+<link rel="shortcut icon" href="assets/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#121110">
+<title>Autodiagnóstico de Madurez en IA | Intelix Ingeniería</title>
+<meta name="description" content="Autoevaluación gratuita de madurez en IA para tu empresa. 20 preguntas, resultado orientativo automático.">
+<link rel="canonical" href="https://intelix.com.ar/diagnostico-ia.html">
+<meta property="og:title" content="Autodiagnóstico de Madurez en IA | Intelix Ingeniería">
+<meta property="og:description" content="Autoevaluación gratuita de madurez en IA para tu empresa. 20 preguntas, resultado orientativo automático.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://intelix.com.ar/diagnostico-ia.html">
+<meta property="og:image" content="https://intelix.com.ar/assets/logo-intelix.jpg">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Autodiagnóstico de Madurez en IA | Intelix">
+<meta name="twitter:description" content="Autoevaluación gratuita de madurez en IA para tu empresa. Resultado orientativo automático.">
+<meta name="twitter:creator" content="@fmvillares">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<style>
+  :root{
+    --bg:#121110;--bg-soft:#181715;--gold:#C9963A;--gold-soft:#E8B455;--gold-deep:#8f6824;
+    --white:#F0EDE8;--muted:#a8a39a;--dim:#7d786f;
+    --line:rgba(240,237,232,0.08);--line-strong:rgba(240,237,232,0.15);
+    --gold-line:rgba(201,150,58,0.28);--card:rgba(240,237,232,0.022);
+    --grad-gold:linear-gradient(120deg,var(--gold-soft),var(--gold) 50%,var(--gold-deep));
+    --ease:cubic-bezier(.2,.7,.2,1);
+    --green:#5fce7e;--amber:#e8b455;--red:#e2695f;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--white);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;position:relative}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;background-image:linear-gradient(rgba(240,237,232,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(240,237,232,.018) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 40%,transparent 80%);mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 40%,transparent 80%)}
+  .glow{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;opacity:.5;width:520px;height:520px;background:rgba(201,150,58,.07);top:-160px;right:-120px}
+  ::selection{background:var(--gold);color:#1a1208}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--gold-soft);outline-offset:3px;border-radius:4px}
+  .wrap{max-width:820px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+  .skip-link{position:absolute;left:-999px;top:0;z-index:200;background:var(--gold);color:#1a1208;padding:10px 18px;border-radius:0 0 10px 0;font-weight:600}
+  .skip-link:focus{left:0}
+  #nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(16px);background:rgba(18,17,16,.72);border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+  #nav.scrolled{border-bottom:1px solid var(--line);background:rgba(18,17,16,.85)}
+  #nav .nav-inner{display:flex;align-items:center;justify-content:space-between;height:82px;max-width:1200px;margin:0 auto;padding:0 28px}
+  #nav .nav-logo{height:50px;width:auto;display:block;transition:transform .2s}
+  #nav .nav-logo:hover{transform:translateY(-1px)}
+  #nav .nav-links{display:flex;gap:22px;align-items:center}
+  #nav .nav-links a{font-size:14px;color:var(--muted);transition:color .2s;position:relative}
+  #nav .nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--gold);transition:width .28s var(--ease)}
+  #nav .nav-links a:not(.nav-cta):hover::after{width:100%}
+  #nav .nav-links a.active{color:var(--gold);font-weight:600}
+  #nav .nav-links a.active::after{width:100%}
+#nav .nav-drop-group{display:flex;align-items:center;gap:2px;background:rgba(240,237,232,.05);border:1px solid rgba(240,237,232,0.15);border-radius:100px;padding:4px 6px}
+#nav .nav-drop-group .nav-drop-trigger{padding:6px 12px;border-radius:100px;transition:color .2s,background .2s}
+#nav .nav-drop-group .nav-drop.open .nav-drop-trigger,#nav .nav-drop-group .nav-drop-trigger:hover{background:rgba(201,150,58,.14);color:var(--gold-soft)}
+#nav .nav-drop{position:relative}
+#nav .nav-drop-trigger{display:inline-flex;align-items:center;gap:4px;background:none;border:none;font:inherit;font-size:14px;color:var(--muted);cursor:pointer;padding:0;transition:color .2s}
+#nav .nav-drop-trigger:hover,#nav .nav-drop.open .nav-drop-trigger{color:var(--white)}
+#nav .nav-drop-caret{font-size:10px;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+#nav .nav-drop.open .nav-drop-caret{transform:rotate(180deg)}
+#nav .nav-drop-menu{position:absolute;top:calc(100% + 18px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:180px;background:var(--bg-soft);border:1px solid rgba(240,237,232,0.08);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:2px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 20px 44px -20px rgba(0,0,0,.6)}
+#nav .nav-drop.open .nav-drop-menu{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}#nav .nav-drop-group .nav-drop:first-child .nav-drop-menu{left:0;transform:translateX(0) translateY(-6px)}#nav .nav-drop-group .nav-drop:first-child.open .nav-drop-menu{transform:translateX(0) translateY(0)}#nav .nav-drop-group .nav-drop:last-child .nav-drop-menu{left:auto;right:0;transform:translateX(0) translateY(-6px)}#nav .nav-drop-group .nav-drop:last-child.open .nav-drop-menu{transform:translateX(0) translateY(0)}
+#nav .nav-drop-menu a{display:block;text-align:center;padding:9px 12px;border-radius:6px;font-size:14px;color:var(--muted);white-space:nowrap;transition:color .2s,background .2s}
+#nav .nav-drop-menu a::after{display:none}
+#nav .nav-drop-menu a:hover{color:var(--white);background:rgba(240,237,232,.05)}
+#nav .nav-drop-menu a.active{color:var(--gold);font-weight:600}
+@media (max-width:880px){
+  #nav .nav-drop-trigger{width:100%;justify-content:space-between;padding:15px 0;border-bottom:1px solid rgba(240,237,232,0.08);font-size:16px}
+  #nav .nav-drop-group{flex-direction:column;background:none;border:none;padding:0;gap:0}
+  #nav .nav-drop-menu{position:static;transform:none;opacity:1;pointer-events:auto;max-height:0;overflow:hidden;padding:0;border:none;background:none;box-shadow:none;transition:max-height .3s}
+  #nav .nav-drop.open .nav-drop-menu{max-height:260px;padding:6px 0 6px 14px}
+  #nav .nav-drop-menu a{text-align:left;padding:11px 0;font-size:15px}
+}
+  #nav .nav-links a:hover{color:var(--white)}
+  #nav .nav-cta{font-size:13.5px;font-weight:600;color:#1a1208!important;background:var(--gold);padding:10px 18px;border-radius:8px;display:inline-flex;align-items:center;gap:8px;transition:transform .2s,box-shadow .2s,background .2s}
+  #nav .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(201,150,58,.3);background:var(--gold-soft)}
+  #nav .nav-cta::after{display:none!important}
+  .nav-toggle{display:none;background:none;border:1px solid var(--line-strong);border-radius:9px;width:44px;height:44px;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+  .nav-toggle span{display:block;width:20px;height:2px;background:var(--white);border-radius:2px;transition:transform .3s,opacity .3s}
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  @media(max-width:880px){
+    .nav-toggle{display:flex}
+    #nav .nav-links{position:fixed;top:82px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:rgba(16,15,14,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:14px 28px 26px;transform:translateY(-12px);opacity:0;pointer-events:none;transition:transform .3s,opacity .3s}
+    #nav .nav-links.open{transform:none;opacity:1;pointer-events:auto}
+    #nav .nav-links a:not(.nav-cta){padding:15px 0;border-bottom:1px solid var(--line);font-size:16px}
+    #nav .nav-links a:not(.nav-cta)::after{display:none}
+    #nav .nav-cta{margin-top:16px;justify-content:center;padding:14px}
+  }
+  header.dh{padding:118px 0 24px;text-align:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:500;color:var(--muted);border:1px solid var(--gold-line);padding:6px 14px;border-radius:100px;margin-bottom:22px;background:rgba(201,150,58,.04)}
+  .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 2.2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(201,150,58,.5)}70%{box-shadow:0 0 0 8px rgba(201,150,58,0)}100%{box-shadow:0 0 0 0 rgba(201,150,58,0)}}
+  header.dh h1{font-size:clamp(30px,5vw,48px);font-weight:800;letter-spacing:-.035em;line-height:1.06;margin-bottom:16px}
+  header.dh h1 .hl{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gold)}
+  header.dh p{color:var(--muted);font-size:16.5px;max-width:600px;margin:0 auto 20px}
+  .dh-meta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+  .dh-meta span{font-size:12.5px;color:var(--dim);border:1px solid var(--line);border-radius:100px;padding:6px 13px;background:var(--card)}
+  .progress-wrap{position:sticky;top:74px;z-index:40;background:rgba(18,17,16,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:12px 0}
+  .progress-inner{max-width:820px;margin:0 auto;padding:0 24px}
+  .progress-row{display:flex;align-items:center;gap:12px}
+  .progress-chip{font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;color:var(--bg);background:var(--gold-soft);border-radius:6px;padding:3px 9px;white-space:nowrap}
+  .progress-bar{flex:1;height:3px;background:rgba(240,237,232,.08);border-radius:100px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:var(--grad-gold);border-radius:100px;transition:width .35s var(--ease)}
+  .progress-pct{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);text-align:right;margin-top:6px}
+  form#quiz{padding:30px 0 40px}
+  .block-head{display:flex;align-items:center;gap:13px;margin:38px 0 20px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--gold);letter-spacing:.06em;text-transform:uppercase}
+  .block-head .bn{flex-shrink:0;width:30px;height:30px;border-radius:8px;border:1px solid var(--gold-line);display:flex;align-items:center;justify-content:center;background:rgba(201,150,58,.06);font-size:12px}
+  .block-head::after{content:"";flex:1;height:1px;background:var(--line)}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 22px 18px;margin-bottom:14px;transition:border-color .3s}
+  .q.answered{border-color:var(--gold-line)}
+  .q.missing{border-color:rgba(226,105,95,.5)}
+  .q-top{display:flex;gap:12px;margin-bottom:15px}
+  .q-num{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--gold);width:26px}
+  .q-text{font-size:15.5px;font-weight:600;line-height:1.45}
+  .q-multi{display:inline-block;margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--gold-soft);border:1px solid var(--gold-line);border-radius:100px;padding:2px 9px;font-weight:500;letter-spacing:.02em}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{position:relative;display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;cursor:pointer;transition:border-color .2s,background .2s;user-select:none}
+  .opt:hover{border-color:var(--gold-line);background:rgba(201,150,58,.04)}
+  .opt input{position:absolute;opacity:0;width:0;height:0}
+  .opt .mark{flex-shrink:0;width:20px;height:20px;border:2px solid var(--line-strong);display:flex;align-items:center;justify-content:center;transition:border-color .2s,background .2s;margin-top:1px}
+  .opt.radio .mark{border-radius:50%}
+  .opt.check .mark{border-radius:6px}
+  .opt .mark::after{content:"";width:9px;height:9px;background:var(--gold);opacity:0;transition:opacity .2s}
+  .opt.radio .mark::after{border-radius:50%}
+  .opt.check .mark::after{width:11px;height:7px;background:none;border-left:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(-45deg);margin-top:-2px}
+  .opt.sel{border-color:var(--gold);background:rgba(201,150,58,.07)}
+  .opt.sel .mark{border-color:var(--gold)}
+  .opt.sel .mark::after{opacity:1}
+  .opt .ltr{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--gold-soft);margin-right:2px}
+  .opt .otxt{font-size:14px;color:var(--white);line-height:1.45}
+  .submit-row{text-align:center;margin-top:28px}
+  .btn-eval{font-size:16px;font-weight:700;padding:16px 34px;border-radius:12px;background:var(--gold);color:#1a1208;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:transform .2s,box-shadow .2s,background .2s}
+  .btn-eval:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(201,150,58,.32);background:var(--gold-soft)}
+  .eval-note{margin-top:12px;font-size:12.5px;color:var(--dim)}
+  .form-err{color:var(--red);font-size:13.5px;margin-top:14px;min-height:18px}
+  #result{display:none;padding:40px 0 80px}
+  #result.show{display:block;animation:fade .5s var(--ease)}
+  @keyframes fade{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .res-card{border:1px solid var(--line-strong);border-radius:18px;overflow:hidden;background:linear-gradient(180deg,rgba(28,26,23,.6),rgba(20,19,17,.6))}
+  .res-head{padding:34px 30px;text-align:center;border-bottom:1px solid var(--line)}
+  .res-badge{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:700;padding:9px 20px;border-radius:100px;margin-bottom:18px;text-transform:uppercase;letter-spacing:.04em}
+  .res-badge .dot{width:10px;height:10px;border-radius:50%}
+  .res-title{font-size:clamp(24px,4vw,34px);font-weight:800;letter-spacing:-.03em;margin-bottom:12px}
+  .res-desc{color:var(--muted);font-size:15.5px;max-width:560px;margin:0 auto;line-height:1.6}
+  .gauge{margin:26px auto 6px;max-width:420px}
+  .gauge-bar{height:12px;border-radius:100px;background:rgba(240,237,232,.08);overflow:hidden;position:relative}
+  .gauge-fill{height:100%;border-radius:100px;transition:width .8s var(--ease)}
+  .gauge-lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--dim);margin-top:8px;font-family:'JetBrains Mono',monospace}
+  .gauge-num{font-size:40px;font-weight:800;letter-spacing:-.03em;margin-top:14px}
+  .counts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:22px 24px;border-bottom:1px solid var(--line)}
+  .count{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:70px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:var(--card)}
+  .count b{font-size:22px;font-weight:800}
+  .count span{font-size:11px;color:var(--dim);text-align:center;line-height:1.3}
+  .capture{padding:30px}
+  .capture h3{font-size:19px;font-weight:700;margin-bottom:6px}
+  .capture p{color:var(--muted);font-size:14px;margin-bottom:22px;line-height:1.55}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:13px;font-weight:600;color:var(--white);margin-bottom:7px}
+  .field label .req{color:var(--gold)}
+  .field input{width:100%;background:rgba(240,237,232,.03);border:1px solid var(--line-strong);border-radius:10px;padding:13px 15px;color:var(--white);font-family:inherit;font-size:15px;transition:border-color .2s,background .2s}
+  .field input:focus{outline:none;border-color:var(--gold);background:rgba(201,150,58,.04)}
+  .field input::placeholder{color:var(--dim)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:520px){.row2{grid-template-columns:1fr}}
+  .btn-send{width:100%;font-size:16px;font-weight:700;padding:16px;border-radius:12px;background:var(--gold);color:#1a1208;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:transform .2s,box-shadow .2s,background .2s;margin-top:4px}
+  .btn-send:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(201,150,58,.32);background:var(--gold-soft)}
+  .privacy{font-size:12px;color:var(--dim);text-align:center;margin-top:14px;line-height:1.5}
+  .sent-ok{display:none;text-align:center;padding:22px;border:1px solid rgba(95,206,126,.35);background:rgba(95,206,126,.06);border-radius:12px;margin-top:18px;color:var(--white);font-size:14.5px;line-height:1.6}
+  .sent-ok.show{display:block}
+  .restart{display:inline-flex;align-items:center;gap:8px;margin-top:24px;font-size:14px;font-weight:600;color:var(--gold);border:1px solid var(--gold-line);padding:11px 20px;border-radius:10px;background:rgba(201,150,58,.05);cursor:pointer;transition:background .2s}
+  .restart:hover{background:rgba(201,150,58,.14)}
+  .disclaimer{max-width:820px;margin:0 auto;padding:0 24px 60px;color:var(--dim);font-size:12.5px;text-align:center;line-height:1.6}
+  footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;color:var(--dim);font-size:13px;position:relative;z-index:1}
+  footer a{color:var(--muted)}
+  .backhome{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--gold);border:1px solid var(--gold-line);padding:9px 16px;border-radius:9px;background:rgba(201,150,58,.05);transition:background .2s,transform .2s}
+  .backhome:hover{background:var(--gold);color:#1a1208;transform:translateY(-1px)}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.pulse{animation:none}#result.show{animation:none}}
+  .capture-pre{border:1px solid var(--line-strong);border-radius:18px;background:linear-gradient(180deg,rgba(28,26,23,.5),rgba(20,19,17,.5));margin-top:6px}
+  .sent-banner{padding:16px 20px;font-size:14px;line-height:1.5;border-bottom:1px solid var(--line)}
+  .sent-banner:empty{display:none}
+  .res-foot{padding:26px 30px;display:flex;flex-direction:column;align-items:center;gap:16px}
+  .res-foot .btn-send{max-width:360px;text-decoration:none}
+</style>
+</head>
+<body>
+<a href="#quiz" class="skip-link">Saltar al cuestionario</a>
+<div class="glow"></div>
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="index.html" aria-label="Intelix — inicio"><img src="assets/logo-intelix.jpg" alt="Intelix Ingeniería & Telecomunicaciones" class="nav-logo" width="114" height="44"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Inicio</a>
+      <a href="index.html#servicios">Servicios</a>
+            <div class="nav-drop-group">
+        <div class="nav-drop">
+          <button type="button" class="nav-drop-trigger" aria-expanded="false">Nosotros <span class="nav-drop-caret">▾</span></button>
+          <div class="nav-drop-menu">
+            <a href="trayectoria.html">Trayectoria</a>
+            <a href="porque.html">Por qué Intelix</a>
+            <a href="nosotros.html">Nosotros</a>
+          </div>
+        </div>
+        <div class="nav-drop">
+          <button type="button" class="nav-drop-trigger" aria-expanded="false">Recursos <span class="nav-drop-caret">▾</span></button>
+          <div class="nav-drop-menu">
+            <a href="proyectos.html">Proyectos</a>
+            <a href="prensa.html">Prensa</a>
+            <a href="blogs/index.html">Blog</a>
+            <a href="Juegos/index.html">Juegos</a>
+          </div>
+        </div>
+      </div>
+      <a href="diagnosticos.html" class="active">Diagnóstico</a>
+      <a href="https://wa.me/543412280272" target="_blank" rel="noopener" class="nav-cta"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.945z"/></svg> WhatsApp</a>
+    </div>
+  </div>
+</nav>
+
+<header class="dh">
+  <div class="wrap">
+    <span class="eyebrow"><span class="pulse"></span>Autoevaluación gratuita · Especialistas en IA local</span>
+    <h1>¿Qué tan <span class="hl">lista está tu empresa</span> para adoptar IA?</h1>
+    <p>Respondé 20 preguntas rápidas y recibí una valoración automática y orientativa de tu madurez en inteligencia artificial. Al terminar podés recibir el resultado por email.</p>
+    <div class="dh-meta"><span>20 preguntas</span><span>~4 minutos</span><span>Gratis</span><span>Sin registro</span></div>
+  </div>
+</header>
+
+<div class="progress-wrap" id="progressWrap">
+  <div class="progress-inner">
+    <div class="progress-row">
+      <div class="progress-chip"><span id="progNum">0</span> / 20</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+    <div class="progress-pct" id="progPct">0%</div>
+  </div>
+</div>
+
+<main>
+<form id="quiz" class="wrap" novalidate></form>
+
+<div class="wrap">
+  <section class="capture capture-pre" id="captureSec" aria-label="Datos para recibir el resultado">
+    <h3>Completá tus datos y recibí tu resultado</h3>
+    <p>Al enviar calculamos tu diagnóstico y te lo mandamos por email automáticamente. Una copia llega a nuestro equipo por si querés una consulta profesional. Sin compromiso.</p>
+    <div class="row2">
+      <div class="field"><label for="fNombre">Nombre <span class="req">*</span></label><input type="text" id="fNombre" autocomplete="name" placeholder="Tu nombre"></div>
+      <div class="field"><label for="fEmpresa">Empresa</label><input type="text" id="fEmpresa" autocomplete="organization" placeholder="Nombre de tu empresa"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="fEmail">Email <span class="req">*</span></label><input type="email" id="fEmail" autocomplete="email" placeholder="vos@empresa.com"></div>
+      <div class="field"><label for="fTel">Teléfono</label><input type="tel" id="fTel" autocomplete="tel" placeholder="Opcional"></div>
+    </div>
+    <div class="form-err" id="formErr" role="alert"></div>
+    <button type="button" class="btn-send" id="sendBtn">Enviar y ver mi resultado →</button>
+    <div class="privacy">Tus respuestas y datos se envían de forma segura a contacto@intelix.com.ar y recibís una copia en tu email. Se usan solo para responder tu consulta.</div>
+  </section>
+</div>
+
+<section id="result" class="wrap" aria-live="polite">
+  <div class="res-card">
+    <div class="sent-banner" id="sentBanner"></div>
+    <div class="res-head">
+      <div class="res-badge" id="resBadge"><span class="dot"></span><span id="resBadgeTxt"></span></div>
+      <div class="res-title" id="resTitle"></div>
+      <div class="res-desc" id="resDesc"></div>
+      <div class="gauge">
+        <div class="gauge-num" id="gaugeNum"></div>
+        <div class="gauge-bar"><div class="gauge-fill" id="gaugeFill"></div></div>
+        <div class="gauge-lbl"><span>Madurez baja</span><span>Índice de madurez en IA</span><span>Madurez alta</span></div>
+      </div>
+    </div>
+    <div class="counts" id="counts"></div>
+    <div class="res-foot">
+      <a href="https://wa.me/543412280272?text=Hola%20Intelix,%20hice%20el%20autodiagn%C3%B3stico%20de%20IA%20y%20quiero%20una%20consulta" target="_blank" rel="noopener" class="btn-send">Quiero una consulta profesional →</a>
+      <button type="button" class="restart" id="restartBtn">↻ Empezar de nuevo</button>
+    </div>
+  </div>
+</section>
+
+<p class="disclaimer">Este cuestionario es una herramienta de autoevaluación orientativa, no una auditoría técnica formal. Sirve para identificar puntos de partida y decidir si conviene una evaluación profesional más profunda. Intelix Ingeniería & Telecomunicaciones — especialistas en IA local y on-premise.</p>
+</main>
+
+<noscript><p style="text-align:center;padding:120px 24px;color:#a8a39a">Este autodiagnóstico necesita JavaScript activado para funcionar. Podés escribirnos directamente a contacto@intelix.com.ar.</p></noscript>
+
+<footer>
+  <div class="wrap">
+    <a href="index.html" class="backhome">← Volver al sitio</a>
+    <p style="margin-top:18px">© <span id="year">2026</span> Intelix Ingeniería &amp; Telecomunicaciones · Rosario, Argentina</p>
+  </div>
+</footer>
+
+<script>
+  var QDATA = [
+    {"b":"Datos y sistemas","q":"¿La información de tu empresa (clientes, ventas, operaciones) está centralizada en algún sistema, o dispersa en planillas y carpetas sueltas?","m":false,"o":["Centralizada en un sistema (ERP, CRM, base de datos)","Parcialmente, algunas áreas sí y otras en planillas","Dispersa en planillas y documentos sueltos","No lo sé"]},
+    {"b":"Datos y sistemas","q":"¿Qué tan limpios y consistentes están tus datos (sin duplicados, con formato uniforme)?","m":false,"o":["Bastante limpios, con validaciones periódicas","Aceptables, pero con errores conocidos","Bastante desordenados","No sabría evaluarlo"]},
+    {"b":"Datos y sistemas","q":"¿Tenés claridad sobre qué procesos de tu empresa generan más volumen de datos (ventas, soporte, producción)?","m":true,"o":["Sí, identificamos los procesos con más datos","Tenemos una idea general","No lo tenemos mapeado","No lo sé"]},
+    {"b":"Datos y sistemas","q":"¿Usás almacenamiento en la nube, servidores propios, o ambos?","m":false,"o":["Ambos, según el caso de uso","Solo nube","Solo servidores propios","No sabría decir"]},
+    {"b":"Uso actual de IA","q":"¿Alguien en tu empresa usa hoy herramientas de IA (ChatGPT, Copilot, asistentes similares) para el trabajo diario?","m":false,"o":["Sí, de forma habitual en varias áreas","Sí, pero de forma esporádica y sin lineamientos","No, todavía no se usa","No lo sé"]},
+    {"b":"Uso actual de IA","q":"¿Existe alguna política sobre qué información se puede o no cargar en herramientas de IA públicas?","m":false,"o":["Sí, hay lineamientos claros de qué se puede compartir","No hay política, cada uno decide","Está prohibido usar IA con datos de la empresa","No lo sabía, nunca se habló del tema"]},
+    {"b":"Uso actual de IA","q":"¿Automatizaron alguna tarea repetitiva (atención al cliente, informes, clasificación de datos) con IA o RPA?","m":true,"o":["Sí, tenemos al menos un proceso automatizado","Lo evaluamos pero no lo implementamos aún","No lo evaluamos", "No sabemos qué se podría automatizar"]},
+    {"b":"Uso actual de IA","q":"¿Tu empresa tiene algún caso de uso concreto en mente donde la IA podría ahorrar tiempo o dinero?","m":false,"o":["Sí, tenemos casos identificados y priorizados","Tenemos ideas sueltas, sin priorizar","No lo pensamos todavía","No sabríamos por dónde empezar"]},
+    {"b":"Infraestructura y seguridad","q":"¿Tu empresa maneja información sensible (datos de clientes, historia clínica, información financiera) que preferirían no enviar a servicios de IA en la nube?","m":false,"o":["Sí, y por eso priorizamos IA local/on-premise","Sí, pero hoy no tomamos precauciones especiales","No manejamos información sensible","No lo evaluamos"]},
+    {"b":"Infraestructura y seguridad","q":"¿Tenés servidores propios con capacidad para correr modelos de IA localmente (GPU o hardware dedicado)?","m":false,"o":["Sí, tenemos o evaluamos infraestructura propia","No, pero estaríamos dispuestos a invertir","No, y no lo vemos necesario","No sabría evaluarlo"]},
+    {"b":"Infraestructura y seguridad","q":"¿Sabés qué diferencia hay entre usar un modelo de IA en la nube (como ChatGPT) y uno local (como Ollama) en términos de privacidad de datos?","m":false,"o":["Sí, entendemos bien la diferencia","Tengo una idea general","No, no conozco la diferencia","Nunca escuché sobre modelos locales"]},
+    {"b":"Infraestructura y seguridad","q":"¿La empresa cuenta con alguna política de gobernanza de IA (quién aprueba usos, cómo se auditan resultados)?","m":false,"o":["Sí, formalizada","Informal, pero existe algún criterio","No existe ninguna política","No sabía que hacía falta"]},
+    {"b":"Equipo y capacidades","q":"¿Hay alguien en el equipo con conocimientos técnicos de IA (aunque sea básicos) que pueda liderar una iniciativa?","m":false,"o":["Sí, tenemos a alguien con ese perfil","Tenemos interés pero no conocimiento técnico","No hay nadie con ese perfil","No lo sé"]},
+    {"b":"Equipo y capacidades","q":"¿El equipo recibió alguna capacitación sobre cómo usar IA de forma efectiva y segura en el trabajo?","m":false,"o":["Sí, capacitación formal","Aprendizaje informal, cada uno por su cuenta","No, ninguna capacitación","No lo sé"]},
+    {"b":"Equipo y capacidades","q":"¿Existe resistencia interna al uso de IA (miedo a reemplazo de puestos, desconfianza en los resultados)?","m":false,"o":["No, el equipo está abierto a adoptarla","Sí, hay resistencia en algunas áreas","Sí, resistencia generalizada","No lo evaluamos"]},
+    {"b":"Estrategia y prioridades","q":"¿La dirección de la empresa considera la IA una prioridad estratégica para los próximos 12 meses?","m":false,"o":["Sí, es una prioridad explícita con presupuesto asignado","Es de interés, pero sin presupuesto definido","No es una prioridad actual","No se discutió el tema a nivel dirección"]},
+    {"b":"Estrategia y prioridades","q":"¿Definieron algún indicador para medir el impacto de una futura implementación de IA (tiempo ahorrado, costos reducidos)?","m":false,"o":["Sí, tenemos métricas definidas","Tenemos una idea general de qué medir","No lo pensamos todavía","No sabríamos cómo medirlo"]},
+    {"b":"Estrategia y prioridades","q":"¿Evaluaron el costo de no adoptar IA frente a la competencia de su rubro?","m":false,"o":["Sí, lo tenemos en cuenta en la estrategia","Lo pensamos, pero sin un análisis formal","No lo evaluamos","No sabíamos que era relevante"]},
+    {"b":"Estrategia y prioridades","q":"Si hoy tuvieran que implementar un proyecto piloto de IA, ¿sabrían por dónde empezar?","m":false,"o":["Sí, tenemos un plan o sabemos a quién consultar","Tenemos una idea aproximada","No, no sabríamos por dónde arrancar","Nunca lo pensamos"]},
+    {"b":"Percepción general","q":"En una escala de confianza, ¿qué tan preparada creés que está tu empresa para adoptar IA de forma efectiva?","m":false,"o":["Muy preparada, tenemos bases sólidas","Medianamente preparada, hay cosas por mejorar","Poco preparada, sabemos que estamos atrasados","No tengo forma de saberlo"]}
+  ];
+  var quiz=document.getElementById('quiz');
+  var answers={};
+  var LETTERS=['A','B','C','D'];
+  function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  var curBlock=null, bi=0;
+  QDATA.forEach(function(q,i){
+    if(q.b!==curBlock){
+      curBlock=q.b; bi++;
+      var bh=document.createElement('div');
+      bh.className='block-head';
+      bh.innerHTML='<span class="bn">'+String(bi).padStart(2,'0')+'</span>'+q.b;
+      quiz.appendChild(bh);
+    }
+    var card=document.createElement('div');
+    card.className='q'; card.id='q'+i;
+    var multi=q.m;
+    var top='<div class="q-top"><div class="q-num">'+(i+1)+'</div><div><div class="q-text">'+escapeHtml(q.q)+'</div>'+(multi?'<span class="q-multi">Podés marcar más de una</span>':'')+'</div></div>';
+    var opts='<div class="opts">';
+    q.o.forEach(function(txt,oi){
+      var L=LETTERS[oi];
+      var typ=multi?'checkbox':'radio';
+      var cls=multi?'check':'radio';
+      opts+='<label class="opt '+cls+'"><input type="'+typ+'" name="q'+i+'" value="'+L+'"><span class="mark"></span><span class="otxt"><span class="ltr">'+L+')</span> '+escapeHtml(txt)+'</span></label>';
+    });
+    opts+='</div>';
+    card.innerHTML=top+opts;
+    quiz.appendChild(card);
+  });
+  quiz.addEventListener('change', function(e){
+    var inp=e.target; if(inp.tagName!=='INPUT') return;
+    var idx=parseInt(inp.name.slice(1),10);
+    var card=document.getElementById('q'+idx);
+    var checked=Array.prototype.map.call(card.querySelectorAll('input:checked'), function(x){return x.value;});
+    answers[idx]=checked;
+    card.querySelectorAll('.opt').forEach(function(o){ o.classList.toggle('sel', o.querySelector('input').checked); });
+    card.classList.toggle('answered', checked.length>0);
+    if(checked.length>0) card.classList.remove('missing');
+    updateProgress();
+  });
+  function updateProgress(){
+    var done=Object.keys(answers).filter(function(k){return answers[k]&&answers[k].length>0;}).length;
+    var pct=Math.round(done/QDATA.length*100);
+    document.getElementById('progNum').textContent=done;
+    document.getElementById('progressFill').style.width=pct+'%';
+    document.getElementById('progPct').textContent=pct+'%';
+  }
+  var VAL={A:3,B:2,C:1,D:0};
+  function compute(){
+    var counts={A:0,B:0,C:0,D:0}, sum=0;
+    QDATA.forEach(function(q,i){
+      var sel=answers[i]||[];
+      sel.forEach(function(L){counts[L]++;});
+      var v=0; sel.forEach(function(L){v+=VAL[L];});
+      if(sel.length) sum += v/sel.length;
+    });
+    var idx=Math.round(sum/(QDATA.length*3)*100);
+    var order=['D','C','B','A'], best='A', bestc=-1;
+    order.forEach(function(L){ if(counts[L]>bestc){bestc=counts[L];best=L;} });
+    return {counts:counts, idx:idx, letter:best};
+  }
+  var LEVELS={
+    A:{txt:'Nivel de madurez alto',color:'var(--green)',rgb:'95,206,126',title:'🟢 Lista para escalar IA',
+       desc:'Tu empresa tiene datos ordenados, casos de uso identificados y equipo dispuesto. El siguiente paso es priorizar un piloto concreto y medir resultados.'},
+    B:{txt:'Nivel intermedio',color:'var(--amber)',rgb:'232,180,85',title:'🟡 Bases parciales, con brechas',
+       desc:'Hay uso de IA e interés real, pero faltan definiciones clave (gobernanza, datos, infraestructura) para escalar de forma segura y medible.'},
+    C:{txt:'Nivel inicial',color:'var(--red)',rgb:'226,105,95',title:'🔴 Punto de partida temprano',
+       desc:'Tu empresa está en una etapa temprana de adopción. Conviene empezar por ordenar datos y definir un caso de uso piloto de bajo riesgo antes de escalar.'},
+    D:{txt:'Madurez por desconocimiento',color:'var(--amber)',rgb:'232,180,85',title:'⚠️ Falta información de base',
+       desc:'El mayor freno no es la tecnología, sino la falta de claridad sobre qué es posible hoy. Un diagnóstico técnico te daría un punto de partida concreto.'}
+  };
+  var lastResult=null;
+  var WEB3FORMS_KEY = "ae96a81b-fc42-41e3-a4c7-5c16fc1a9ba3";
+
+  function showResult(r){
+    lastResult=r;
+    var lv=LEVELS[r.letter];
+    var b=document.getElementById('resBadge');
+    b.style.color=lv.color; b.style.background='rgba('+lv.rgb+',0.10)'; b.style.border='1px solid rgba('+lv.rgb+',0.4)';
+    b.querySelector('.dot').style.background=lv.color;
+    document.getElementById('resBadgeTxt').textContent=lv.txt;
+    document.getElementById('resTitle').textContent=lv.title;
+    document.getElementById('resDesc').textContent=lv.desc;
+    document.getElementById('gaugeNum').textContent=r.idx+'%';
+    document.getElementById('gaugeNum').style.color=lv.color;
+    var gf=document.getElementById('gaugeFill');
+    gf.style.background='linear-gradient(90deg,var(--red),var(--amber) 55%,var(--green))';
+    var c=document.getElementById('counts'); c.innerHTML='';
+    [['A','Bases sólidas'],['B','Parciales'],['C','Débiles'],['D','No lo sé']].forEach(function(pp){
+      var el=document.createElement('div'); el.className='count';
+      el.innerHTML='<b>'+r.counts[pp[0]]+'</b><span>'+pp[0]+' · '+pp[1]+'</span>';
+      c.appendChild(el);
+    });
+    document.getElementById('captureSec').style.display='none';
+    document.getElementById('result').classList.add('show');
+    document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
+    setTimeout(function(){ gf.style.width=r.idx+'%'; },120);
+  }
+
+  function buildDetail(nombre,empresa,email,tel,r,lv){
+    var lines=[];
+    lines.push('CONTACTO');
+    lines.push('Nombre: '+nombre);
+    if(empresa) lines.push('Empresa: '+empresa);
+    lines.push('Email: '+email);
+    if(tel) lines.push('Teléfono: '+tel);
+    lines.push('');
+    lines.push('RESULTADO');
+    lines.push('Nivel: '+lv.txt);
+    lines.push('Índice de madurez en IA: '+r.idx+'%');
+    lines.push('Respuestas — A: '+r.counts.A+' | B: '+r.counts.B+' | C: '+r.counts.C+' | D (no sé): '+r.counts.D);
+    lines.push('');
+    lines.push('DETALLE DE RESPUESTAS');
+    QDATA.forEach(function(q,i){ lines.push((i+1)+'. ['+(answers[i]||[]).join('/')+'] '+q.q); });
+    return lines.join('\n');
+  }
+
+  document.getElementById('sendBtn').addEventListener('click', function(){
+    var err=document.getElementById('formErr');
+    var missing=[];
+    for(var i=0;i<QDATA.length;i++){ if(!answers[i]||answers[i].length===0) missing.push(i); }
+    if(missing.length){
+      err.textContent='Te faltan '+missing.length+' pregunta'+(missing.length>1?'s':'')+' por responder antes de enviar.';
+      missing.forEach(function(i){document.getElementById('q'+i).classList.add('missing');});
+      document.getElementById('q'+missing[0]).scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    var nombre=document.getElementById('fNombre').value.trim();
+    var empresa=document.getElementById('fEmpresa').value.trim();
+    var email=document.getElementById('fEmail').value.trim();
+    var tel=document.getElementById('fTel').value.trim();
+    if(!nombre){ err.textContent='Ingresá tu nombre.'; document.getElementById('fNombre').focus(); return; }
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Ingresá un email válido.'; document.getElementById('fEmail').focus(); return; }
+    err.textContent='';
+    var r=compute(); var lv=LEVELS[r.letter];
+    var detail=buildDetail(nombre,empresa,email,tel,r,lv);
+    var btn=this; btn.disabled=true; var oldTxt=btn.textContent; btn.textContent='Enviando…';
+    var payload={
+      access_key: WEB3FORMS_KEY,
+      subject: 'Autodiagnóstico madurez en IA'+(empresa?(' — '+empresa):(' — '+nombre)),
+      from_name: 'Autodiagnóstico IA Intelix',
+      replyto: email,
+      Nombre: nombre, Empresa: empresa||'—', Email: email, 'Teléfono': tel||'—',
+      Nivel: lv.txt, 'Índice de madurez en IA': r.idx+'%',
+      'Resumen': 'A:'+r.counts.A+' B:'+r.counts.B+' C:'+r.counts.C+' D:'+r.counts.D,
+      message: detail
+    };
+    fetch('https://api.web3forms.com/submit',{
+      method:'POST', headers:{'Content-Type':'application/json',Accept:'application/json'}, body: JSON.stringify(payload)
+    }).then(function(res){return res.json();}).then(function(d){
+      var sb=document.getElementById('sentBanner');
+      if(d && d.success){
+        sb.style.background='rgba(95,206,126,.08)'; sb.style.color='var(--white)';
+        sb.innerHTML='✓ Listo, '+escapeHtml(nombre.split(" ")[0])+'. Te enviamos el resultado a <strong>'+escapeHtml(email)+'</strong> y una copia llegó a nuestro equipo. Revisá tu bandeja (y el spam, por las dudas).';
+      } else {
+        sb.style.background='rgba(226,105,95,.08)'; sb.style.color='var(--white)';
+        sb.innerHTML='Tu resultado está abajo, pero no pudimos enviar el email automáticamente. Escribinos a <a href="mailto:contacto@intelix.com.ar" style="color:var(--gold)">contacto@intelix.com.ar</a> y lo resolvemos.';
+      }
+      showResult(r);
+    }).catch(function(){
+      var sb=document.getElementById('sentBanner');
+      sb.style.background='rgba(226,105,95,.08)'; sb.style.color='var(--white)';
+      sb.innerHTML='Tu resultado está abajo. No pudimos enviar el email (revisá tu conexión). Escribinos a <a href="mailto:contacto@intelix.com.ar" style="color:var(--gold)">contacto@intelix.com.ar</a>.';
+      showResult(r);
+    }).then(function(){ btn.disabled=false; btn.textContent=oldTxt; });
+  });
+  document.getElementById('restartBtn').addEventListener('click', function(){
+    answers={};
+    quiz.querySelectorAll('input').forEach(function(x){x.checked=false;});
+    quiz.querySelectorAll('.opt').forEach(function(o){o.classList.remove('sel');});
+    quiz.querySelectorAll('.q').forEach(function(o){o.classList.remove('answered','missing');});
+    document.getElementById('result').classList.remove('show');
+    document.getElementById('sentBanner').innerHTML='';
+    document.getElementById('captureSec').style.display='';
+    ['fNombre','fEmpresa','fEmail','fTel'].forEach(function(id){document.getElementById(id).value='';});
+    document.getElementById('formErr').textContent='';
+    updateProgress();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+  (function(){
+    var nav=document.getElementById('nav');
+    window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>20)},{passive:true});
+    var t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
+    t.addEventListener('click',function(){var o=l.classList.toggle('open');t.setAttribute('aria-expanded',o);});
+    l.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){l.classList.remove('open');t.setAttribute('aria-expanded','false');});});
+    var canHover=matchMedia('(hover:hover) and (pointer:fine)').matches;
+    document.querySelectorAll('.nav-drop').forEach(function(drop){
+      var btn=drop.querySelector('.nav-drop-trigger');
+      var closeTimer=null;
+      function openDrop(){
+        clearTimeout(closeTimer);
+        document.querySelectorAll('.nav-drop').forEach(function(d){if(d!==drop){d.classList.remove('open');d.querySelector('.nav-drop-trigger').setAttribute('aria-expanded','false');}});
+        drop.classList.add('open');
+        btn.setAttribute('aria-expanded','true');
+      }
+      function scheduleClose(){
+        clearTimeout(closeTimer);
+        closeTimer=setTimeout(function(){
+          drop.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        },550);
+      }
+      if(canHover){
+        drop.addEventListener('mouseenter',openDrop);
+        drop.addEventListener('mouseleave',scheduleClose);
+      }
+      btn.addEventListener('click',function(){
+        if(drop.classList.contains('open')){
+          clearTimeout(closeTimer);
+          drop.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        }else{
+          openDrop();
+        }
+      });
+    });
+    document.addEventListener('click',function(e){
+      if(!e.target.closest('.nav-drop')){
+        document.querySelectorAll('.nav-drop.open').forEach(function(d){d.classList.remove('open');d.querySelector('.nav-drop-trigger').setAttribute('aria-expanded','false');});
+      }
+    });
+    document.querySelectorAll('a[target="_blank"]').forEach(function(a){a.rel='noopener noreferrer';});
+    var y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+  })();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Inicio","item":"https://intelix.com.ar/"},
+    {"@type":"ListItem","position":2,"name":"Autodiagnósticos","item":"https://intelix.com.ar/diagnosticos.html"},
+    {"@type":"ListItem","position":3,"name":"Autodiagnóstico de Madurez en IA","item":"https://intelix.com.ar/diagnostico-ia.html"}
+  ]
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "opciones": [
+    { "id": "retiro", "nombre": "Retiro en punto de encuentro (Rosario, a coordinar)", "precio": 0 },
+    { "id": "rosario", "nombre": "Envío en Rosario y alrededores", "precio": 3000 },
+    { "id": "nacional", "nombre": "Envío a todo el país (Correo Argentino)", "precio": 6000 }
+  ]
+}

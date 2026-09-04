@@ -1,0 +1,190 @@
+================================================================================
+SITIO WEB CORPORATIVO — INTELIX INGENIERÍA & TELECOMUNICACIONES
+Sitio estático (HTML/CSS/JS vanilla), hosteado en intelix.com.ar
+================================================================================
+
+DESCRIPCIÓN GENERAL
+-------------------
+Sitio institucional de Intelix Ingeniería & Telecomunicaciones, empresa con
++20 años de trayectoria con sede en Rosario, Argentina (microcentro),
+reposicionada hoy como especialista en desarrollo de software a medida e
+inteligencia artificial local/on-premise, sin dejar su base histórica en
+software libre y comunicaciones unificadas (VoIP/Asterisk). El sitio es
+100% estático: HTML + CSS + JS vanilla, sin build step ni frameworks,
+optimizado para SEO y accesibilidad.
+
+TECNOLOGÍA
+----------
+- HTML5 + CSS3 (variables CSS, sin preprocesadores) + JavaScript vanilla
+- Tipografías: Inter (texto) y JetBrains Mono (código/datos), vía Google
+  Fonts con preconnect y carga no bloqueante
+- SEO: meta tags completos (title, description, keywords, Open Graph,
+  Twitter Card), robots.txt, sitemap.xml
+- Datos estructurados (JSON-LD): schema.org LocalBusiness (con servicios,
+  áreas atendidas, redes sociales) y FAQPage (rich results de Google)
+- Seguridad: cabeceras OWASP vía meta http-equiv (CSP, X-Content-Type-
+  Options, X-Frame-Options DENY, Referrer-Policy, Permissions-Policy)
+- Accesibilidad: skip-link, :focus-visible, prefers-reduced-motion
+  respetado (desactiva animaciones y scroll suave)
+- Diseño responsive con media queries (menú hamburguesa <880px, grillas
+  adaptables)
+
+ESTRUCTURA DEL SITIO
+------------------------
+index.html                          Landing principal (una sola página
+                                     con anclas internas)
+robots.txt, sitemap.xml             SEO técnico
+assets/logo-intelix.jpg             Logo
+blogs/
+├── index.html                      Listado de artículos del blog
+├── ia-local-vs-nube.html
+├── software-libre-empresas.html
+├── asterisk-telefonía.html
+├── gpu-vs-cpu-ia.html
+├── postgresql-vs-mysql.html
+├── ansible-infraestructura.html
+├── ollama-primer-modelo.html       (agregado más recientemente)
+├── rag-documentos-privados.html    (agregado más recientemente)
+├── backups-3-2-1.html              (agregado más recientemente)
+└── recursos.html
+Juegos/
+├── index.html                      Listado de mini-juegos
+├── asteroids.html
+├── asteroids-black-hole.html       (variante)
+├── tetris.html
+├── galaxian.html
+└── spaceinvaders.html
+
+SECCIONES DE LA LANDING (index.html)
+----------------------------------------
+1. NAV — logo, links a anclas (Servicios/Trayectoria/Por qué Intelix/
+   Proyectos), links a Blog y Juegos, CTA de WhatsApp
+2. HERO — título con highlight en degradado dorado, terminal animada
+   decorativa, métricas rápidas (+20 años, 4 países, IA local)
+3. STATS — banda de indicadores: +20 años, 4 países (AR·CO·US·ES),
+   3 certificaciones internacionales, 100% IA/datos on-premise
+4. SERVICIOS (6 tarjetas): Software a medida (React/Node/Flutter),
+   IA aplicada (Ollama/LLaMA/OpenAI/Groq), Automatización, Comunicaciones
+   unificadas (Asterisk/VoIP/Elastix — especialidad histórica), Seguridad
+   informática (ISO 27001), Consultoría técnica
+5. TRAYECTORIA — timeline de 5 pasos: origen en tercerización IT →
+   VoIP/comunicaciones unificadas → certificaciones internacionales
+   (DCAP Asterisk, Elastix ECE, partner QueueMetrics LATAM) → expansión
+   a 4 países → reorientación actual a software + IA
+6. POR QUÉ INTELIX — 5 diferenciales: años de experiencia,
+   certificaciones, software libre, IA local, IA soberana/on-premise
+7. PROYECTOS — 3 casos destacados (ver detalle abajo)
+8. FAQ — 4 preguntas con acordeón (qué es IA local, por qué software
+   libre, qué tecnologías usan, si están en Argentina)
+9. CONTACTO — CTA final a WhatsApp
+10. FOOTER — logo, columnas de links, redes sociales
+
+PROYECTOS DESTACADOS EN LA LANDING
+---------------------------------------
+1. EstudIAr (feature, con panel de datos técnicos)
+   App educativa: resúmenes estructurados, flashcards, examen
+   autoevaluado y plan de estudio a partir de apuntes, incluyendo fotos
+   procesadas por modelo de visión. Pomodoro, calendario y racha.
+   Stack mostrado: Flutter, Dart, Groq API, Llama 3.3 70B, Riverpod, Hive
+
+2. Kioske.AR (feature, con panel de datos técnicos)
+   App de gestión de comercios: stock en tiempo real, ventas y cobros
+   (efectivo + Mercado Pago), funciona offline con sincronización
+   automática. Marcado como "en producción con clientes reales".
+   Stack mostrado: Flutter, Dart, SQLite, Mercado Pago, Riverpod
+
+3. FactuPsyware (tarjeta simple, sin panel de datos técnicos)
+   Descripto en la landing como "sistema de facturación y administración
+   comercial: emisión de comprobantes, gestión de clientes, control de
+   stock y seguimiento de cobros en panel ejecutivo unificado". Stack
+   mostrado en la landing: React, Node.js, PostgreSQL, APIs.
+
+4. Fototeca (tarjeta simple, agregada 2026-08-04)
+   Galería de fotos/videos local para Android/iOS: timeline, álbumes,
+   agrupación automática por lugar (geocoding) y bóveda privada cifrada
+   (PIN/biometría) para ocultar contenido sensible del carrete común.
+   Sin nube, todo el procesamiento y almacenamiento es local.
+   Stack: Flutter, Dart, SQLite, local_auth, flutter_secure_storage.
+
+5. PrestApp (tarjeta simple, agregada 2026-08-04)
+   Herramienta de gestión/cálculo de préstamos entre particulares:
+   deudores, cuotas y pagos, interés simple/compuesto, cotización de
+   dólar en tiempo real y recordatorios de cobro. Incluida en el
+   portfolio con aclaración explícita de que es una herramienta
+   administrativa y no una entidad financiera ni un servicio de
+   crédito regulado (consideración legal por manejar intereses entre
+   particulares).
+   Stack: Flutter, Riverpod, Hive, fl_chart.
+   NOTA DE DESACTUALIZACIÓN: esto no coincide con el proyecto real (ver
+   carpeta FactuPsyware), que es un sistema Django + SQLite + integración
+   AFIP/ARCA para una práctica de psicología, sin control de stock ni
+   panel ejecutivo multi-negocio. Conviene actualizar esta tarjeta para
+   reflejar el stack y alcance reales (Django, SQLite, AFIP/ARCA,
+   facturación con CAE) o, si se prefiere mantener el copy comercial
+   genérico, aclarar internamente que es marketing simplificado.
+
+BLOG
+-------
+Sección de artículos técnicos en blogs/index.html. Según sitemap.xml, los
+últimos tres posts agregados (5 de julio de 2026) son:
+- ollama-primer-modelo.html
+- rag-documentos-privados.html
+- backups-3-2-1.html
+Los seis anteriores (ia-local-vs-nube, software-libre-empresas, asterisk-
+telefonía, gpu-vs-cpu-ia, postgresql-vs-mysql, ansible-infraestructura,
+recursos) datan de junio 2025 según el sitemap. El sitemap.xml no se
+actualizó con fecha reciente salvo para las páginas tocadas (home:
+2026-06-27, Juegos: 2026-06-27, los 3 posts nuevos: 2026-07-05) — vale la
+pena revisar si conviene refrescar el lastmod de las páginas ancla
+(#servicios, #trayectoria, etc.), que siguen marcadas en 2025-06-18.
+
+MINI-JUEGOS
+---------------
+Sección recreativa en Juegos/index.html, 5 juegos jugables en el
+navegador (HTML5 Canvas/JS vanilla, sin dependencias): Asteroids,
+Asteroids Black Hole (variante), Tetris, Galaxian, Space Invaders.
+
+DATOS DE CONTACTO Y REDES (en el código)
+---------------------------------------------
+- WhatsApp: +54 341 228 0272 (CTA principal en toda la landing)
+- Email: contacto@intelix.com.ar
+- Dirección: Microcentro, Rosario, Santa Fe, Argentina
+- Redes: Facebook (NTLXIngenieria), X (@fmvillares), Instagram
+  (psyware_ssl), LinkedIn (intelix-ingenieria-&-telecomunicaciones)
+- Fundación: 2004 · 5 empleados (declarado en JSON-LD)
+- Áreas atendidas: Argentina, Colombia, Estados Unidos, España
+
+ARCHIVOS ADICIONALES
+------------------------
+- index-backup-1782587538.html: backup de una versión anterior de la
+  home, conviene confirmar si sigue siendo necesario conservarlo en la
+  raíz publicada o si puede moverse fuera del sitio servido
+- google67dc5f45c33a9912.html: archivo de verificación de Google Search
+  Console
+
+ESTADO ACTUAL
+-----------------
+- Sitio en producción en intelix.com.ar, con SEO técnico completo (JSON-LD,
+  sitemap, robots.txt, meta tags) y foco reciente en contenido de blog
+  sobre IA local (Ollama, RAG) e infraestructura (backups 3-2-1)
+- La sección de proyectos mezcla casos reales (EstudIAr, Kioske.AR) con
+  una descripción de FactuPsyware desactualizada respecto al proyecto
+  real (ver nota arriba)
+
+PENDIENTES SUGERIDOS
+------------------------
+1. Actualizar la tarjeta de FactuPsyware en index.html para reflejar el
+   stack y alcance reales (Django/SQLite/AFIP-ARCA), o decidir
+   explícitamente mantenerla como copy comercial simplificado
+2. Revisar si conviene actualizar lastmod de las anclas de la home en
+   sitemap.xml (siguen en 2025-06-18)
+3. Confirmar si index-backup-1782587538.html debe seguir publicado
+4. Evaluar agregar Kioske.AR y FactuPsyware al blog o casos de estudio
+   con más detalle, dado que EstudIAr ya tiene tratamiento "feature"
+
+EQUIPO Y CRÉDITOS
+--------------------
+Intelix Ingeniería & Telecomunicaciones — Rosario, Argentina. Contacto
+técnico del sitio: Federico Villares (Fernando).
+
+================================================================================

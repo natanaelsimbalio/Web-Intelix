@@ -1,0 +1,92 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Intelix Ingeniería — API pública",
+    "description": "API pública de solo lectura del sitio de Intelix Ingeniería & Telecomunicaciones. Actualmente expone el catálogo de productos y servicios de la tienda (sin precios: la tienda funciona a consulta por WhatsApp). No requiere autenticación ni API key. Versionado por path (/api/v1/, /api/v2/, ...); ver /developers/ para la política completa de versionado y deprecación.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Intelix Ingeniería & Telecomunicaciones",
+      "email": "contacto@intelix.com.ar",
+      "url": "https://intelix.com.ar/developers/"
+    }
+  },
+  "servers": [
+    { "url": "https://intelix.com.ar", "description": "Producción — v1" }
+  ],
+  "paths": {
+    "/api/v1/productos.php": {
+      "get": {
+        "operationId": "listarProductosV1",
+        "summary": "Listar catálogo público de productos activos (v1)",
+        "description": "Devuelve los productos y servicios activos de la tienda, sin precios ni datos de stock. Versión actual: v1, sin fecha de deprecación planeada. La respuesta incluye el header `API-Version: v1`.",
+        "responses": {
+          "200": {
+            "description": "Catálogo de productos activos",
+            "headers": {
+              "API-Version": {
+                "description": "Versión de la API que respondió (v1).",
+                "schema": { "type": "string", "example": "v1" }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CatalogoResponse" }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno al leer el catálogo",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Producto": {
+        "type": "object",
+        "properties": {
+          "sku": { "type": "string", "example": "macbook-air-m1" },
+          "nombre": { "type": "string", "example": "Apple MacBook Air M1 8GB 512GB" },
+          "descripcion": { "type": "string" },
+          "imagenes": {
+            "type": "array",
+            "items": { "type": "string", "format": "uri-reference" }
+          }
+        },
+        "required": ["sku", "nombre", "descripcion", "imagenes"]
+      },
+      "CatalogoResponse": {
+        "type": "object",
+        "properties": {
+          "productos": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Producto" }
+          }
+        },
+        "required": ["productos"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "integer", "example": 404 },
+              "status": { "type": "string", "example": "not_found" },
+              "message": { "type": "string" },
+              "hint": { "type": "string" }
+            },
+            "required": ["code", "status", "message"]
+          }
+        },
+        "required": ["error"]
+      }
+    }
+  }
+}

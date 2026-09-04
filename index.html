@@ -1,0 +1,624 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon-192.png">
+<link rel="shortcut icon" href="assets/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- OWASP Security Headers -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+<meta name="robots" content="index, follow">
+<title>Desarrollo Software e IA Local | Intelix Ingeniería - Rosario, Argentina</title>
+<meta name="description" content="Desarrollo software e IA local on-premise en Rosario, Argentina. Especialistas en software libre, agentes de IA seguros y automatización. Soluciones reales, no en la nube. Consulta gratis.">
+<meta name="keywords" content="desarrollo software Argentina, IA local, software libre Rosario, agentes IA on-premise, automatización empresas, software a medida, inteligencia artificial privada, Ley Ema, violencia digital, grooming, ciberacoso escolar, peritos informáticos Rosario, educación digital segura">
+<meta name="author" content="Intelix Ingeniería & Telecomunicaciones">
+<meta property="og:title" content="Desarrollo Software e IA Local | Intelix - Rosario">
+<meta property="og:description" content="Desarrollo software e IA local. Especialistas en software libre, agentes de IA on-premise y automatización. +20 años. Rosario, Argentina.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://intelix.com.ar/">
+<meta property="og:image" content="https://intelix.com.ar/assets/logo-intelix.jpg">
+<meta property="og:locale" content="es_AR">
+<!-- Twitter Card Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Desarrollo Software e IA Local | Intelix">
+<meta name="twitter:description" content="Especialistas en IA local on-premise, software libre y automatización. Rosario, Argentina.">
+<meta name="twitter:creator" content="@fmvillares">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="canonical" href="https://intelix.com.ar/">
+<!-- Schema.org JSON-LD for LocalBusiness -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Intelix Ingeniería & Telecomunicaciones",
+  "description": "Desarrollo de software e inteligencia artificial local, especialistas en software libre y soluciones on-premise",
+  "url": "https://intelix.com.ar",
+  "telephone": "+543412280272",
+  "email": "contacto@intelix.com.ar",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Microcentro",
+    "addressLocality": "Rosario",
+    "addressRegion": "Santa Fe",
+    "postalCode": "2000",
+    "addressCountry": "AR"
+  },
+  "areaServed": ["AR", "CO", "US", "ES"],
+  "priceRange": "$$",
+  "sameAs": [
+    "https://www.facebook.com/NTLXIngenieria",
+    "https://x.com/fmvillares",
+    "https://www.instagram.com/psyware_ssl",
+    "https://www.linkedin.com/company/intelix-ingenieria-&-telecomunicaciones"
+  ],
+  "foundingDate": "2004",
+  "numberOfEmployees": "5",
+  "knowsLanguage": ["es", "en"],
+  "service": [
+    {
+      "@type": "Service",
+      "name": "Desarrollo de Software a Medida",
+      "description": "Aplicaciones web y mobile personalizadas"
+    },
+    {
+      "@type": "Service",
+      "name": "Inteligencia Artificial Local",
+      "description": "Agentes de IA on-premise, modelos locales, privacidad garantizada"
+    },
+    {
+      "@type": "Service",
+      "name": "Automatización de Procesos",
+      "description": "Workflows y automatizaciones empresariales"
+    },
+    {
+      "@type": "Service",
+      "name": "Software Libre",
+      "description": "Soluciones basadas en Linux, Asterisk, software de código abierto"
+    }
+  ]
+}
+</script>
+<!-- FAQ Schema for Google Rich Results -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Qué es IA local u on-premise?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "IA local significa que los modelos de inteligencia artificial corren en tu propia infraestructura, en tu servidor o VPS. Tus datos nunca salen a internet. Es lo opuesto a servicios en la nube como ChatGPT o Claude API donde envías datos a terceros."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Por qué elegir software libre?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "El software libre es auditable, sin vendor lock-in y controlable completamente por ti. No dependerás de una empresa para actualizaciones, soporte o cambios de políticas. Es la base de infraestructura crítica en el mundo."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Qué tecnologías usan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Frontend: React, Next.js, Flutter. Backend: Node.js, Python. IA: Ollama, LLaMA, OpenAI, Groq. Infraestructura: Docker, Linux, VPS, cloud en general. Todo personalizable según necesidad."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Están en Argentina?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sí, basados en el microcentro de Rosario, provincia de Santa Fe. Prestamos servicios en Argentina, Colombia, Estados Unidos y España."
+      }
+    }
+  ]
+}
+</script>
+<link rel="stylesheet" href="assets/css/site.css?v=20260731">
+</head>
+<body>
+<div class="glow a"></div>
+<div class="glow b"></div>
+
+<a href="#contenido" class="skip-link">Saltar al contenido</a>
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a href="#" class="nav-logo-link" aria-label="Intelix — inicio"><img src="assets/logo-intelix.jpg" alt="Intelix Ingeniería & Telecomunicaciones" class="nav-logo" width="129" height="50"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="active">Inicio</a>
+      <a href="#servicios">Servicios</a>
+      <div class="nav-drop-group">
+        <div class="nav-drop">
+          <button type="button" class="nav-drop-trigger" aria-expanded="false">Nosotros <span class="nav-drop-caret">▾</span></button>
+          <div class="nav-drop-menu">
+            <a href="trayectoria.html">Trayectoria</a>
+            <a href="porque.html">Por qué Intelix</a>
+            <a href="nosotros.html">Nosotros</a>
+          </div>
+        </div>
+        <div class="nav-drop">
+          <button type="button" class="nav-drop-trigger" aria-expanded="false">Recursos <span class="nav-drop-caret">▾</span></button>
+          <div class="nav-drop-menu">
+            <a href="proyectos.html">Proyectos</a>
+            <a href="prensa.html">Prensa</a>
+            <a href="blogs/index.html">Blog</a>
+            <a href="Juegos/index.html">Juegos</a>
+          </div>
+        </div>
+      </div>
+      <a href="diagnosticos.html">Diagnóstico</a>
+      <a href="tienda/index.html">Tienda</a>
+      <a href="https://wa.me/543412280272" target="_blank" rel="noopener" class="nav-cta">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.945z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main id="contenido">
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="eyebrow"><span class="pulse"></span>Software libre · IA local · +20 años de trayectoria</span>
+      <h1 class="hero-title">Ingeniería con trayectoria, ahora con <span class="hl">IA local y software libre</span>.</h1>
+      <p class="hero-sub">Basados en el microcentro de Rosario, Argentina. Más de 20 años construyendo con tecnología real. Somos especialistas en <strong style="color:var(--white);font-weight:600">software libre</strong> e <strong style="color:var(--white);font-weight:600">inteligencia artificial local</strong> — soluciones que corren en tu propia infraestructura, sin dependencia de terceros ni datos en la nube.</p>
+      <div class="hero-btns">
+        <a href="https://wa.me/543412280272?text=Hola%20Intelix,%20quiero%20agendar%20una%20consulta%20gratuita" target="_blank" rel="noopener" class="btn btn-primary">Agendá una consulta gratuita →</a>
+        <a href="proyectos.html" class="btn btn-ghost">Ver proyectos</a>
+        <a href="assets/pdf/brochure-intelix-psyware.pdf" target="_blank" rel="noopener" class="btn btn-ghost">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Descargar Brochure
+        </a>
+      </div>
+      <div class="hero-meta">
+        <div class="m"><b>+20</b><span>Años</span></div>
+        <div class="m"><b>4</b><span>Países</span></div>
+        <div class="m"><b>3</b><span>Certificaciones</span></div>
+        <div class="m"><b>100%</b><span>On-premise</span></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="terminal">
+        <div class="term-bar">
+          <span class="c r"></span><span class="c y"></span><span class="c g"></span>
+          <span class="title">~/intelix — nueva orientación</span>
+        </div>
+        <div class="term-body" id="term"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="servicios">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="s-label">Servicios · dónde estamos hoy</div>
+      <h2 class="s-title">Lo que construimos hoy.</h2>
+      <p class="s-desc">Desarrollo software a medida e inteligencia artificial local: la nueva orientación de Intelix, construida sobre 20 años de ingeniería en software libre. Todo lo que necesitás para automatizar y escalar sin dependencia de terceros.</p>
+    </div>
+    <div class="serv-grid">
+      <div class="serv reveal" data-tilt>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+        <h3>Software y diseño web a medida</h3>
+        <p>Aplicaciones web y mobile, sitios institucionales y soluciones web a medida diseñadas para tu negocio, desde la idea hasta el despliegue en producción. Ejemplos: <a href="https://intelix.com.ar" target="_blank" rel="noopener">intelix.com.ar</a>, <a href="https://www.psyware.ar" target="_blank" rel="noopener">psyware.ar</a>, <a href="https://olympic.com.ar" target="_blank" rel="noopener">olympic.com.ar</a>.</p>
+        <span class="tag">React · Node · Flutter · Diseño web</span>
+      </div>
+      <div class="serv reveal" data-tilt>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a3 3 0 0 0-3 3 3 3 0 0 0-2.6 4.5A3 3 0 0 0 7 16a3 3 0 0 0 5 2 3 3 0 0 0 5-2 3 3 0 0 0 .6-5.5A3 3 0 0 0 15 6a3 3 0 0 0-3-3Z"/><path d="M12 3v15M9 9h6M8.5 13h7"/></svg></div>
+        <h3>IA aplicada y local</h3>
+        <p>Agentes inteligentes, asistentes con LLM, RAG y procesamiento de visión integrados en productos reales. Especialistas en <strong style="color:var(--white);font-weight:500">modelos locales</strong>: tu IA corre en tu servidor, tus datos no salen.</p>
+        <span class="tag">Ollama · LLaMA · OpenAI · Groq</span>
+      </div>
+      <div class="serv reveal" data-tilt>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></div>
+        <h3>Automatización</h3>
+        <p>Procesos end-to-end sin trabajo manual. Integramos sistemas, orquestamos workflows y eliminamos tareas repetitivas con automatización robusta on-premise.</p>
+        <span class="tag">Workflows · Integraciones · APIs</span>
+      </div>
+    </div>
+
+    <div class="serv-tier reveal">De dónde venimos · la base que sostiene todo lo anterior</div>
+    <div class="serv-grid">
+      <div class="serv hist reveal" data-tilt>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></div>
+        <h3>Comunicaciones unificadas</h3>
+        <p>VoIP empresarial, Asterisk y telefonía sobre GNU/Linux. Robustas, on-premise, sin depender de operadores. Únicos certificados en Argentina para QueueMetrics y Yeastar.</p>
+        <span class="tag">Asterisk · VoIP · Yeastar</span>
+      </div>
+      <div class="serv hist reveal" data-tilt>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>Seguridad y forense</h3>
+        <p>Peritos informáticos matriculados a nivel nacional. Auditoría ISO 27001, hardening, análisis forense y aseguramiento de evidencia digital.</p>
+        <span class="tag">ISO 27001 · Forense · Hardening</span>
+      </div>
+      <div class="serv hist reveal" data-tilt>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 14 3-3 3 3 5-5"/></svg></div>
+        <h3>Consultoría e infraestructura</h3>
+        <p>Arquitectura y stack. Migraciones a software libre, virtualización (VMware → Proxmox) y nubes privadas. Nube pública opcional solo si tu caso lo requiere.</p>
+        <span class="tag">Arquitectura · Proxmox · Open Source</span>
+      </div>
+    </div>
+    <div class="serv-cta reveal">
+      <p>¿Necesitás alguno de estos servicios?</p>
+      <a href="https://wa.me/543412280272?text=Hola%20Intelix,%20quiero%20consultar%20un%20servicio" target="_blank" rel="noopener" class="btn btn-ghost-gold">Hablemos →</a>
+    </div>
+  </div>
+</section>
+
+<section class="diag-band" aria-label="Autodiagnóstico de ciberseguridad">
+  <div class="wrap diag-inner reveal">
+    <div class="diag-txt">
+      <div class="s-label">Autodiagnóstico gratuito</div>
+      <h2>¿Sabés qué tan expuesta está tu empresa a un <span class="hl">ciberataque</span>?</h2>
+      <p>Nuestros peritos informáticos matriculados también hacen auditoría, hardening y forense digital (arriba). Respondé 25 preguntas y recibí una valoración automática y orientativa del estado de tu ciberseguridad. Sin costo y sin registro.</p>
+    </div>
+    <div class="diag-cta">
+      <a href="diagnosticos.html" class="btn">Hacer el autodiagnóstico →</a>
+      <small>25 preguntas · ~5 minutos · gratis</small>
+    </div>
+  </div>
+</section>
+
+<section class="diag-band diag-band--strong" aria-label="Ley Ema — violencia digital en el ámbito educativo">
+  <div class="wrap diag-inner reveal">
+    <div class="diag-txt">
+      <div class="s-label">Compromiso social · Ley Ema</div>
+      <h2>Acompañamos a instituciones educativas y <span class="hl">víctimas de violencia digital</span></h2>
+      <p>La Ley Ema —impulsada en memoria de Ema Bondaruk, adolescente misionera víctima de violencia digital en 2021— busca garantizar entornos digitales seguros en todo el sistema educativo, con protocolos de prevención y acompañamiento ante grooming, sextorsión, deepfakes y ciberacoso. En julio de 2026 Santa Fe fue la primera provincia en aprobar una ley propia contra la violencia digital en las escuelas. Por eso ponemos nuestra experiencia como peritos informáticos matriculados al servicio de colegios, docentes y familias: aseguramiento de evidencia digital, análisis forense, hardening y capacitación en ciberseguridad. Y porque la tecnología sola no alcanza, nuestro equipo de sistemas trabaja junto a un equipo de psicólogos y asistentes para dar una respuesta integral, técnica y humana, ante estas situaciones.</p>
+    </div>
+    <div class="diag-cta">
+      <a href="https://wa.me/543412280272?text=Hola%20Intelix,%20quiero%20consultar%20sobre%20la%20Ley%20Ema%20y%20violencia%20digital" target="_blank" rel="noopener" class="btn">Consultar por la Ley Ema →</a>
+      <small>Instituciones educativas · víctimas · familias</small>
+    </div>
+  </div>
+</section>
+
+<section class="clients" aria-label="Clientes de Intelix">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="s-label">Confianza y experiencia real</div>
+      <h2 class="s-title">Empresas que confían en nosotros.</h2>
+      <p class="s-desc">Más de 2 décadas acompañando la operación crítica de organizaciones de distintos rubros.</p>
+    </div>
+    <div class="clients-grid reveal">
+      <a class="clients-grid__logo" href="https://aguassantafesinas.com.ar" target="_blank" rel="noopener" aria-label="Aguas Santafesinas"><img src="assets/clientes/client-aguas.png" alt="Aguas Santafesinas" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo" href="https://cccarlachiani.com.ar/" target="_blank" rel="noopener" aria-label="Carla Chiani Negocios Inmobiliarios"><img src="assets/clientes/client-carlachiani.png" alt="Carla Chiani Negocios Inmobiliarios" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo clients-grid__logo--dark" href="https://aceroscocosa.com" target="_blank" rel="noopener" aria-label="Aceros Coco"><img src="assets/clientes/client-aceroscoco.jpg" alt="Aceros Coco" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo clients-grid__logo--dark" href="https://www.favareto.com.ar/" target="_blank" rel="noopener" aria-label="Favareto"><img src="assets/clientes/client-favareto.png" alt="Favareto" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo" href="https://www.cicsaingenieria.com/" target="_blank" rel="noopener" aria-label="CICSA"><img src="assets/clientes/client-cicsa.png" alt="CICSA" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo" href="http://conectarservicios.com.ar/" target="_blank" rel="noopener" aria-label="Conectar"><img src="assets/clientes/client-conectar.png" alt="Conectar" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo" href="https://domissihermanos.com.ar/" target="_blank" rel="noopener" aria-label="Domissi"><img src="assets/clientes/client-domissi.svg" alt="Domissi" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo" href="https://dunod.com.ar/" target="_blank" rel="noopener" aria-label="Dunod Negocios Inmobiliarios"><img src="assets/clientes/client-dunod.png" alt="Dunod Negocios Inmobiliarios" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo clients-grid__logo--dark" href="https://olympicsanluis.com.ar/" target="_blank" rel="noopener" aria-label="Olympic San Luis"><img src="assets/clientes/client-olympic.png" alt="Olympic San Luis" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo clients-grid__logo--dark" href="https://sidersa.com" target="_blank" rel="noopener" aria-label="Sidersa"><img src="assets/clientes/client-sidersa.png" alt="Sidersa" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo" href="https://granix.com.ar/" target="_blank" rel="noopener" aria-label="Granix"><img src="assets/clientes/client-granix.jpg" alt="Granix" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo" href="https://holistor.com.ar" target="_blank" rel="noopener" aria-label="Holistor"><img src="assets/clientes/client-holistor.svg" alt="Holistor" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo" href="https://marstech.com.ar" target="_blank" rel="noopener" aria-label="Marstech Computación"><img src="assets/clientes/client-marshtech.png" alt="Marstech Computación" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo" href="https://www.sagai.org/" target="_blank" rel="noopener" aria-label="Sagai"><img src="assets/clientes/client-sagai.jpg" alt="Sagai" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo clients-grid__logo--dark" href="https://sj.sanjuan.gob.ar/" target="_blank" rel="noopener" aria-label="Gobierno de San Juan"><img src="assets/clientes/client-sanjuan.svg" alt="Gobierno de San Juan" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo" href="https://www.sanatorioadventista.org.ar/" target="_blank" rel="noopener" aria-label="Sanatorio Adventista del Plata"><img src="assets/clientes/client-sanatorio-adventista.png" alt="Sanatorio Adventista del Plata" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo" href="https://ugr.edu.ar/" target="_blank" rel="noopener" aria-label="Universidad del Gran Rosario"><img src="assets/clientes/client-ugr.png" alt="Universidad del Gran Rosario" loading="lazy" width="140" height="44"></a>
+      <a class="clients-grid__logo" href="https://uap.edu.ar" target="_blank" rel="noopener" aria-label="Universidad Adventista del Plata"><img src="assets/clientes/client-uap.png" alt="Universidad Adventista del Plata" loading="lazy" width="140" height="44"></a>
+    </div>
+  </div>
+</section>
+
+<section id="partners" class="section-sep">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="s-label">Partners tecnológicos</div>
+      <h2 class="s-title">Trabajamos con lo mejor de cada categoría.</h2>
+      <p class="s-desc">Dos décadas nos posicionaron como partner e integrador de los principales fabricantes de comunicaciones, infraestructura y almacenamiento del mercado.</p>
+    </div>
+    <div class="partner-grid reveal">
+      <a href="https://www.yeastar.com/" target="_blank" rel="noopener" class="partner-grid__logo" aria-label="Yeastar"><img src="assets/partners/partner-yeastar.jpg" alt="Yeastar" loading="lazy"></a>
+      <a href="https://www.loway.ch/" target="_blank" rel="noopener" class="partner-grid__logo" aria-label="Loway"><img src="assets/partners/partner-loway.jpg" alt="Loway" loading="lazy"></a>
+      <a href="https://www.sangoma.com/" target="_blank" rel="noopener" class="partner-grid__logo" aria-label="Sangoma"><img src="assets/partners/partner-digium.jpg" alt="Sangoma" loading="lazy"></a>
+      <a href="https://www.grandstream.com/" target="_blank" rel="noopener" class="partner-grid__logo" aria-label="Grandstream"><img src="assets/partners/partner-grandstream.jpg" alt="Grandstream" loading="lazy"></a>
+      <a href="https://www.yealink.com/" target="_blank" rel="noopener" class="partner-grid__logo" aria-label="Yealink"><img src="assets/partners/partner-yealink.jpg" alt="Yealink" loading="lazy"></a>
+      <a href="https://www.audiocodes.com/" target="_blank" rel="noopener" class="partner-grid__logo" aria-label="AudioCodes"><img src="assets/partners/partner-audiocodes.jpg" alt="AudioCodes" loading="lazy"></a>
+      <a href="https://www.poly.com/" target="_blank" rel="noopener" class="partner-grid__logo" aria-label="Poly"><img src="assets/partners/partner-poly.jpg" alt="Poly" loading="lazy"></a>
+      <a href="https://nextcloud.com/" target="_blank" rel="noopener" class="partner-grid__logo" aria-label="Nextcloud"><img src="assets/partners/tech-nextcloud.jpg" alt="Nextcloud" loading="lazy"></a>
+      <a href="https://www.proxmox.com/" target="_blank" rel="noopener" class="partner-grid__logo" aria-label="Proxmox"><img src="assets/partners/tech-proxmox.jpg" alt="Proxmox" loading="lazy"></a>
+      <a href="https://www.truenas.com/" target="_blank" rel="noopener" class="partner-grid__logo" aria-label="TrueNAS"><img src="assets/partners/tech-truenas.jpg" alt="TrueNAS" loading="lazy"></a>
+      <a href="https://www.qnap.com/" target="_blank" rel="noopener" class="partner-grid__logo" aria-label="QNAP"><img src="assets/partners/tech-qnap.jpg" alt="QNAP" loading="lazy"></a>
+      <a href="https://www.kernel.org/" target="_blank" rel="noopener" class="partner-grid__logo partner-grid__logo--mono" aria-label="GNU/Linux">
+        <svg viewBox="0 0 32 34" aria-hidden="true">
+          <path d="M16 1c-2.6 0-4.4 2.3-4.6 5-.1 1.7.2 2.7-.6 4.4-.9 2-3.4 4.3-3.4 8 0 2 .7 3.2 .7 4.6 0 1-.5 1.4-.5 2.4 0 1.5 1.4 2.1 3 2.1.6 0 1.1.5 2 .8.9.3 1.7.9 3.4.9s2.5-.6 3.4-.9c.9-.3 1.4-.8 2-.8 1.6 0 3-.6 3-2.1 0-1-.5-1.4-.5-2.4 0-1.4.7-2.6.7-4.6 0-3.7-2.5-6-3.4-8-.8-1.7-.5-2.7-.6-4.4C20.4 3.3 18.6 1 16 1z" fill="#000"/>
+          <ellipse cx="12.3" cy="9.5" rx="1.9" ry="2.6" fill="#fff"/>
+          <ellipse cx="19.7" cy="9.5" rx="1.9" ry="2.6" fill="#fff"/>
+          <circle cx="12.7" cy="10.3" r=".8" fill="#000"/>
+          <circle cx="19.3" cy="10.3" r=".8" fill="#000"/>
+          <path d="M13.8 12.5c.7.6 1.4.9 2.2.9s1.5-.3 2.2-.9c.3.4.2 1-.3 1.6-.6.8-1.2 1.1-1.9 1.1s-1.3-.3-1.9-1.1c-.5-.6-.6-1.2-.3-1.6z" fill="#f2a022"/>
+          <path d="M11 20c0-4 2.2-6 5-6s5 2 5 6c0 3.5-1.6 6.5-1.6 9-.1 1.4-.7 2-1.3 2h-4.2c-.6 0-1.2-.6-1.3-2C12.6 26.5 11 23.5 11 20z" fill="#fff"/>
+          <path d="M7 27.5c1.6-1.4 2.8-1.1 3.6.2.6 1 .5 2.3-.4 3-.9.7-2.4.9-3.6-.3-1-1-1-2 .4-2.9z" fill="#f2a022"/>
+          <path d="M25 27.5c-1.6-1.4-2.8-1.1-3.6.2-.6 1-.5 2.3.4 3 .9.7 2.4.9 3.6-.3 1-1 1-2-.4-2.9z" fill="#f2a022"/>
+        </svg>
+        <span>GNU/Linux</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="s-label">Preguntas frecuentes</div>
+      <h2 class="s-title">Lo que solés <span class="hl">preguntarnos</span>.</h2>
+      <p class="s-desc">Si tu duda no está acá, escribinos por WhatsApp y la resolvemos en minutos.</p>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" type="button" aria-controls="faq-1"><span>¿Qué es IA local u on-premise?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a" id="faq-1"><p>IA local significa que los modelos de inteligencia artificial corren en tu propia infraestructura, en tu servidor o VPS. Tus datos nunca salen a internet. Es lo opuesto a servicios en la nube como ChatGPT o Claude API, donde envías datos a terceros.</p></div>
+      </div>
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" type="button" aria-controls="faq-2"><span>¿Por qué elegir software libre?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a" id="faq-2"><p>El software libre es auditable, sin vendor lock-in y controlable completamente por vos. No dependerás de una empresa para actualizaciones, soporte o cambios de políticas. Es la base de la infraestructura crítica en el mundo.</p></div>
+      </div>
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" type="button" aria-controls="faq-3"><span>¿Qué tecnologías usan?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a" id="faq-3"><p>Frontend: React, Next.js, Flutter. Backend: Node.js, Python. IA: Ollama, LLaMA, OpenAI, Groq. Infraestructura: Docker, Linux, VPS, cloud en general. Todo personalizable según necesidad.</p></div>
+      </div>
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" type="button" aria-controls="faq-4"><span>¿Están en Argentina?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a" id="faq-4"><p>Sí, basados en el microcentro de Rosario, provincia de Santa Fe. Prestamos servicios en Argentina, Colombia, Estados Unidos y España.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contacto">
+  <div class="wrap reveal">
+    <h2>¿Tenés una idea, un proceso para automatizar o un <span class="hl">producto que construir</span>?</h2>
+    <p>Conversemos sobre tu proyecto. La primera consulta es gratuita. Elegí el canal que más te sirva.</p>
+    <div class="contact-btns">
+      <a href="https://wa.me/543412280272?text=Hola%20Intelix,%20quiero%20consultar%20por%20un%20proyecto" target="_blank" rel="noopener" class="btn btn-wa">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.945z"/></svg>
+        WhatsApp: +54 341 228 0272
+      </a>
+      <a href="mailto:contacto@intelix.com.ar?subject=Consulta%20de%20proyecto&body=Hola%20Intelix,%20quiero%20consultar%20sobre%20un%20proyecto." class="btn btn-ghost">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Escribinos un email
+      </a>
+      <a href="https://www.linkedin.com/company/intelix-ingenieria-&-telecomunicaciones/" target="_blank" rel="noopener" class="btn btn-ghost">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+    <div class="social">
+      <a href="https://wa.me/543412280272" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.945zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.612-.916-2.207-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413z"/></svg>
+        +54 341 228 0272
+      </a>
+      <a href="mailto:contacto@intelix.com.ar" aria-label="Email">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        contacto@intelix.com.ar
+      </a>
+      <a href="https://www.facebook.com/NTLXIngenieria" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
+      </a>
+      <a href="https://x.com/fmvillares" target="_blank" rel="noopener" aria-label="X / Twitter">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.629L18.243 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        X / Twitter
+      </a>
+      <a href="https://www.instagram.com/psyware_ssl" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Instagram
+      </a>
+      <a href="https://www.linkedin.com/company/intelix-ingenieria-&-telecomunicaciones/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-about">
+        <span class="foot-logo"><img src="assets/logo-intelix.jpg" alt="Intelix Ingeniería & Telecomunicaciones" width="108" height="42"></span>
+        <p>Ingeniería con trayectoria, con foco en el software del futuro. Desarrollo a medida, IA local y automatización on-premise desde Rosario, Argentina.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Navegación</h5>
+        <ul>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="trayectoria.html">Trayectoria</a></li>
+          <li><a href="porque.html">Por qué Intelix</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="proyectos.html">Proyectos</a></li>
+          <li><a href="prensa.html">Prensa</a></li>
+          <li><a href="assets/pdf/brochure-intelix-psyware.pdf" target="_blank" rel="noopener">Descargar Brochure (PDF)</a></li>
+          <li><a href="blogs/index.html">Blog</a></li>
+          <li><a href="Juegos/index.html">Juegos</a></li>
+          <li><a href="developers/index.html">API para desarrolladores</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Contacto</h5>
+        <ul>
+          <li><a href="https://wa.me/543412280272" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="mailto:contacto@intelix.com.ar">contacto@intelix.com.ar</a></li>
+          <li><a href="https://www.linkedin.com/company/intelix-ingenieria-&-telecomunicaciones/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://x.com/fmvillares" target="_blank" rel="noopener">X / Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p class="mono">© <span id="year">2026</span> Intelix Ingeniería &amp; Telecomunicaciones · Rosario, Argentina</p>
+      <p>Software · IA local · Automatización · Software libre</p>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/543412280272?text=Hola%20Intelix,%20quiero%20consultar%20por%20un%20proyecto" target="_blank" rel="noopener" class="wa-float" aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.945zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.612-.916-2.207-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413z"/></svg>
+</a>
+
+<script>
+  // OWASP: ensure all external links have noopener noreferrer
+  document.querySelectorAll('a[target="_blank"]').forEach(a=>{a.rel='noopener noreferrer';});
+
+  // dynamic year
+  var yearEl=document.getElementById('year'); if(yearEl) yearEl.textContent=new Date().getFullYear();
+
+  const glowA=document.querySelector('.glow.a');
+  const glowB=document.querySelector('.glow.b');
+  const heroLeft=document.querySelector('.hero-grid > div:first-child');
+  const heroRight=document.querySelector('.hero-grid > div:last-child');
+  const reduceMotion=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const isDesktop=matchMedia('(min-width:941px)').matches;
+
+  // mobile menu
+  const navToggle=document.getElementById('navToggle');
+  const navLinks=document.getElementById('navLinks');
+  if(navToggle){
+    navToggle.addEventListener('click',()=>{
+      const open=navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded',open);
+      navToggle.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');
+    });
+    navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded','false');
+      navToggle.setAttribute('aria-label','Abrir menú');
+    }));
+  }
+
+  // nav dropdowns (Nosotros, Recursos) — hover with a grace period so moving
+  // the mouse from the trigger down into the menu (or briefly off it) doesn't close it
+  const canHover=matchMedia('(hover:hover) and (pointer:fine)').matches;
+  document.querySelectorAll('.nav-drop').forEach(drop=>{
+    const btn=drop.querySelector('.nav-drop-trigger');
+    let closeTimer=null;
+    const openDrop=()=>{
+      clearTimeout(closeTimer);
+      document.querySelectorAll('.nav-drop').forEach(d=>{if(d!==drop){d.classList.remove('open');d.querySelector('.nav-drop-trigger').setAttribute('aria-expanded','false')}});
+      drop.classList.add('open');
+      btn.setAttribute('aria-expanded','true');
+    };
+    const scheduleClose=()=>{
+      clearTimeout(closeTimer);
+      closeTimer=setTimeout(()=>{
+        drop.classList.remove('open');
+        btn.setAttribute('aria-expanded','false');
+      },550);
+    };
+    if(canHover){
+      drop.addEventListener('mouseenter',openDrop);
+      drop.addEventListener('mouseleave',scheduleClose);
+    }
+    btn.addEventListener('click',()=>{
+      if(drop.classList.contains('open')){
+        clearTimeout(closeTimer);
+        drop.classList.remove('open');
+        btn.setAttribute('aria-expanded','false');
+      }else{
+        openDrop();
+      }
+    });
+  });
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('.nav-drop')){
+      document.querySelectorAll('.nav-drop.open').forEach(d=>{d.classList.remove('open');d.querySelector('.nav-drop-trigger').setAttribute('aria-expanded','false')});
+    }
+  });
+
+  // throttled scroll (rAF): nav state, ambient glow drift, subtle hero parallax (desktop only)
+  let ticking=false;
+  addEventListener('scroll',()=>{
+    if(ticking) return; ticking=true;
+    requestAnimationFrame(()=>{
+      const y=scrollY;
+      nav.classList.toggle('scrolled',y>20);
+      if(!reduceMotion){
+        if(glowA) glowA.style.transform=`translateY(${y*0.12}px)`;
+        if(glowB) glowB.style.transform=`translateY(${-y*0.08}px)`;
+        if(isDesktop){
+          if(heroLeft) heroLeft.style.transform=`translateY(${y*0.05}px)`;
+          if(heroRight) heroRight.style.transform=`translateY(${y*0.025}px)`;
+        }
+      }
+      ticking=false;
+    });
+  },{passive:true});
+
+  // reveal on scroll
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*70)+'ms';io.observe(el)});
+
+  // card tilt glow
+  document.querySelectorAll('[data-tilt]').forEach(c=>{c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')})});
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const item=btn.closest('.faq-item');
+      const ans=item.querySelector('.faq-a');
+      const open=item.getAttribute('aria-expanded')==='true';
+      item.setAttribute('aria-expanded',!open);
+      ans.style.maxHeight=open?null:ans.scrollHeight+'px';
+    });
+  });
+
+  // terminal typing
+  const term=document.getElementById('term');
+  const lines=[
+    {t:'$ intelix --status',c:'p'},
+    {t:'→ cargando trayectoria de la empresa...',c:'o'},
+    {t:'✓ voip · asterisk · seguridad informática',c:'ok'},
+    {t:'✓ certificaciones: DCAP · ECE · QueueMetrics',c:'ok'},
+    {t:'✓ presencia: AR · CO · US · ES',c:'ok'},
+    {t:'',c:'o'},
+    {t:'$ intelix --add module=software+ia',c:'p'},
+    {t:'  sumando: desarrollo · agentes IA · automatización',c:'k'},
+    {t:'  ia_local: ollama · llama · privacidad por diseño',c:'k'},
+    {t:'  software_libre: linux · asterisk · sin vendor lock-in',c:'k'},
+    {t:'✓ nueva orientación activa — listos para construir',c:'ok'},
+    {t:'$ deploy Kioske.AR',c:'p'},
+    {t:'  flutter · stock · pagos · offline',c:'k'},
+    {t:'✓ build exitoso — listo para producción',c:'ok'},
+    {t:'',c:'o'},
+    {t:'> abiertos a nuevos proyectos_',c:'ok'},
+  ];
+  let li=0,ci=0;
+  function type(){
+    if(li>=lines.length){term.querySelector('.cursor')?.remove();const e=document.createElement('span');e.className='cursor';term.appendChild(e);return}
+    const L=lines[li];
+    let span=term.querySelector('.cur-line');
+    if(!span){span=document.createElement('span');span.className='ln cur-line '+L.c;term.appendChild(span)}
+    if(ci<=L.t.length){span.textContent=L.t.slice(0,ci);ci++;setTimeout(type,L.t?17:0)}
+    else{span.classList.remove('cur-line');term.appendChild(document.createTextNode('\n'));li++;ci=0;setTimeout(type,L.t?240:55)}
+  }
+  if(term){
+    if(reduceMotion){lines.forEach(L=>{const s=document.createElement('span');s.className='ln '+L.c;s.textContent=L.t;term.appendChild(s);term.appendChild(document.createTextNode('\n'))});}
+    else{setTimeout(type,500);}
+  }
+</script>
+</body>
+</html>

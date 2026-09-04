@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="shortcut icon" href="../assets/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta name="robots" content="noindex, nofollow">
+<title>Pago no completado | Tienda Intelix</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css?v=20260731">
+<link rel="stylesheet" href="assets/css/tienda.css?v=20260815">
+</head>
+<body>
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="nav-logo-link"><img src="../assets/logo-intelix.jpg" alt="Intelix" class="nav-logo" width="129" height="50"></a>
+  </div>
+</nav>
+<main>
+  <div class="status-page">
+    <div>
+      <div class="icon">✕</div>
+      <h1>El pago no se completó</h1>
+      <p>No te preocupes, no se te cobró nada. Tu carrito sigue guardado en el navegador. Podés intentar de nuevo o escribirnos por WhatsApp. Número de pedido: <b id="pedidoId" class="mono"></b></p>
+      <a href="checkout.html" class="btn btn-primary">Reintentar pago</a>
+    </div>
+  </div>
+</main>
+<script>
+  const params = new URLSearchParams(location.search);
+  document.getElementById('pedidoId').textContent = params.get('pedido') || '—';
+</script>
+</body>
+</html>

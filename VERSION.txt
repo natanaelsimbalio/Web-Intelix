@@ -1,0 +1,45 @@
+================================================================================
+INTELIX WEB — HISTORIAL DE VERSIONES
+================================================================================
+Instrucciones: cada vez que agregues una funcionalidad o cambio importante,
+sumá una entrada nueva ARRIBA de esta línea con fecha y versión. No borres
+las versiones anteriores: esto es el historial completo del proyecto.
+================================================================================
+
+--------------------------------------------------------------------------------
+v1.1 — 2026-08-04 — nuevos proyectos en portfolio
+--------------------------------------------------------------------------------
+- Se agregaron dos fichas nuevas en proyectos.html:
+  · Fototeca: galería de fotos/videos local (Flutter), timeline, álbumes,
+    agrupación por lugar (geocoding) y bóveda privada cifrada con PIN/
+    biometría (local_auth, flutter_secure_storage, sqflite).
+  · PrestApp: gestión y cálculo de préstamos entre particulares (Flutter,
+    Riverpod, Hive): deudores, cuotas, interés simple/compuesto, cotización
+    de dólar en tiempo real, nivel de riesgo y recordatorios. Incluida como
+    herramienta administrativa/de cálculo, con aclaración de que no es una
+    entidad financiera ni presta servicios regulados de crédito (por el
+    tema legal de préstamos con interés entre particulares).
+- Título, meta description y og:description de proyectos.html actualizados
+  para reflejar los 5 proyectos.
+- sitemap.xml: lastmod de proyectos.html actualizado a 2026-08-04.
+
+--------------------------------------------------------------------------------
+v1.0 — versión base
+--------------------------------------------------------------------------------
+Funciones base:
+- Sitio institucional estático (HTML/CSS/JS vanilla, sin build step),
+  hosteado en intelix.com.ar.
+- Páginas: inicio, nosotros, porqué, trayectoria, proyectos, prensa,
+  diagnóstico.
+- Sección de blog con artículos técnicos (IA local, ciberseguridad,
+  automatización, VoIP/Asterisk, backups, etc.).
+- SEO completo: meta tags, Open Graph, Twitter Card, robots.txt,
+  sitemap.xml, datos estructurados JSON-LD (LocalBusiness + FAQPage).
+- Cabeceras de seguridad tipo OWASP (CSP, X-Frame-Options, etc.).
+- Accesibilidad: skip-link, focus-visible, prefers-reduced-motion.
+- Diseño responsive (menú hamburguesa en mobile).
+
+Stack: HTML5 + CSS3 (variables CSS) + JavaScript vanilla. Tipografías Inter
+y JetBrains Mono vía Google Fonts.
+
+Ver INFORME.txt para el detalle técnico completo.

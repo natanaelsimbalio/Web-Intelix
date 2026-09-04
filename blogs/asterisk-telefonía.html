@@ -1,0 +1,436 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/favicon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="../assets/favicon-192.png">
+<link rel="shortcut icon" href="../assets/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- OWASP Security Headers -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+<title>Asterisk: PBX Empresarial on-Premise sin Vendor Lock-in | Intelix Blog</title>
+<meta name="description" content="Por qué Asterisk sigue siendo la mejor opción de telefonía empresarial. Control total, integración con sistemas internos, sin depender de operadoras ni servicios en la nube.">
+<meta name="keywords" content="asterisk pbx, telefonía empresarial, voip open source, pbx software libre, telefonia linux">
+<meta property="og:title" content="Asterisk: PBX Empresarial on-Premise sin Vendor Lock-in">
+<meta property="og:description" content="Por qué Asterisk es la mejor opción de PBX empresarial open source. Control total, integración y costos reales.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://intelix.com.ar/blogs/asterisk-telefonía.html">
+<meta name="author" content="Intelix Ingeniería">
+<meta name="article:published_time" content="2025-06-18">
+<link rel="canonical" href="https://intelix.com.ar/blogs/asterisk-telefonía.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<style>
+  :root{--bg:#121110;--gold:#C9963A;--white:#F0EDE8;--muted:#9a958c;--line:rgba(240,237,232,0.08)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--white);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold);text-decoration:none}
+  a:hover{opacity:.8}
+  .wrap{max-width:760px;margin:0 auto;padding:0 28px}
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(16px);background:rgba(18,17,16,.9);border-bottom:1px solid var(--line);padding:12px 0}
+  .nav-inner{display:flex;align-items:center;gap:24px;max-width:760px;margin:0 auto;padding:0 28px}
+  .nav-back{font-size:13px;color:var(--muted);transition:color .2s}
+  .nav-back:hover{color:var(--white)}
+  article{padding:100px 0 60px}
+  .article-header{margin-bottom:48px}
+  .article-title{font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-.035em;line-height:1.15;margin-bottom:16px}
+  .article-meta{display:flex;gap:18px;font-size:13px;color:var(--muted);margin-bottom:24px}
+  .article-content h2{font-size:24px;font-weight:700;margin:48px 0 18px}
+  .article-content p{margin-bottom:18px;color:rgba(240,237,232,.9)}
+  .article-content ul{margin:18px 0 18px 24px}
+  .article-content li{margin-bottom:10px}
+  .article-content strong{color:var(--white);font-weight:600}
+  .highlight{background:rgba(201,150,58,.1);border-left:3px solid var(--gold);padding:16px;margin:24px 0;border-radius:6px}
+  .cta-box{background:rgba(201,150,58,.06);border:1px solid rgba(201,150,58,.2);border-radius:12px;padding:28px;margin:48px 0;text-align:center}
+  .cta-box p{margin-bottom:16px}
+  .cta-btn{display:inline-block;background:var(--gold);color:#1a1208;padding:11px 24px;border-radius:8px;font-weight:600;transition:transform .2s}
+  .cta-btn:hover{transform:translateY(-2px)}
+  footer{border-top:1px solid var(--line);padding:48px 0;text-align:center;color:var(--muted);font-size:13px}
+</style>
+<style>
+/* ===== Barra superior unificada Intelix ===== */
+#nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(16px);background:rgba(18,17,16,.72);border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+#nav.scrolled{border-bottom:1px solid var(--line);background:rgba(18,17,16,.85)}
+#nav .nav-inner{display:flex;align-items:center;justify-content:space-between;height:82px;max-width:1200px;margin:0 auto;padding:0 28px}
+#nav .nav-logo-link{display:inline-flex;align-items:center;transition:transform .2s}
+#nav .nav-logo-link:hover{transform:translateY(-1px)}
+#nav .nav-logo{height:50px;width:auto;display:block}
+#nav .nav-links{display:flex;gap:22px;align-items:center}
+#nav .nav-links a{font-size:14px;color:var(--muted);transition:color .2s;position:relative;white-space:nowrap}
+#nav .nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--gold);transition:width .28s cubic-bezier(.2,.7,.2,1)}
+#nav .nav-links a:not(.nav-cta):hover::after{width:100%}
+#nav .nav-links a:hover{color:var(--white)}
+#nav .nav-links a.active{color:var(--gold);font-weight:600}
+#nav .nav-links a.active::after{width:100%}
+#nav .nav-drop-group{display:flex;align-items:center;gap:2px;background:rgba(240,237,232,.05);border:1px solid rgba(240,237,232,0.15);border-radius:100px;padding:4px 6px}
+#nav .nav-drop-group .nav-drop-trigger{padding:6px 12px;border-radius:100px;transition:color .2s,background .2s}
+#nav .nav-drop-group .nav-drop.open .nav-drop-trigger,#nav .nav-drop-group .nav-drop-trigger:hover{background:rgba(201,150,58,.14);color:var(--gold-soft)}
+#nav .nav-drop{position:relative}
+#nav .nav-drop-trigger{display:inline-flex;align-items:center;gap:4px;background:none;border:none;font:inherit;font-size:14px;color:var(--muted);cursor:pointer;padding:0;transition:color .2s}
+#nav .nav-drop-trigger:hover,#nav .nav-drop.open .nav-drop-trigger{color:var(--white)}
+#nav .nav-drop-caret{font-size:10px;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+#nav .nav-drop.open .nav-drop-caret{transform:rotate(180deg)}
+#nav .nav-drop-menu{position:absolute;top:calc(100% + 18px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:180px;background:var(--bg-soft);border:1px solid rgba(240,237,232,0.08);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:2px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 20px 44px -20px rgba(0,0,0,.6)}
+#nav .nav-drop.open .nav-drop-menu{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}#nav .nav-drop-group .nav-drop:first-child .nav-drop-menu{left:0;transform:translateX(0) translateY(-6px)}#nav .nav-drop-group .nav-drop:first-child.open .nav-drop-menu{transform:translateX(0) translateY(0)}#nav .nav-drop-group .nav-drop:last-child .nav-drop-menu{left:auto;right:0;transform:translateX(0) translateY(-6px)}#nav .nav-drop-group .nav-drop:last-child.open .nav-drop-menu{transform:translateX(0) translateY(0)}
+#nav .nav-drop-menu a{display:block;text-align:center;padding:9px 12px;border-radius:6px;font-size:14px;color:var(--muted);white-space:nowrap;transition:color .2s,background .2s}
+#nav .nav-drop-menu a::after{display:none}
+#nav .nav-drop-menu a:hover{color:var(--white);background:rgba(240,237,232,.05)}
+#nav .nav-drop-menu a.active{color:var(--gold);font-weight:600}
+@media (max-width:880px){
+  #nav .nav-drop-trigger{width:100%;justify-content:space-between;padding:15px 0;border-bottom:1px solid rgba(240,237,232,0.08);font-size:16px}
+  #nav .nav-drop-group{flex-direction:column;background:none;border:none;padding:0;gap:0}
+  #nav .nav-drop-menu{position:static;transform:none;opacity:1;pointer-events:auto;max-height:0;overflow:hidden;padding:0;border:none;background:none;box-shadow:none;transition:max-height .3s}
+  #nav .nav-drop.open .nav-drop-menu{max-height:260px;padding:6px 0 6px 14px}
+  #nav .nav-drop-menu a{text-align:left;padding:11px 0;font-size:15px}
+}
+#nav .nav-cta{font-size:13.5px;font-weight:600;color:#1a1208!important;background:var(--gold);padding:10px 18px;border-radius:8px;display:inline-flex;align-items:center;gap:8px;transition:transform .2s,box-shadow .2s,background .2s}
+#nav .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(201,150,58,.3);background:#E8B455}
+#nav .nav-cta::after{display:none!important}
+.nav-toggle{display:none;background:none;border:1px solid rgba(240,237,232,0.15);border-radius:9px;width:44px;height:44px;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.nav-toggle span{display:block;width:20px;height:2px;background:var(--white);border-radius:2px;transition:transform .3s,opacity .3s}
+.nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+.nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media(max-width:1120px){
+  .nav-toggle{display:flex}
+  #nav .nav-links{position:fixed;top:82px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:rgba(16,15,14,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:14px 28px 26px;transform:translateY(-12px);opacity:0;pointer-events:none;transition:transform .3s,opacity .3s}
+  #nav .nav-links.open{transform:none;opacity:1;pointer-events:auto}
+  #nav .nav-links a:not(.nav-cta){padding:15px 0;border-bottom:1px solid var(--line);font-size:16px}
+  #nav .nav-links a:not(.nav-cta)::after{display:none}
+  #nav .nav-cta{margin-top:16px;justify-content:center;padding:14px}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Asterisk: PBX Empresarial on-Premise sin Vendor Lock-in",
+  "description": "Por qué Asterisk sigue siendo la mejor opción de telefonía empresarial. Control total, integración con sistemas internos, sin depender de operadoras ni servicios en la nube.",
+  "author": {
+    "@type": "Organization",
+    "name": "Intelix Ingeniería",
+    "url": "https://intelix.com.ar/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Intelix Ingeniería",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://intelix.com.ar/assets/logo-intelix.jpg"
+    }
+  },
+  "datePublished": "2025-06-18",
+  "dateModified": "2025-06-18",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://intelix.com.ar/blogs/asterisk-telefonía.html"
+  },
+  "url": "https://intelix.com.ar/blogs/asterisk-telefonía.html",
+  "inLanguage": "es-AR"
+}
+</script>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="nav-logo-link" aria-label="Intelix — inicio"><img src="../assets/logo-intelix.jpg" alt="Intelix Ingeniería & Telecomunicaciones" class="nav-logo" width="120" height="46"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navLinks">
+      <a href="../index.html">Inicio</a>
+      <a href="../index.html#servicios">Servicios</a>
+            <div class="nav-drop-group">
+        <div class="nav-drop">
+          <button type="button" class="nav-drop-trigger" aria-expanded="false">Nosotros <span class="nav-drop-caret">▾</span></button>
+          <div class="nav-drop-menu">
+            <a href="../trayectoria.html">Trayectoria</a>
+            <a href="../porque.html">Por qué Intelix</a>
+            <a href="../nosotros.html">Nosotros</a>
+          </div>
+        </div>
+        <div class="nav-drop">
+          <button type="button" class="nav-drop-trigger" aria-expanded="false">Recursos <span class="nav-drop-caret">▾</span></button>
+          <div class="nav-drop-menu">
+            <a href="../proyectos.html">Proyectos</a>
+            <a href="../prensa.html">Prensa</a>
+            <a href="index.html" class="active">Blog</a>
+            <a href="../Juegos/index.html">Juegos</a>
+          </div>
+        </div>
+      </div>
+      <a href="../diagnosticos.html">Diagnóstico</a>
+      <a href="https://wa.me/543412280272" target="_blank" rel="noopener" class="nav-cta"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.945z"/></svg> WhatsApp</a>
+    </div>
+  </div>
+</nav>
+
+<article>
+  <div class="wrap">
+    <div class="article-header">
+      <h1 class="article-title">Asterisk: PBX Empresarial on-Premise sin Vendor Lock-in</h1>
+      <div class="article-meta">
+        <span>18 de junio, 2025</span>
+        <span>7 min de lectura</span>
+        <span>Intelix Ingeniería</span>
+      </div>
+
+      <!-- SVG: red de llamadas / PBX centralizado -->
+      <svg viewBox="0 0 800 400" style="width:100%;border-radius:12px;margin-top:24px">
+        <defs>
+          <linearGradient id="bgAst" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1e1508;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#0e0a04;stop-opacity:1"/>
+          </linearGradient>
+        </defs>
+        <rect width="800" height="400" fill="url(#bgAst)"/>
+
+        <!-- Nodo central: PBX Asterisk -->
+        <circle cx="400" cy="200" r="52" fill="#C9963A" opacity="0.95"/>
+        <text x="400" y="196" font-size="13" font-weight="bold" text-anchor="middle" fill="#1a0e00">Asterisk</text>
+        <text x="400" y="214" font-size="11" text-anchor="middle" fill="#1a0e00">PBX</text>
+
+        <!-- Nodos periféricos: teléfonos / usuarios -->
+        <!-- arriba izq -->
+        <circle cx="160" cy="90" r="28" fill="#2a1f0a" stroke="#C9963A" stroke-width="1.5"/>
+        <text x="160" y="87" font-size="10" text-anchor="middle" fill="#E8B455">📞</text>
+        <text x="160" y="103" font-size="9" text-anchor="middle" fill="#9a958c">Oficina A</text>
+        <line x1="186" y1="108" x2="350" y2="168" stroke="#C9963A" stroke-width="1" stroke-dasharray="4,3" opacity="0.7"/>
+
+        <!-- arriba der -->
+        <circle cx="640" cy="90" r="28" fill="#2a1f0a" stroke="#C9963A" stroke-width="1.5"/>
+        <text x="640" y="87" font-size="10" text-anchor="middle" fill="#E8B455">📞</text>
+        <text x="640" y="103" font-size="9" text-anchor="middle" fill="#9a958c">Oficina B</text>
+        <line x1="614" y1="108" x2="450" y2="168" stroke="#C9963A" stroke-width="1" stroke-dasharray="4,3" opacity="0.7"/>
+
+        <!-- izquierda -->
+        <circle cx="80" cy="210" r="28" fill="#2a1f0a" stroke="#C9963A" stroke-width="1.5"/>
+        <text x="80" y="207" font-size="10" text-anchor="middle" fill="#E8B455">💻</text>
+        <text x="80" y="223" font-size="9" text-anchor="middle" fill="#9a958c">Softphone</text>
+        <line x1="108" y1="210" x2="348" y2="200" stroke="#C9963A" stroke-width="1" stroke-dasharray="4,3" opacity="0.7"/>
+
+        <!-- derecha -->
+        <circle cx="720" cy="210" r="28" fill="#2a1f0a" stroke="#C9963A" stroke-width="1.5"/>
+        <text x="720" y="207" font-size="10" text-anchor="middle" fill="#E8B455">🏢</text>
+        <text x="720" y="223" font-size="9" text-anchor="middle" fill="#9a958c">CRM</text>
+        <line x1="692" y1="210" x2="452" y2="200" stroke="#C9963A" stroke-width="1" stroke-dasharray="4,3" opacity="0.7"/>
+
+        <!-- abajo izq -->
+        <circle cx="160" cy="320" r="28" fill="#2a1f0a" stroke="#C9963A" stroke-width="1.5"/>
+        <text x="160" y="317" font-size="10" text-anchor="middle" fill="#E8B455">📱</text>
+        <text x="160" y="333" font-size="9" text-anchor="middle" fill="#9a958c">Remoto</text>
+        <line x1="186" y1="302" x2="350" y2="232" stroke="#C9963A" stroke-width="1" stroke-dasharray="4,3" opacity="0.7"/>
+
+        <!-- abajo der -->
+        <circle cx="640" cy="320" r="28" fill="#2a1f0a" stroke="#C9963A" stroke-width="1.5"/>
+        <text x="640" y="317" font-size="10" text-anchor="middle" fill="#E8B455">📋</text>
+        <text x="640" y="333" font-size="9" text-anchor="middle" fill="#9a958c">IVR / Cola</text>
+        <line x1="614" y1="302" x2="450" y2="232" stroke="#C9963A" stroke-width="1" stroke-dasharray="4,3" opacity="0.7"/>
+
+        <text x="400" y="385" font-size="12" text-anchor="middle" fill="#6b675f">Todo on-premise · Sin depender de operadoras</text>
+      </svg>
+    </div>
+
+    <div class="article-content">
+
+      <p>Tu empresa paga <strong>$80 por línea por mes a una operadora</strong> de telefonía convencional. Tienes un PBX antiguo con costo de mantenimiento. Y cuando llama alguien, la calidad es inconsistente.</p>
+
+      <p><strong>Existe una alternativa con más de 20 años de madurez en producción: Asterisk.</strong></p>
+
+      <p>Asterisk es software de telefonía open source. Corre en Linux, no tiene costo de licencia, y te da <strong>control total sobre tu central telefónica.</strong></p>
+
+      <h2>¿Qué es Asterisk?</h2>
+
+      <p>Asterisk es un servidor de comunicaciones open source que convierte un servidor Linux estándar en un PBX completo — la misma función que una central telefónica empresarial de $50,000, pero sin hardware propietario ni licencias.</p>
+
+      <p>Gestiona llamadas SIP/VoIP, líneas analógicas legacy, IVR (menú automático "presione 1 para ventas"), conferencias, grabación automática, y distribución de llamadas a colas de agentes. Y se integra con cualquier sistema interno vía API.</p>
+
+      <div class="highlight">
+        <strong>En concreto:</strong> Es tu central telefónica empresarial sin depender de ningún proveedor. Lo administra tu equipo de TI, o nosotros.
+      </div>
+
+      <h2>PBX Tradicional vs Asterisk</h2>
+
+      <table style="width:100%;border-collapse:collapse;margin:28px 0;font-size:14px">
+        <tr style="border-bottom:1px solid var(--line)">
+          <th style="text-align:left;padding:12px;color:var(--gold)">Aspecto</th>
+          <th style="text-align:left;padding:12px;color:var(--gold)">PBX Tradicional</th>
+          <th style="text-align:left;padding:12px;color:var(--gold)">Asterisk</th>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line)">
+          <td style="padding:12px"><strong>Hardware</strong></td>
+          <td style="padding:12px">Equipo dedicado $5,000+</td>
+          <td style="padding:12px">Servidor estándar o VPS</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line)">
+          <td style="padding:12px"><strong>Licencias</strong></td>
+          <td style="padding:12px">$10,000+</td>
+          <td style="padding:12px">Sin costo (open source)</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line)">
+          <td style="padding:12px"><strong>Mantenimiento</strong></td>
+          <td style="padding:12px">Técnico del proveedor</td>
+          <td style="padding:12px">TI propio o Intelix</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line)">
+          <td style="padding:12px"><strong>Integración</strong></td>
+          <td style="padding:12px">Costosa y limitada</td>
+          <td style="padding:12px">Ilimitada (APIs, webhooks)</td>
+        </tr>
+        <tr>
+          <td style="padding:12px"><strong>Control</strong></td>
+          <td style="padding:12px">Dependés del proveedor</td>
+          <td style="padding:12px">100% propio</td>
+        </tr>
+      </table>
+
+      <h2>¿Cuánto Ahorra una Empresa?</h2>
+
+      <p>Caso real: empresa de 50 empleados.</p>
+
+      <p><strong>Situación anterior (PBX propietario):</strong></p>
+      <ul>
+        <li>Hardware amortizado: $400/año</li>
+        <li>Licencias: $150/mes = $1,800/año</li>
+        <li>Mantenimiento con proveedor: $200/mes = $2,400/año</li>
+        <li>Troncales analógicas: $100/mes = $1,200/año</li>
+        <li><strong>Total: ~$5,800/año</strong></li>
+      </ul>
+
+      <p><strong>Con Asterisk on-premise:</strong></p>
+      <ul>
+        <li>Servidor: $40/mes = $480/año</li>
+        <li>Software: $0</li>
+        <li>Troncales SIP: $30/mes = $360/año</li>
+        <li><strong>Total: ~$840/año</strong></li>
+      </ul>
+
+      <p><strong>Ahorro: casi $5,000 por año. ROI en 3 meses sobre la implementación.</strong></p>
+
+      <h2>Asterisk vs Telefonía en la Nube</h2>
+
+      <p>Existe la alternativa de contratar telefonía gestionada como servicio (Microsoft Teams Phone, Vonage, RingCentral). No es lo mismo que Asterisk.</p>
+
+      <p><strong>Asterisk gana en:</strong></p>
+      <ul>
+        <li><strong>Control total:</strong> Tu PBX, en tu infraestructura, con tus reglas</li>
+        <li><strong>Integración profunda:</strong> Conexión directa con CRM, ERP, bases de datos propias</li>
+        <li><strong>Resiliencia:</strong> La telefonía interna no depende de internet externo</li>
+        <li><strong>Costo a escala:</strong> Con 100+ usuarios, Asterisk es dramáticamente más económico</li>
+        <li><strong>Privacidad:</strong> Ninguna llamada pasa por servidores de terceros</li>
+      </ul>
+
+      <p><strong>Telefonía en la nube gana en:</strong> Menor complejidad de administración inicial y soporte incluido del proveedor. Es una opción válida para equipos sin TI propio.</p>
+
+      <h2>Asterisk en Producción</h2>
+
+      <p>No es tecnología experimental. Lleva más de 20 años en producción en entornos críticos:</p>
+      <ul>
+        <li><strong>Bancos</strong> en América Latina con miles de llamadas diarias</li>
+        <li><strong>Call centers</strong> con 500+ agentes simultáneos</li>
+        <li><strong>Hospitales</strong> con requisitos de alta disponibilidad</li>
+        <li><strong>Gobiernos</strong> que necesitan control soberano de sus comunicaciones</li>
+      </ul>
+
+      <p><strong>Es software probado, estable, y auditado por miles de organizaciones en el mundo.</strong></p>
+
+      <h2>Casos de Uso</h2>
+
+      <p><strong>Empresa mediana (20-100 empleados):</strong> Asterisk reemplaza el PBX viejo. Se integra con el CRM: cuando llama un cliente, aparece su ficha automáticamente. IVR personalizado. Costo reducido hasta un 70%.</p>
+
+      <p><strong>Contact center:</strong> Distribución de llamadas en colas, grabación automática, reportes de duración y calidad, escalable a 1,000+ agentes sin cambiar de plataforma.</p>
+
+      <p><strong>Startup con producto SaaS:</strong> Asterisk integrado en la aplicación para click-to-call desde el navegador, sin pagar por cada llamada a proveedores externos.</p>
+
+      <h2>Por Qué Intelix</h2>
+
+      <p>Somos especialistas en Asterisk desde 2004. Somos <strong>DCAP Asterisk Certified</strong> — la certificación oficial de Digium, creadores de Asterisk. Somos una de las pocas empresas en América Latina con esa acreditación.</p>
+
+      <p>Hemos implementado Asterisk en bancos, call centers, hospitales, organismos de gobierno y startups. <strong>Pero no es una instalación simple.</strong> Requiere diseño de arquitectura, integración con sistemas existentes, configuración de redundancia, optimización de calidad de voz, y migración sin cortes de servicio. Por eso recomendamos implementación profesional.</p>
+
+      <div class="cta-box">
+        <p><strong>¿Querés reemplazar tu central telefónica con Asterisk?</strong></p>
+        <p style="font-size:14px;color:var(--muted)">Analizamos tu infraestructura actual, diseñamos la solución, y la implementamos sin interrupciones.</p>
+        <a href="https://wa.me/543412280272?text=Hola%20Intelix,%20quiero%20implementar%20Asterisk" target="_blank" rel="noopener" class="cta-btn">Consultá gratis</a>
+      </div>
+
+      <h2>Conclusión</h2>
+
+      <p><strong>Asterisk es la opción seria para empresas que no quieren depender de operadoras ni de servicios telefónicos propietarios.</strong></p>
+
+      <p>Es el servidor de comunicaciones elegido por organizaciones que priorizan control, integración y costo real. No es hype — es realidad industrial con más de dos décadas de trayectoria.</p>
+
+    </div>
+  </div>
+</article>
+
+
+<div style="max-width:820px;margin:8px auto 48px;padding:0 28px">
+  <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--gold);border:1px solid rgba(201,150,58,.28);padding:11px 20px;border-radius:10px;background:rgba(201,150,58,.05);text-decoration:none;transition:background .2s,transform .2s" onmouseover="this.style.background='rgba(201,150,58,.14)';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='rgba(201,150,58,.05)';this.style.transform='none'">← Volver al blog</a>
+</div>
+<footer>
+  <div class="wrap">
+    <p>Intelix Ingeniería & Telecomunicaciones | Rosario, Argentina</p>
+    <p style="margin-top:8px">Especialistas certificados en Asterisk desde 2004. DCAP Certified.</p>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('a[target="_blank"]').forEach(a=>{a.rel='noopener noreferrer'});
+</script>
+<script>
+(function(){
+  var nav=document.getElementById('nav');
+  if(nav){window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>20)},{passive:true});}
+  var t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
+  if(t&&l){
+    t.addEventListener('click',function(){var o=l.classList.toggle('open');t.setAttribute('aria-expanded',o);t.setAttribute('aria-label',o?'Cerrar menú':'Abrir menú');});
+    l.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){l.classList.remove('open');t.setAttribute('aria-expanded','false');t.setAttribute('aria-label','Abrir menú');});});
+  }
+  var canHover=matchMedia('(hover:hover) and (pointer:fine)').matches;
+  document.querySelectorAll('.nav-drop').forEach(function(drop){
+    var btn=drop.querySelector('.nav-drop-trigger');
+    var closeTimer=null;
+    function openDrop(){
+      clearTimeout(closeTimer);
+      document.querySelectorAll('.nav-drop').forEach(function(d){if(d!==drop){d.classList.remove('open');d.querySelector('.nav-drop-trigger').setAttribute('aria-expanded','false');}});
+      drop.classList.add('open');
+      btn.setAttribute('aria-expanded','true');
+    }
+    function scheduleClose(){
+      clearTimeout(closeTimer);
+      closeTimer=setTimeout(function(){
+        drop.classList.remove('open');
+        btn.setAttribute('aria-expanded','false');
+      },550);
+    }
+    if(canHover){
+      drop.addEventListener('mouseenter',openDrop);
+      drop.addEventListener('mouseleave',scheduleClose);
+    }
+    btn.addEventListener('click',function(){
+      if(drop.classList.contains('open')){
+        clearTimeout(closeTimer);
+        drop.classList.remove('open');
+        btn.setAttribute('aria-expanded','false');
+      }else{
+        openDrop();
+      }
+    });
+  });
+  document.addEventListener('click',function(e){
+    if(!e.target.closest('.nav-drop')){
+      document.querySelectorAll('.nav-drop.open').forEach(function(d){d.classList.remove('open');d.querySelector('.nav-drop-trigger').setAttribute('aria-expanded','false');});
+    }
+  });
+})();
+</script>
+</body>
+</html>

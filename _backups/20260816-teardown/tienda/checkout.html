@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="shortcut icon" href="../assets/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta name="robots" content="noindex, nofollow">
+<title>Checkout | Tienda Intelix</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="../assets/css/site.css?v=20260731">
+<link rel="stylesheet" href="assets/css/tienda.css?v=20260815">
+</head>
+<body>
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="nav-logo-link" aria-label="Intelix — inicio"><img src="../assets/logo-intelix.jpg" alt="Intelix Ingeniería & Telecomunicaciones" class="nav-logo" width="129" height="50"></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">← Volver a la tienda</a>
+    </div>
+  </div>
+</nav>
+
+<main id="contenido">
+<div class="wrap checkout-wrap" id="checkoutWrap">
+  <div class="checkout-form">
+    <h1 style="font-size:26px;margin-bottom:6px">Finalizar compra</h1>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:10px">No necesitás crear una cuenta. Completá tus datos para coordinar la entrega.</p>
+
+    <form id="checkoutForm">
+      <label for="nombre">Nombre y apellido</label>
+      <input id="nombre" name="nombre" type="text" required autocomplete="name">
+
+      <label for="telefono">Teléfono (WhatsApp)</label>
+      <input id="telefono" name="telefono" type="tel" required autocomplete="tel">
+
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required autocomplete="email">
+
+      <label style="margin-top:20px">Método de envío</label>
+      <div class="shipping-options" id="shippingOptions"></div>
+
+      <div id="direccionField">
+        <label for="direccion">Dirección de envío</label>
+        <textarea id="direccion" name="direccion" rows="2" placeholder="Calle, número, ciudad, provincia"></textarea>
+      </div>
+
+      <button type="submit" class="btn-cart-3d" id="pagarBtn"><span class="button-text">Pagar con Mercado Pago</span></button>
+      <p class="form-error" id="formError"></p>
+    </form>
+  </div>
+
+  <div class="order-summary">
+    <h3>Tu pedido</h3>
+    <div id="orderLines"></div>
+    <div class="order-total"><span>Total</span><b id="orderTotalValue">$0</b></div>
+  </div>
+</div>
+</main>
+
+<script src="assets/js/carrito.js"></script>
+<script src="assets/js/checkout.js"></script>
+</body>
+</html>

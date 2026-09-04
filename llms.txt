@@ -1,0 +1,33 @@
+# Intelix Ingeniería & Telecomunicaciones
+
+> Desarrollo de software a medida e inteligencia artificial local (on-premise) en Rosario, Argentina, construidos sobre 20 años de ingeniería en software libre. También ofrecemos comunicaciones unificadas (VoIP/Asterisk), seguridad y forense informática, y consultoría de infraestructura.
+
+Sitio institucional con blog, tienda de consulta y autodiagnósticos gratuitos de ciberseguridad. Sin backend de aplicación tradicional: contenido servido como HTML estático con negociación de contenido Markdown en la portada, más una API pública de solo lectura para el catálogo de la tienda.
+
+## Páginas principales
+
+- [Inicio](https://intelix.com.ar/index.md): resumen de servicios, IA local, automatización y contacto (Markdown).
+- [Trayectoria](https://intelix.com.ar/trayectoria.html): historia y experiencia de la empresa.
+- [Por qué Intelix](https://intelix.com.ar/porque.html): propuesta de valor y diferenciales.
+- [Nosotros](https://intelix.com.ar/nosotros.html): equipo y cultura.
+- [Proyectos](https://intelix.com.ar/proyectos.html): casos de éxito y clientes.
+- [Prensa](https://intelix.com.ar/prensa.html): menciones y notas de prensa.
+- [Diagnósticos](https://intelix.com.ar/diagnosticos.html): autodiagnósticos gratuitos (ciberseguridad, IA, soberanía tecnológica, crianza digital).
+- [Blog](https://intelix.com.ar/blogs/index.html): artículos técnicos.
+- [Tienda](https://intelix.com.ar/tienda/index.html): catálogo de equipos y servicios a consulta.
+
+## API
+
+- [Desarrolladores](https://intelix.com.ar/developers/): portal para desarrolladores — quickstart, referencia de endpoints, versionado y sandbox.
+- [openapi.json](https://intelix.com.ar/openapi.json): especificación OpenAPI de la API pública.
+- `GET /api/v1/productos.php`: catálogo público de productos activos (JSON), sin autenticación. Versionado por path; ver /developers/ para la política de deprecación.
+
+## Recursos para agentes
+
+- [sitemap.xml](https://intelix.com.ar/sitemap.xml): mapa completo de URLs del sitio.
+- [robots.txt](https://intelix.com.ar/robots.txt): reglas de crawling.
+
+## Contacto
+
+- WhatsApp: https://wa.me/543412280272
+- Email: contacto@intelix.com.ar
