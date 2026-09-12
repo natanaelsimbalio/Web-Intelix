@@ -1,0 +1,266 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#121110">
+<title>Juegos | Intelix Ingeniería</title>
+<meta name="description" content="Mini-juegos hechos en HTML por Intelix. Asteroids, Asteroids Black Hole y Tetris, jugables directo en el navegador.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<style>
+  :root{
+    --bg:#121110;--gold:#C9963A;--gold-soft:#E8B455;--gold-deep:#8f6824;
+    --white:#F0EDE8;--muted:#a8a39a;--dim:#7d786f;
+    --line:rgba(240,237,232,0.08);--line-strong:rgba(240,237,232,0.15);
+    --gold-line:rgba(201,150,58,0.28);--card:rgba(240,237,232,0.022);
+    --grad-gold:linear-gradient(120deg,var(--gold-soft),var(--gold) 50%,var(--gold-deep));
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--white);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;position:relative}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;background-image:linear-gradient(rgba(240,237,232,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(240,237,232,.018) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 40%,transparent 80%);mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 40%,transparent 80%)}
+  .glow{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;opacity:.5;width:520px;height:520px;background:rgba(201,150,58,.07);top:-160px;right:-120px}
+  ::selection{background:var(--gold);color:#1a1208}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--gold-soft);outline-offset:3px;border-radius:4px}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+/* ===== Barra superior unificada Intelix ===== */
+  #nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(16px);background:rgba(18,17,16,.72);border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+  #nav.scrolled{border-bottom:1px solid var(--line);background:rgba(18,17,16,.85)}
+  #nav .nav-inner{display:flex;align-items:center;justify-content:space-between;height:82px;max-width:1200px;margin:0 auto;padding:0 28px}
+  #nav .nav-logo-link{display:inline-flex;align-items:center;transition:transform .2s}
+  #nav .nav-logo-link:hover{transform:translateY(-1px)}
+  #nav .nav-logo{height:50px;width:auto;display:block}
+  #nav .nav-links{display:flex;gap:22px;align-items:center}
+  #nav .nav-links a{font-size:14px;color:var(--muted);transition:color .2s;position:relative;white-space:nowrap}
+  #nav .nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--gold);transition:width .28s cubic-bezier(.2,.7,.2,1)}
+  #nav .nav-links a:not(.nav-cta):hover::after{width:100%}
+  #nav .nav-links a:hover{color:var(--white)}
+  #nav .nav-links a.active{color:var(--gold);font-weight:600}
+  #nav .nav-links a.active::after{width:100%}
+#nav .nav-drop-group{display:flex;align-items:center;gap:2px;background:rgba(240,237,232,.05);border:1px solid rgba(240,237,232,0.15);border-radius:100px;padding:4px 6px}
+#nav .nav-drop-group .nav-drop-trigger{padding:6px 12px;border-radius:100px;transition:color .2s,background .2s}
+#nav .nav-drop-group .nav-drop.open .nav-drop-trigger,#nav .nav-drop-group .nav-drop-trigger:hover{background:rgba(201,150,58,.14);color:var(--gold-soft)}
+#nav .nav-drop{position:relative}
+#nav .nav-drop-trigger{display:inline-flex;align-items:center;gap:4px;background:none;border:none;font:inherit;font-size:14px;color:var(--muted);cursor:pointer;padding:0;transition:color .2s}
+#nav .nav-drop-trigger:hover,#nav .nav-drop.open .nav-drop-trigger{color:var(--white)}
+#nav .nav-drop-caret{font-size:10px;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+#nav .nav-drop.open .nav-drop-caret{transform:rotate(180deg)}
+#nav .nav-drop-menu{position:absolute;top:calc(100% + 18px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:180px;background:var(--bg-soft);border:1px solid rgba(240,237,232,0.08);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:2px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 20px 44px -20px rgba(0,0,0,.6)}
+#nav .nav-drop.open .nav-drop-menu{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}#nav .nav-drop-group .nav-drop:first-child .nav-drop-menu{left:0;transform:translateX(0) translateY(-6px)}#nav .nav-drop-group .nav-drop:first-child.open .nav-drop-menu{transform:translateX(0) translateY(0)}#nav .nav-drop-group .nav-drop:last-child .nav-drop-menu{left:auto;right:0;transform:translateX(0) translateY(-6px)}#nav .nav-drop-group .nav-drop:last-child.open .nav-drop-menu{transform:translateX(0) translateY(0)}
+#nav .nav-drop-menu a{display:block;text-align:center;padding:9px 12px;border-radius:6px;font-size:14px;color:var(--muted);white-space:nowrap;transition:color .2s,background .2s}
+#nav .nav-drop-menu a::after{display:none}
+#nav .nav-drop-menu a:hover{color:var(--white);background:rgba(240,237,232,.05)}
+#nav .nav-drop-menu a.active{color:var(--gold);font-weight:600}
+@media (max-width:880px){
+  #nav .nav-drop-trigger{width:100%;justify-content:space-between;padding:15px 0;border-bottom:1px solid rgba(240,237,232,0.08);font-size:16px}
+  #nav .nav-drop-group{flex-direction:column;background:none;border:none;padding:0;gap:0}
+  #nav .nav-drop-menu{position:static;transform:none;opacity:1;pointer-events:auto;max-height:0;overflow:hidden;padding:0;border:none;background:none;box-shadow:none;transition:max-height .3s}
+  #nav .nav-drop.open .nav-drop-menu{max-height:260px;padding:6px 0 6px 14px}
+  #nav .nav-drop-menu a{text-align:left;padding:11px 0;font-size:15px}
+}
+  #nav .nav-cta{font-size:13.5px;font-weight:600;color:#1a1208!important;background:var(--gold);padding:10px 18px;border-radius:8px;display:inline-flex;align-items:center;gap:8px;transition:transform .2s,box-shadow .2s,background .2s}
+  #nav .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(201,150,58,.3);background:#E8B455}
+  #nav .nav-cta::after{display:none!important}
+  .nav-toggle{display:none;background:none;border:1px solid rgba(240,237,232,0.15);border-radius:9px;width:44px;height:44px;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+  .nav-toggle span{display:block;width:20px;height:2px;background:var(--white);border-radius:2px;transition:transform .3s,opacity .3s}
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  @media(max-width:1120px){
+    .nav-toggle{display:flex}
+    #nav .nav-links{position:fixed;top:82px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:rgba(16,15,14,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:14px 28px 26px;transform:translateY(-12px);opacity:0;pointer-events:none;transition:transform .3s,opacity .3s}
+    #nav .nav-links.open{transform:none;opacity:1;pointer-events:auto}
+    #nav .nav-links a:not(.nav-cta){padding:15px 0;border-bottom:1px solid var(--line);font-size:16px}
+    #nav .nav-links a:not(.nav-cta)::after{display:none}
+    #nav .nav-cta{margin-top:16px;justify-content:center;padding:14px}
+  }
+  header.h{padding:calc(80px + 82px) 0 40px;text-align:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:500;color:var(--muted);border:1px solid var(--gold-line);padding:6px 14px;border-radius:100px;margin-bottom:24px;background:rgba(201,150,58,.04)}
+  .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 2.2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(201,150,58,.5)}70%{box-shadow:0 0 0 8px rgba(201,150,58,0)}100%{box-shadow:0 0 0 0 rgba(201,150,58,0)}}
+  h1{font-size:clamp(34px,5.5vw,54px);font-weight:800;letter-spacing:-.035em;line-height:1.04;margin-bottom:16px}
+  h1 .hl{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gold)}
+  header.h p{color:var(--muted);font-size:17px;max-width:520px;margin:0 auto}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:36px 0 100px}
+  @media(max-width:820px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}}
+  .game{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px;transition:transform .35s var(--ease),border-color .35s,background .35s,box-shadow .35s;position:relative;overflow:hidden}
+  .game::before{content:"";position:absolute;inset:0;background:radial-gradient(360px circle at 50% 0,rgba(201,150,58,.10),transparent 50%);opacity:0;transition:opacity .35s;pointer-events:none}
+  .game:hover{transform:translateY(-5px);border-color:rgba(201,150,58,.5);background:rgba(240,237,232,.04);box-shadow:0 0 0 1px rgba(201,150,58,.12),0 22px 55px -22px rgba(201,150,58,.2)}
+  .game:hover::before{opacity:1}
+  .game .ic{width:54px;height:54px;border-radius:13px;background:rgba(201,150,58,.1);border:1px solid var(--gold-line);display:flex;align-items:center;justify-content:center;color:var(--gold-soft);margin-bottom:20px}
+  .game .ic svg{width:28px;height:28px}
+  .game h2{font-size:20px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px}
+  .game p{color:var(--muted);font-size:14.5px;line-height:1.6;flex:1;margin-bottom:20px}
+  .game .play{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;font-size:14px;font-weight:600;color:#1a1208;background:var(--gold);padding:11px 20px;border-radius:9px;transition:transform .2s,box-shadow .2s,background .2s}
+  .game .play:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(201,150,58,.3);background:var(--gold-soft)}
+  .tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold-soft);border:1px solid var(--gold-line);padding:4px 10px;border-radius:100px;background:rgba(201,150,58,.05);align-self:flex-start;margin-bottom:16px}
+  footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:var(--dim);font-size:13px;position:relative;z-index:1}
+  @media(prefers-reduced-motion:reduce){.pulse{animation:none}*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="nav-logo-link" aria-label="Intelix — inicio"><img src="../assets/logo-intelix.jpg" alt="Intelix Ingeniería & Telecomunicaciones" class="nav-logo" width="129" height="50"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navLinks">
+      <a href="../index.html">Inicio</a>
+      <a href="../index.html#servicios">Servicios</a>
+            <div class="nav-drop-group">
+        <div class="nav-drop">
+          <button type="button" class="nav-drop-trigger" aria-expanded="false">Nosotros <span class="nav-drop-caret">▾</span></button>
+          <div class="nav-drop-menu">
+            <a href="../trayectoria.html">Trayectoria</a>
+            <a href="../porque.html">Por qué Intelix</a>
+            <a href="../nosotros.html">Nosotros</a>
+          </div>
+        </div>
+        <div class="nav-drop">
+          <button type="button" class="nav-drop-trigger" aria-expanded="false">Recursos <span class="nav-drop-caret">▾</span></button>
+          <div class="nav-drop-menu">
+            <a href="../proyectos.html">Proyectos</a>
+            <a href="../prensa.html">Prensa</a>
+            <a href="../blogs/index.html">Blog</a>
+            <a href="index.html" class="active">Juegos</a>
+          </div>
+        </div>
+      </div>
+      <a href="../diagnosticos.html">Diagnóstico</a>
+      <a href="../tienda/index.html">Tienda</a>
+      <a href="https://wa.me/543412280272" target="_blank" rel="noopener" class="nav-cta"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.945z"/></svg> WhatsApp</a>
+    </div>
+  </div>
+</nav>
+
+<header class="h">
+  <div class="wrap">
+    <span class="eyebrow"><span class="pulse"></span>Hecho en HTML · jugable en el navegador</span>
+    <h1>Mini-<span class="hl">juegos</span> de Intelix.</h1>
+    <p>Pequeños experimentos en HTML5 y JavaScript. Clásicos arcade, sin instalar nada, directo desde el navegador.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="grid">
+    <article class="game">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3Z"/></svg></div>
+      <span class="tag">Arcade · Vectorial</span>
+      <h2>Asteroids</h2>
+      <p>El clásico de naves y asteroides. Girá, acelerá y dispará para sobrevivir entre las rocas del espacio.</p>
+      <a href="asteroids.html" class="play">Jugar ahora →</a>
+    </article>
+
+    <article class="game">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></div>
+      <span class="tag">Arcade · Física</span>
+      <h2>Asteroids: Black Hole</h2>
+      <p>Variante con un agujero negro que distorsiona las trayectorias. Gravedad, asteroides y mucha más tensión.</p>
+      <a href="asteroids-black-hole.html" class="play">Jugar ahora →</a>
+    </article>
+
+    <article class="game">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+      <span class="tag">Puzzle · Clásico</span>
+      <h2>Tetris</h2>
+      <p>El rompecabezas eterno. Encajá las piezas, completá líneas y subí de nivel mientras la velocidad aumenta.</p>
+      <a href="tetris.html" class="play">Jugar ahora →</a>
+    </article>
+
+    <article class="game">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4Z"/><path d="M9 11h.01M15 11h.01M9.5 15h5"/></svg></div>
+      <span class="tag">Arcade · Naves</span>
+      <h2>Galaxian</h2>
+      <p>El clásico de naves espaciales. Esquivá los ataques en picada de la flota alienígena y defendé la galaxia disparando sin parar.</p>
+      <a href="galaxian.html" class="play">Jugar ahora →</a>
+    </article>
+
+    <article class="game">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="8" width="12" height="8" rx="2"/><path d="M9 8V6M15 8V6M4 20l3-4M20 20l-3-4M9 12h.01M15 12h.01"/></svg></div>
+      <span class="tag">Arcade · Clásico</span>
+      <h2>Space Invaders</h2>
+      <p>El arcade que lo empezó todo. Defendé la Tierra de las oleadas de invasores alienígenas que descienden fila por fila, cada vez más rápido.</p>
+      <a href="spaceinvaders.html" class="play">Jugar ahora →</a>
+    </article>
+
+    <article class="game">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16M6 9v6M18 9v6"/></svg></div>
+      <span class="tag">Arcade · Clásico</span>
+      <h2>Pong</h2>
+      <p>El primer videojuego de la historia, estilo Atari 2600. Tenis de mesa puro: mové la paleta, sumá 11 puntos y subí la velocidad. Simple y adictivo.</p>
+      <a href="pong.html" class="play">Jugar ahora →</a>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© <span id="year">2026</span> Intelix Ingeniería &amp; Telecomunicaciones · Rosario, Argentina</p>
+  </div>
+</footer>
+<script>
+  document.querySelectorAll('a[target="_blank"]').forEach(a=>{a.rel='noopener noreferrer';});
+  var y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+</script>
+<script>
+(function(){
+  var nav=document.getElementById('nav');
+  if(nav){window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>20)},{passive:true});}
+  var t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
+  if(t&&l){
+    t.addEventListener('click',function(){var o=l.classList.toggle('open');t.setAttribute('aria-expanded',o);t.setAttribute('aria-label',o?'Cerrar menú':'Abrir menú');});
+    l.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){l.classList.remove('open');t.setAttribute('aria-expanded','false');});});
+    var canHover=matchMedia('(hover:hover) and (pointer:fine)').matches;
+    document.querySelectorAll('.nav-drop').forEach(function(drop){
+      var btn=drop.querySelector('.nav-drop-trigger');
+      var closeTimer=null;
+      function openDrop(){
+        clearTimeout(closeTimer);
+        document.querySelectorAll('.nav-drop').forEach(function(d){if(d!==drop){d.classList.remove('open');d.querySelector('.nav-drop-trigger').setAttribute('aria-expanded','false');}});
+        drop.classList.add('open');
+        btn.setAttribute('aria-expanded','true');
+      }
+      function scheduleClose(){
+        clearTimeout(closeTimer);
+        closeTimer=setTimeout(function(){
+          drop.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        },550);
+      }
+      if(canHover){
+        drop.addEventListener('mouseenter',openDrop);
+        drop.addEventListener('mouseleave',scheduleClose);
+      }
+      btn.addEventListener('click',function(){
+        if(drop.classList.contains('open')){
+          clearTimeout(closeTimer);
+          drop.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        }else{
+          openDrop();
+        }
+      });
+    });
+    document.addEventListener('click',function(e){
+      if(!e.target.closest('.nav-drop')){
+        document.querySelectorAll('.nav-drop.open').forEach(function(d){d.classList.remove('open');d.querySelector('.nav-drop-trigger').setAttribute('aria-expanded','false');});
+      }
+    });
+  }
+})();
+</script>
+<script src="../assets/js/vendor/lenis.min.js"></script>
+<script src="../assets/js/home-v2.js"></script>
+</body>
+</html>

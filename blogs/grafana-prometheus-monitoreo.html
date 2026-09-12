@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/favicon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="../assets/favicon-192.png">
+<link rel="shortcut icon" href="../assets/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- OWASP Security Headers -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+<title>Grafana + Prometheus: Monitoreo de Infraestructura Self-Hosted | Intelix Blog</title>
+<meta name="description" content="Cómo Grafana y Prometheus permiten monitorear servidores, aplicaciones y redes en tiempo real, con alertas propias, sin depender de un SaaS de monitoreo facturado en dólares.">
+<meta name="keywords" content="grafana, prometheus, monitoreo de infraestructura, observabilidad, alertas de servidores, self-hosted monitoring, dashboards en tiempo real">
+<meta property="og:title" content="Grafana + Prometheus: Monitoreo de Infraestructura Self-Hosted">
+<meta property="og:description" content="Monitoreo de servidores, aplicaciones y redes en tiempo real con alertas propias, sin depender de un SaaS de monitoreo facturado en dólares.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://intelix.com.ar/blogs/grafana-prometheus-monitoreo.html">
+<meta name="author" content="Intelix Ingeniería">
+<meta name="article:published_time" content="2026-09-11">
+<link rel="canonical" href="https://intelix.com.ar/blogs/grafana-prometheus-monitoreo.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<style>
+  :root{--bg:#121110;--bg-soft:#181715;--gold:#C9963A;--gold-soft:#E8B455;--white:#F0EDE8;--muted:#a8a39a;--line:rgba(240,237,232,0.08)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--white);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold);text-decoration:none}
+  .wrap{max-width:760px;margin:0 auto;padding:0 28px}
+  article{padding:120px 0 40px}
+  .post-cat{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);border:1px solid rgba(201,150,58,.28);padding:5px 12px;border-radius:100px;background:rgba(201,150,58,.05);margin-bottom:20px}
+  .article-title{font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-.035em;line-height:1.15;margin-bottom:16px}
+  .article-meta{display:flex;gap:18px;font-size:13px;color:var(--muted);margin-bottom:40px}
+  .article-content h2{font-size:24px;font-weight:700;margin:44px 0 16px}
+  .article-content h3{font-size:18px;font-weight:600;margin:30px 0 12px}
+  .article-content p{margin-bottom:18px;color:rgba(240,237,232,.9)}
+  .article-content ul{margin:18px 0 18px 24px}
+  .article-content li{margin-bottom:10px;color:rgba(240,237,232,.9)}
+  .article-content strong{color:var(--white);font-weight:600}
+  .article-content table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14.5px}
+  .article-content th,.article-content td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+  .article-content th{color:var(--gold-soft);font-weight:600;background:rgba(201,150,58,.06)}
+  .highlight{background:rgba(201,150,58,.1);border-left:3px solid var(--gold);padding:16px 18px;margin:26px 0;border-radius:6px}
+  .cta-box{background:rgba(201,150,58,.06);border:1px solid rgba(201,150,58,.2);border-radius:12px;padding:28px;margin:48px 0;text-align:center}
+  .cta-box p{margin-bottom:16px}
+  .cta-btn{display:inline-block;background:var(--gold);color:#1a1208;padding:11px 24px;border-radius:8px;font-weight:600;transition:transform .2s}
+  .cta-btn:hover{transform:translateY(-2px)}
+  .back-link{max-width:760px;margin:8px auto 48px;padding:0 28px}
+  .back-link a{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--gold);border:1px solid rgba(201,150,58,.28);padding:11px 20px;border-radius:10px;background:rgba(201,150,58,.05);transition:background .2s,transform .2s}
+  .back-link a:hover{background:rgba(201,150,58,.14);transform:translateY(-1px)}
+  footer{border-top:1px solid var(--line);padding:48px 0;text-align:center;color:var(--muted);font-size:13px}
+/* ===== Barra superior unificada Intelix ===== */
+#nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(16px);background:rgba(18,17,16,.72);border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+#nav.scrolled{border-bottom:1px solid var(--line);background:rgba(18,17,16,.85)}
+#nav .nav-inner{display:flex;align-items:center;justify-content:space-between;height:82px;max-width:1200px;margin:0 auto;padding:0 28px}
+#nav .nav-logo-link{display:inline-flex;align-items:center;transition:transform .2s}
+#nav .nav-logo-link:hover{transform:translateY(-1px)}
+#nav .nav-logo{height:50px;width:auto;display:block}
+#nav .nav-links{display:flex;gap:22px;align-items:center}
+#nav .nav-links a{font-size:14px;color:var(--muted);transition:color .2s;position:relative;white-space:nowrap}
+#nav .nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--gold);transition:width .28s cubic-bezier(.2,.7,.2,1)}
+#nav .nav-links a:not(.nav-cta):hover::after{width:100%}
+#nav .nav-links a:hover{color:var(--white)}
+#nav .nav-links a.active{color:var(--gold);font-weight:600}
+#nav .nav-links a.active::after{width:100%}
+#nav .nav-drop-group{display:flex;align-items:center;gap:2px;background:rgba(240,237,232,.05);border:1px solid rgba(240,237,232,0.15);border-radius:100px;padding:4px 6px}
+#nav .nav-drop-group .nav-drop-trigger{padding:6px 12px;border-radius:100px;transition:color .2s,background .2s}
+#nav .nav-drop-group .nav-drop.open .nav-drop-trigger,#nav .nav-drop-group .nav-drop-trigger:hover{background:rgba(201,150,58,.14);color:var(--gold-soft)}
+#nav .nav-drop{position:relative}
+#nav .nav-drop-trigger{display:inline-flex;align-items:center;gap:4px;background:none;border:none;font:inherit;font-size:14px;color:var(--muted);cursor:pointer;padding:0;transition:color .2s}
+#nav .nav-drop-trigger:hover,#nav .nav-drop.open .nav-drop-trigger{color:var(--white)}
+#nav .nav-drop-caret{font-size:10px;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+#nav .nav-drop.open .nav-drop-caret{transform:rotate(180deg)}
+#nav .nav-drop-menu{position:absolute;top:calc(100% + 18px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:180px;background:var(--bg-soft);border:1px solid rgba(240,237,232,0.08);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:2px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 20px 44px -20px rgba(0,0,0,.6)}
+#nav .nav-drop.open .nav-drop-menu{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}#nav .nav-drop-group .nav-drop:first-child .nav-drop-menu{left:0;transform:translateX(0) translateY(-6px)}#nav .nav-drop-group .nav-drop:first-child.open .nav-drop-menu{transform:translateX(0) translateY(0)}#nav .nav-drop-group .nav-drop:last-child .nav-drop-menu{left:auto;right:0;transform:translateX(0) translateY(-6px)}#nav .nav-drop-group .nav-drop:last-child.open .nav-drop-menu{transform:translateX(0) translateY(0)}
+#nav .nav-drop-menu a{display:block;text-align:center;padding:9px 12px;border-radius:6px;font-size:14px;color:var(--muted);white-space:nowrap;transition:color .2s,background .2s}
+#nav .nav-drop-menu a::after{display:none}
+#nav .nav-drop-menu a:hover{color:var(--white);background:rgba(240,237,232,.05)}
+#nav .nav-drop-menu a.active{color:var(--gold);font-weight:600}
+@media (max-width:880px){
+  #nav .nav-drop-trigger{width:100%;justify-content:space-between;padding:15px 0;border-bottom:1px solid rgba(240,237,232,0.08);font-size:16px}
+  #nav .nav-drop-group{flex-direction:column;background:none;border:none;padding:0;gap:0}
+  #nav .nav-drop-menu{position:static;transform:none;opacity:1;pointer-events:auto;max-height:0;overflow:hidden;padding:0;border:none;background:none;box-shadow:none;transition:max-height .3s}
+  #nav .nav-drop.open .nav-drop-menu{max-height:260px;padding:6px 0 6px 14px}
+  #nav .nav-drop-menu a{text-align:left;padding:11px 0;font-size:15px}
+}
+#nav .nav-cta{font-size:13.5px;font-weight:600;color:#1a1208!important;background:var(--gold);padding:10px 18px;border-radius:8px;display:inline-flex;align-items:center;gap:8px;transition:transform .2s,box-shadow .2s,background .2s}
+#nav .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(201,150,58,.3);background:#E8B455}
+#nav .nav-cta::after{display:none!important}
+.nav-toggle{display:none;background:none;border:1px solid rgba(240,237,232,0.15);border-radius:9px;width:44px;height:44px;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.nav-toggle span{display:block;width:20px;height:2px;background:var(--white);border-radius:2px;transition:transform .3s,opacity .3s}
+.nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+.nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media(max-width:1120px){
+  .nav-toggle{display:flex}
+  #nav .nav-links{position:fixed;top:82px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:rgba(16,15,14,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:14px 28px 26px;transform:translateY(-12px);opacity:0;pointer-events:none;transition:transform .3s,opacity .3s}
+  #nav .nav-links.open{transform:none;opacity:1;pointer-events:auto}
+  #nav .nav-links a:not(.nav-cta){padding:15px 0;border-bottom:1px solid var(--line);font-size:16px}
+  #nav .nav-links a:not(.nav-cta)::after{display:none}
+  #nav .nav-cta{margin-top:16px;justify-content:center;padding:14px}
+}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:24px 0}
+  .table-wrap table{margin:0}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Grafana + Prometheus: Monitoreo de Infraestructura Self-Hosted",
+  "description": "Cómo Grafana y Prometheus permiten monitorear servidores, aplicaciones y redes en tiempo real, con alertas propias, sin depender de un SaaS de monitoreo facturado en dólares.",
+  "author": {
+    "@type": "Organization",
+    "name": "Intelix Ingeniería",
+    "url": "https://intelix.com.ar/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Intelix Ingeniería",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://intelix.com.ar/assets/logo-intelix.jpg"
+    }
+  },
+  "datePublished": "2026-09-11",
+  "dateModified": "2026-09-11",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://intelix.com.ar/blogs/grafana-prometheus-monitoreo.html"
+  },
+  "url": "https://intelix.com.ar/blogs/grafana-prometheus-monitoreo.html",
+  "inLanguage": "es-AR"
+}
+</script>
+</head>
+<body>
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="nav-logo-link" aria-label="Intelix — inicio"><img src="../assets/logo-intelix.jpg" alt="Intelix Ingeniería & Telecomunicaciones" class="nav-logo" width="120" height="46"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navLinks">
+      <a href="../index.html">Inicio</a>
+      <a href="../index.html#servicios">Servicios</a>
+            <div class="nav-drop-group">
+        <div class="nav-drop">
+          <button type="button" class="nav-drop-trigger" aria-expanded="false">Nosotros <span class="nav-drop-caret">▾</span></button>
+          <div class="nav-drop-menu">
+            <a href="../trayectoria.html">Trayectoria</a>
+            <a href="../porque.html">Por qué Intelix</a>
+            <a href="../nosotros.html">Nosotros</a>
+          </div>
+        </div>
+        <div class="nav-drop">
+          <button type="button" class="nav-drop-trigger" aria-expanded="false">Recursos <span class="nav-drop-caret">▾</span></button>
+          <div class="nav-drop-menu">
+            <a href="../proyectos.html">Proyectos</a>
+            <a href="../prensa.html">Prensa</a>
+            <a href="index.html" class="active">Blog</a>
+            <a href="../Juegos/index.html">Juegos</a>
+          </div>
+        </div>
+      </div>
+      <a href="../diagnosticos.html">Diagnóstico</a>
+      <a href="../tienda/index.html">Tienda</a>
+      <a href="https://wa.me/543412280272" target="_blank" rel="noopener" class="nav-cta"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.945z"/></svg> WhatsApp</a>
+    </div>
+  </div>
+</nav>
+<article>
+  <div class="wrap">
+    <span class="post-cat">Infraestructura</span>
+    <h1 class="article-title">Grafana + Prometheus: monitoreo de infraestructura self-hosted</h1>
+    <div class="article-meta"><span>Intelix Ingeniería</span><span>·</span><span>2026-09-11</span></div>
+    <div class="article-content">
+      <p>Un servidor que se queda sin espacio en disco, una base de datos que empieza a responder lento antes de caerse del todo, un proceso que consume toda la memoria disponible: la mayoria de los incidentes de infraestructura avisan antes de convertirse en una caida total. El problema es que, sin monitoreo, esos avisos pasan inadvertidos hasta que el sistema ya esta caido y el aviso lo da un cliente enojado.</p>
+      <h2>Que es Prometheus</h2>
+      <p><strong>Prometheus</strong> es un sistema de monitoreo y alertas open source, nacido en SoundCloud y hoy uno de los proyectos mas maduros de la CNCF (la misma fundacion que aloja Kubernetes). Su trabajo es simple de explicar: consulta periodicamente metricas de tus servidores y aplicaciones -- uso de CPU, memoria, espacio en disco, tiempo de respuesta, cantidad de errores -- y las guarda en una base de datos de series temporales, optimizada para responder "como vino evolucionando esto en las ultimas horas".</p>
+      <h2>Que es Grafana</h2>
+      <p><strong>Grafana</strong> es la capa de visualizacion: toma los datos que junta Prometheus (o cualquier otra fuente compatible) y los convierte en dashboards en tiempo real. Es el mismo tipo de panel que se ve en un centro de operaciones -- graficos de uso de CPU por servidor, estado de servicios, latencia de red -- pero corriendo en tu propia infraestructura, sin que esos datos salgan de tu red.</p>
+      <h2>Grafana + Prometheus vs un SaaS de monitoreo</h2>
+      <div class="table-wrap"><table>
+        <tr><th>Aspecto</th><th>SaaS de monitoreo (Datadog, New Relic)</th><th>Grafana + Prometheus self-hosted</th></tr>
+        <tr><td>Costo</td><td>Por host/metrica, en dolares, escala con la infraestructura</td><td>Solo el servidor que lo aloja</td></tr>
+        <tr><td>Donde viajan las metricas</td><td>A servidores del proveedor</td><td>Nunca salen de tu red</td></tr>
+        <tr><td>Retencion de historico</td><td>Limitada por el plan contratado</td><td>La que definas vos</td></tr>
+        <tr><td>Personalizacion de dashboards</td><td>Dentro de lo que ofrece el plan</td><td>Total</td></tr>
+        <tr><td>Alertas (email, Slack, WhatsApp)</td><td>Incluidas, con limites</td><td>Configurables sin limite artificial</td></tr>
+      </table></div>
+      <div class="highlight">Una ventaja practica menos obvia: como las metricas quedan en tu propia base de datos, podes cruzarlas con otras fuentes internas -- por ejemplo, correlacionar un pico de errores de la aplicacion con un evento especifico del negocio -- sin las restricciones de un plan de SaaS externo.</div>
+      <h2>Que resuelve en la practica</h2>
+      <ul>
+        <li><strong>Alertas tempranas</strong> antes de que un problema de infraestructura se convierta en una caida: espacio en disco, memoria, certificados por vencer.</li>
+        <li><strong>Un dashboard unico</strong> para ver el estado de todos los servidores, VMs y servicios criticos, en vez de entrar a cada uno por separado.</li>
+        <li><strong>Historico real</strong> para diagnosticar problemas intermitentes ("¿esto ya paso antes? ¿cuando empezo?") en vez de depender de la memoria de quien estaba de guardia.</li>
+        <li><strong>Monitoreo de aplicaciones propias</strong>, no solo de infraestructura: tiempos de respuesta de una API, cantidad de pedidos procesados, errores por minuto.</li>
+        <li><strong>Notificaciones a donde ya trabaja el equipo</strong> -- email, Slack, WhatsApp -- sin depender de que alguien este mirando un panel todo el dia.</li>
+      </ul>
+      <h3>Donde mas lo pedimos</h3>
+      <p>Empresas que ya migraron a infraestructura propia (Proxmox, servidores dedicados) y quieren la misma visibilidad que tendrian con un proveedor cloud administrado, pero sin pagar por ella en dolares. Tambien equipos de desarrollo que necesitan monitorear aplicaciones propias en produccion y detectar degradaciones de rendimiento antes de que las reporten los usuarios.</p>
+      <div class="cta-box">
+        <p><strong>¿Te enteras de que un servidor tuvo un problema porque te lo dice un cliente?</strong><br>Implementamos Grafana y Prometheus a medida, con alertas configuradas para tu infraestructura real.</p>
+        <a href="https://wa.me/543412280272?text=Hola%20Intelix,%20le%C3%AD%20el%20blog%20de%20Grafana%20y%20quiero%20consultar%20sobre%20monitoreo" target="_blank" rel="noopener" class="cta-btn">Hablemos por WhatsApp &#8594;</a>
+      </div>
+    </div>
+  </div>
+</article>
+<div class="wrap" style="max-width:760px;margin:0 auto 8px;padding:0 28px">
+  <div style="border-top:1px solid var(--line);padding-top:32px;margin-top:8px">
+    <h2 style="font-size:15px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);font-weight:600;margin-bottom:16px">Artículos relacionados</h2>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;margin:0 0 20px">
+      <li><a href="zabbix-monitoreo-infraestructura.html" style="color:var(--white);font-weight:600">Zabbix: monitoreo de infraestructura para PyMEs</a></li>
+      <li><a href="proxmox-vs-vmware.html" style="color:var(--white);font-weight:600">Proxmox vs VMware: virtualización sin licencias</a></li>
+      <li><a href="hardening-linux-pymes.html" style="color:var(--white);font-weight:600">Hardening de Linux para PyMEs: la checklist real</a></li>
+    </ul>
+    <p style="font-size:14px"><a href="../diagnostico-soberania.html" style="color:var(--gold-soft);font-weight:600">→ Autodiagnóstico gratuito de soberanía tecnológica</a></p>
+  </div>
+</div>
+<div class="back-link"><a href="index.html">← Volver al blog</a></div>
+<footer>
+  <div class="wrap">
+    <p>Intelix Ingeniería &amp; Telecomunicaciones | Rosario, Argentina</p>
+    <p class="mono" style="margin-top:8px">© <span class="hm-year"></span> Intelix Ingeniería &amp; Telecomunicaciones</p>
+    <p style="margin-top:8px">Especialistas en IA local, software libre y automatización on-premise.</p>
+  </div>
+</footer>
+<script>document.querySelectorAll('.hm-year').forEach(function(el){el.textContent=new Date().getFullYear();});</script>
+
+<script>
+(function(){
+  var nav=document.getElementById('nav');
+  if(nav){window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>20)},{passive:true});}
+  var t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
+  if(t&&l){
+    t.addEventListener('click',function(){var o=l.classList.toggle('open');t.setAttribute('aria-expanded',o);t.setAttribute('aria-label',o?'Cerrar menú':'Abrir menú');});
+    l.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){l.classList.remove('open');t.setAttribute('aria-expanded','false');});});
+    var canHover=matchMedia('(hover:hover) and (pointer:fine)').matches;
+    document.querySelectorAll('.nav-drop').forEach(function(drop){
+      var btn=drop.querySelector('.nav-drop-trigger');
+      var closeTimer=null;
+      function openDrop(){
+        clearTimeout(closeTimer);
+        document.querySelectorAll('.nav-drop').forEach(function(d){if(d!==drop){d.classList.remove('open');d.querySelector('.nav-drop-trigger').setAttribute('aria-expanded','false');}});
+        drop.classList.add('open');
+        btn.setAttribute('aria-expanded','true');
+      }
+      function scheduleClose(){
+        clearTimeout(closeTimer);
+        closeTimer=setTimeout(function(){
+          drop.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        },550);
+      }
+      if(canHover){
+        drop.addEventListener('mouseenter',openDrop);
+        drop.addEventListener('mouseleave',scheduleClose);
+      }
+      btn.addEventListener('click',function(){
+        if(drop.classList.contains('open')){
+          clearTimeout(closeTimer);
+          drop.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        }else{
+          openDrop();
+        }
+      });
+    });
+    document.addEventListener('click',function(e){
+      if(!e.target.closest('.nav-drop')){
+        document.querySelectorAll('.nav-drop.open').forEach(function(d){d.classList.remove('open');d.querySelector('.nav-drop-trigger').setAttribute('aria-expanded','false');});
+      }
+    });
+  }
+})();
+</script>
+<script src="../assets/js/vendor/lenis.min.js"></script>
+<script src="../assets/js/home-v2.js"></script>
+</body>
+</html>

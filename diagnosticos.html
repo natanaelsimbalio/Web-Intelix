@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon-192.png">
+<link rel="shortcut icon" href="assets/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#121110">
+<title>Autodiagnósticos gratuitos | Intelix Ingeniería</title>
+<meta name="description" content="Elegí tu autodiagnóstico gratuito: ciberseguridad o madurez en inteligencia artificial. Resultado orientativo automático en pocos minutos.">
+<link rel="canonical" href="https://intelix.com.ar/diagnosticos.html">
+<meta property="og:title" content="Autodiagnósticos gratuitos | Intelix Ingeniería">
+<meta property="og:description" content="Elegí tu autodiagnóstico gratuito: ciberseguridad, IA o soberanía tecnológica. Resultado automático en minutos.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://intelix.com.ar/diagnosticos.html">
+<meta property="og:image" content="https://intelix.com.ar/assets/logo-intelix.jpg">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Autodiagnósticos gratuitos | Intelix">
+<meta name="twitter:description" content="Elegí tu autodiagnóstico gratuito: ciberseguridad, IA o soberanía tecnológica.">
+<meta name="twitter:creator" content="@fmvillares">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<style>
+  :root{
+    --bg:#121110;--bg-soft:#181715;--gold:#C9963A;--gold-soft:#E8B455;--gold-deep:#8f6824;
+    --white:#F0EDE8;--muted:#a8a39a;--dim:#7d786f;
+    --line:rgba(240,237,232,0.08);--line-strong:rgba(240,237,232,0.15);
+    --gold-line:rgba(201,150,58,0.28);--card:rgba(240,237,232,0.022);
+    --grad-gold:linear-gradient(120deg,var(--gold-soft),var(--gold) 50%,var(--gold-deep));
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--white);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;position:relative}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;background-image:linear-gradient(rgba(240,237,232,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(240,237,232,.018) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 40%,transparent 80%);mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 40%,transparent 80%)}
+  .glow{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;opacity:.5;width:520px;height:520px;background:rgba(201,150,58,.07);top:-160px;right:-120px}
+  ::selection{background:var(--gold);color:#1a1208}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--gold-soft);outline-offset:3px;border-radius:4px}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+  .skip-link{position:absolute;left:-999px;top:0;z-index:200;background:var(--gold);color:#1a1208;padding:10px 18px;border-radius:0 0 10px 0;font-weight:600}
+  .skip-link:focus{left:0}
+  #nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(16px);background:rgba(18,17,16,.72);border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+  #nav.scrolled{border-bottom:1px solid var(--line);background:rgba(18,17,16,.85)}
+  #nav .nav-inner{display:flex;align-items:center;justify-content:space-between;height:82px;max-width:1200px;margin:0 auto;padding:0 28px}
+  #nav .nav-logo{height:50px;width:auto;display:block;transition:transform .2s}
+  #nav .nav-logo:hover{transform:translateY(-1px)}
+  #nav .nav-links{display:flex;gap:22px;align-items:center}
+  #nav .nav-links a{font-size:14px;color:var(--muted);transition:color .2s;position:relative}
+  #nav .nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--gold);transition:width .28s var(--ease)}
+  #nav .nav-links a:not(.nav-cta):hover::after{width:100%}
+  #nav .nav-links a.active{color:var(--gold);font-weight:600}
+  #nav .nav-links a.active::after{width:100%}
+#nav .nav-drop-group{display:flex;align-items:center;gap:2px;background:rgba(240,237,232,.05);border:1px solid rgba(240,237,232,0.15);border-radius:100px;padding:4px 6px}
+#nav .nav-drop-group .nav-drop-trigger{padding:6px 12px;border-radius:100px;transition:color .2s,background .2s}
+#nav .nav-drop-group .nav-drop.open .nav-drop-trigger,#nav .nav-drop-group .nav-drop-trigger:hover{background:rgba(201,150,58,.14);color:var(--gold-soft)}
+#nav .nav-drop{position:relative}
+#nav .nav-drop-trigger{display:inline-flex;align-items:center;gap:4px;background:none;border:none;font:inherit;font-size:14px;color:var(--muted);cursor:pointer;padding:0;transition:color .2s}
+#nav .nav-drop-trigger:hover,#nav .nav-drop.open .nav-drop-trigger{color:var(--white)}
+#nav .nav-drop-caret{font-size:10px;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+#nav .nav-drop.open .nav-drop-caret{transform:rotate(180deg)}
+#nav .nav-drop-menu{position:absolute;top:calc(100% + 18px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:180px;background:var(--bg-soft);border:1px solid rgba(240,237,232,0.08);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:2px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 20px 44px -20px rgba(0,0,0,.6)}
+#nav .nav-drop.open .nav-drop-menu{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}#nav .nav-drop-group .nav-drop:first-child .nav-drop-menu{left:0;transform:translateX(0) translateY(-6px)}#nav .nav-drop-group .nav-drop:first-child.open .nav-drop-menu{transform:translateX(0) translateY(0)}#nav .nav-drop-group .nav-drop:last-child .nav-drop-menu{left:auto;right:0;transform:translateX(0) translateY(-6px)}#nav .nav-drop-group .nav-drop:last-child.open .nav-drop-menu{transform:translateX(0) translateY(0)}
+#nav .nav-drop-menu a{display:block;text-align:center;padding:9px 12px;border-radius:6px;font-size:14px;color:var(--muted);white-space:nowrap;transition:color .2s,background .2s}
+#nav .nav-drop-menu a::after{display:none}
+#nav .nav-drop-menu a:hover{color:var(--white);background:rgba(240,237,232,.05)}
+#nav .nav-drop-menu a.active{color:var(--gold);font-weight:600}
+@media (max-width:880px){
+  #nav .nav-drop-trigger{width:100%;justify-content:space-between;padding:15px 0;border-bottom:1px solid rgba(240,237,232,0.08);font-size:16px}
+  #nav .nav-drop-group{flex-direction:column;background:none;border:none;padding:0;gap:0}
+  #nav .nav-drop-menu{position:static;transform:none;opacity:1;pointer-events:auto;max-height:0;overflow:hidden;padding:0;border:none;background:none;box-shadow:none;transition:max-height .3s}
+  #nav .nav-drop.open .nav-drop-menu{max-height:260px;padding:6px 0 6px 14px}
+  #nav .nav-drop-menu a{text-align:left;padding:11px 0;font-size:15px}
+}
+  #nav .nav-links a:hover{color:var(--white)}
+  #nav .nav-cta{font-size:13.5px;font-weight:600;color:#1a1208!important;background:var(--gold);padding:10px 18px;border-radius:8px;display:inline-flex;align-items:center;gap:8px;transition:transform .2s,box-shadow .2s,background .2s}
+  #nav .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(201,150,58,.3);background:var(--gold-soft)}
+  #nav .nav-cta::after{display:none!important}
+  .nav-toggle{display:none;background:none;border:1px solid var(--line-strong);border-radius:9px;width:44px;height:44px;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+  .nav-toggle span{display:block;width:20px;height:2px;background:var(--white);border-radius:2px;transition:transform .3s,opacity .3s}
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  @media(max-width:880px){
+    .nav-toggle{display:flex}
+    #nav .nav-links{position:fixed;top:82px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:rgba(16,15,14,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:14px 28px 26px;transform:translateY(-12px);opacity:0;pointer-events:none;transition:transform .3s,opacity .3s}
+    #nav .nav-links.open{transform:none;opacity:1;pointer-events:auto}
+    #nav .nav-links a:not(.nav-cta){padding:15px 0;border-bottom:1px solid var(--line);font-size:16px}
+    #nav .nav-links a:not(.nav-cta)::after{display:none}
+    #nav .nav-cta{margin-top:16px;justify-content:center;padding:14px}
+  }
+  header.ph{padding:140px 0 60px;text-align:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:500;color:var(--muted);border:1px solid var(--gold-line);padding:6px 14px;border-radius:100px;margin-bottom:22px;background:rgba(201,150,58,.04)}
+  .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 2.2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(201,150,58,.5)}70%{box-shadow:0 0 0 8px rgba(201,150,58,0)}100%{box-shadow:0 0 0 0 rgba(201,150,58,0)}}
+  header.ph h1{font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.06;margin-bottom:16px}
+  header.ph h1 .hl{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gold)}
+  header.ph p{color:var(--muted);font-size:16.5px;max-width:600px;margin:0 auto}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding-bottom:90px}
+  @media(max-width:980px){.cards{grid-template-columns:1fr 1fr}}
+  @media(max-width:640px){.cards{grid-template-columns:1fr}}
+  .dcard{position:relative;border:1px solid var(--line-strong);border-radius:20px;padding:34px 30px;background:linear-gradient(180deg,rgba(28,26,23,.6),rgba(20,19,17,.6));display:flex;flex-direction:column;transition:border-color .25s,transform .25s;overflow:hidden}
+  .dcard:hover{border-color:var(--gold-line);transform:translateY(-4px)}
+  .dcard::before{content:"";position:absolute;top:-60px;right:-60px;width:180px;height:180px;border-radius:50%;background:rgba(201,150,58,.08);filter:blur(50px);pointer-events:none}
+  .dcard .icon{width:52px;height:52px;border-radius:14px;border:1px solid var(--gold-line);background:rgba(201,150,58,.07);display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--gold)}
+  .dcard .icon svg{width:26px;height:26px}
+  .dcard h2{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
+  .dcard p{color:var(--muted);font-size:14.5px;line-height:1.6;margin-bottom:20px;flex:1}
+  .dcard .meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+  .dcard .meta span{font-size:11.5px;color:var(--dim);border:1px solid var(--line);border-radius:100px;padding:5px 12px;background:var(--card)}
+  .dcard .go{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:700;padding:13px 22px;border-radius:11px;background:var(--gold);color:#1a1208;transition:transform .2s,box-shadow .2s,background .2s;align-self:flex-start}
+  .dcard .go:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(201,150,58,.3);background:var(--gold-soft)}
+  footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;color:var(--dim);font-size:13px;position:relative;z-index:1}
+  footer a{color:var(--muted)}
+  .backhome{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--gold);border:1px solid var(--gold-line);padding:9px 16px;border-radius:9px;background:rgba(201,150,58,.05);transition:background .2s,transform .2s}
+  .backhome:hover{background:var(--gold);color:#1a1208;transform:translateY(-1px)}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.pulse{animation:none}}
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Saltar al contenido</a>
+<div class="glow"></div>
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="index.html" aria-label="Intelix — inicio"><img src="assets/logo-intelix.jpg" alt="Intelix Ingeniería & Telecomunicaciones" class="nav-logo" width="114" height="44"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Inicio</a>
+      <a href="index.html#servicios">Servicios</a>
+            <div class="nav-drop-group">
+        <div class="nav-drop">
+          <button type="button" class="nav-drop-trigger" aria-expanded="false">Nosotros <span class="nav-drop-caret">▾</span></button>
+          <div class="nav-drop-menu">
+            <a href="trayectoria.html">Trayectoria</a>
+            <a href="porque.html">Por qué Intelix</a>
+            <a href="nosotros.html">Nosotros</a>
+          </div>
+        </div>
+        <div class="nav-drop">
+          <button type="button" class="nav-drop-trigger" aria-expanded="false">Recursos <span class="nav-drop-caret">▾</span></button>
+          <div class="nav-drop-menu">
+            <a href="proyectos.html">Proyectos</a>
+            <a href="prensa.html">Prensa</a>
+            <a href="blogs/index.html">Blog</a>
+            <a href="Juegos/index.html">Juegos</a>
+          </div>
+        </div>
+      </div>
+      <a href="diagnosticos.html" class="active">Diagnóstico</a>
+      <a href="tienda/index.html">Tienda</a>
+      <a href="https://wa.me/543412280272" target="_blank" rel="noopener" class="nav-cta"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.945z"/></svg> WhatsApp</a>
+    </div>
+  </div>
+</nav>
+
+<header class="ph">
+  <div class="wrap">
+    <span class="eyebrow"><span class="pulse"></span>Autoevaluaciones gratuitas · Sin registro</span>
+    <h1>Elegí tu <span class="hl">autodiagnóstico</span></h1>
+    <p>Cuestionarios rápidos y gratuitos para conocer, en minutos, en qué nivel está tu empresa o tu familia. Sin compromiso, con resultado orientativo automático.</p>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <div class="cards">
+      <a href="diagnostico-ciberseguridad.html" class="dcard">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h2>Diagnóstico de Ciberseguridad</h2>
+        <p>Evaluá el nivel de madurez en ciberseguridad de tu empresa: accesos, respaldo, factor humano, proveedores, datos sensibles y capacidad de respuesta ante incidentes.</p>
+        <div class="meta"><span>25 preguntas</span><span>~5 minutos</span><span>Gratis</span></div>
+        <span class="go">Empezar diagnóstico →</span>
+      </a>
+      <a href="diagnostico-ia.html" class="dcard">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a3 3 0 0 0-3 3 3 3 0 0 0-2.6 4.5A3 3 0 0 0 7 16a3 3 0 0 0 5 2 3 3 0 0 0 5-2 3 3 0 0 0 .6-5.5A3 3 0 0 0 15 6a3 3 0 0 0-3-3Z"/><path d="M12 3v15M9 9h6M8.5 13h7"/></svg></div>
+        <h2>Diagnóstico de Madurez en IA</h2>
+        <p>Descubrí qué tan lista está tu empresa para adoptar inteligencia artificial: datos, uso actual, infraestructura, equipo y prioridad estratégica.</p>
+        <div class="meta"><span>20 preguntas</span><span>~4 minutos</span><span>Gratis</span></div>
+        <span class="go">Empezar diagnóstico →</span>
+      </a>
+      <a href="diagnostico-soberania.html" class="dcard">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg></div>
+        <h2>Diagnóstico de Soberanía Tecnológica</h2>
+        <p>Medí cuánto dependés de proveedores externos y qué tan protegidos están tus datos: software libre, infraestructura propia, privacidad y marco legal.</p>
+        <div class="meta"><span>20 preguntas</span><span>~4 minutos</span><span>Gratis</span></div>
+        <span class="go">Empezar diagnóstico →</span>
+      </a>
+      <a href="diagnostico-crianza-digital.html" class="dcard">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M4 21v-1a5 5 0 0 1 5-5h0a5 5 0 0 1 5 5v1"/><circle cx="18" cy="8" r="2.3"/><path d="M16.2 21v-1a3.5 3.5 0 0 1 4.5-3.36"/></svg></div>
+        <h2>Diagnóstico de Crianza Digital</h2>
+        <p>Evaluá qué tan protegidos están tus hijos en internet: grooming, ciberbullying, privacidad de datos y sharenting. Para padres, madres y familias.</p>
+        <div class="meta"><span>18 preguntas</span><span>~4 minutos</span><span>Gratis</span></div>
+        <span class="go">Empezar diagnóstico →</span>
+      </a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="index.html" class="backhome">← Volver al sitio</a>
+    <p style="margin-top:18px">© <span id="year">2026</span> Intelix Ingeniería &amp; Telecomunicaciones · Rosario, Argentina</p>
+  </div>
+</footer>
+
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/home-v2.js"></script>
+<script>
+  (function(){
+    var nav=document.getElementById('nav');
+    window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>20)},{passive:true});
+    var t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
+    t.addEventListener('click',function(){var o=l.classList.toggle('open');t.setAttribute('aria-expanded',o);});
+    l.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){l.classList.remove('open');t.setAttribute('aria-expanded','false');});});
+    var canHover=matchMedia('(hover:hover) and (pointer:fine)').matches;
+    document.querySelectorAll('.nav-drop').forEach(function(drop){
+      var btn=drop.querySelector('.nav-drop-trigger');
+      var closeTimer=null;
+      function openDrop(){
+        clearTimeout(closeTimer);
+        document.querySelectorAll('.nav-drop').forEach(function(d){if(d!==drop){d.classList.remove('open');d.querySelector('.nav-drop-trigger').setAttribute('aria-expanded','false');}});
+        drop.classList.add('open');
+        btn.setAttribute('aria-expanded','true');
+      }
+      function scheduleClose(){
+        clearTimeout(closeTimer);
+        closeTimer=setTimeout(function(){
+          drop.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        },550);
+      }
+      if(canHover){
+        drop.addEventListener('mouseenter',openDrop);
+        drop.addEventListener('mouseleave',scheduleClose);
+      }
+      btn.addEventListener('click',function(){
+        if(drop.classList.contains('open')){
+          clearTimeout(closeTimer);
+          drop.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        }else{
+          openDrop();
+        }
+      });
+    });
+    document.addEventListener('click',function(e){
+      if(!e.target.closest('.nav-drop')){
+        document.querySelectorAll('.nav-drop.open').forEach(function(d){d.classList.remove('open');d.querySelector('.nav-drop-trigger').setAttribute('aria-expanded','false');});
+      }
+    });
+    document.querySelectorAll('a[target="_blank"]').forEach(function(a){a.rel='noopener noreferrer';});
+    var y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+  })();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Inicio","item":"https://intelix.com.ar/"},
+    {"@type":"ListItem","position":2,"name":"Autodiagnósticos","item":"https://intelix.com.ar/diagnosticos.html"}
+  ]
+}
+</script>
+</body>
+</html>

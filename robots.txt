@@ -1,0 +1,23 @@
+# Intelix Ingeniería - robots.txt
+# Permite a todos los buscadores acceder al sitio
+
+User-agent: *
+Allow: /
+Disallow: /index-backup-1782587538.html
+Disallow: /Juegos/
+
+# Googlebot específicamente
+User-agent: Googlebot
+Allow: /
+Disallow: /Juegos/
+
+# Bingbot específicamente
+User-agent: Bingbot
+Allow: /
+Disallow: /Juegos/
+
+# Sitemap location
+Sitemap: https://intelix.com.ar/sitemap.xml
+
+# Crawl delay (respetar servidor)
+Crawl-delay: 1

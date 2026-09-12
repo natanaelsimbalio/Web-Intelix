@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- OWASP Security Headers -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+<title>Pong · Atari 2600 | Intelix</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--gold:#C9963A;--gold-soft:#E8B455;--muted:#a8a39a;--dim:#7d786f;--line:rgba(240,237,232,.1)}
+  body{background:#121110;color:#F0EDE8;font-family:'JetBrains Mono','Consolas',monospace;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:70px 16px 30px;-webkit-font-smoothing:antialiased}
+  h1{font-size:20px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+  .sub{font-size:12px;color:var(--dim);letter-spacing:.1em;margin-bottom:16px;text-transform:uppercase}
+  .stage{border:2px solid #2a2825;border-radius:8px;overflow:hidden;box-shadow:0 24px 60px -24px rgba(0,0,0,.8);background:#000}
+  canvas{display:block;background:#000;image-rendering:pixelated}
+  .hud{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px;max-width:600px}
+  .hud .chip{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:100px;padding:7px 14px;background:rgba(240,237,232,.02)}
+  .hud .chip b{color:var(--gold-soft);font-weight:600}
+  .keys{margin-top:14px;font-size:12px;color:var(--dim);text-align:center;line-height:1.9;max-width:560px}
+  .keys kbd{display:inline-block;background:rgba(240,237,232,.05);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:2px 8px;color:#F0EDE8;font-family:inherit;font-size:11px;margin:0 1px}
+  .intelix-back{position:fixed;top:14px;left:14px;z-index:2147483647;display:inline-flex;align-items:center;gap:7px;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1a1208;background:#C9963A;padding:9px 15px;border-radius:9px;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.45);transition:transform .18s,background .18s}
+  .intelix-back:hover{background:#E8B455;transform:translateY(-1px)}
+</style>
+</head>
+<body>
+<a href="index.html" class="intelix-back">← Volver a Juegos</a>
+
+<h1>PONG</h1>
+<div class="sub">Atari 2600 · Intelix</div>
+
+<div class="stage">
+  <canvas id="game" width="700" height="480"></canvas>
+</div>
+
+<div class="hud">
+  <div class="chip">Velocidad <b id="hudLevel">1</b>/5</div>
+  <div class="chip">Saca <b id="hudServer">Jugador 1</b></div>
+  <div class="chip">Partido a <b>11</b></div>
+</div>
+<div class="keys">
+  <kbd>↑</kbd><kbd>↓</kbd> mover &nbsp;·&nbsp; <kbd>S</kbd> empezar &nbsp;·&nbsp; <kbd>P</kbd> pausa &nbsp;·&nbsp; <kbd>L</kbd> velocidad (1-5)<br>
+  Jugás con la paleta izquierda. La derecha la controla la máquina.
+</div>
+
+<script>
+(function(){
+  var cv=document.getElementById('game'), ctx=cv.getContext('2d');
+  var W=cv.width, H=cv.height;
+  var WHITE='#F0EDE8', GOLD='#C9963A';
+
+  // config
+  var SPEEDS=[0,4.2,5.4,6.8,8.4,10.2];   // index 1..5 -> ball base speed
+  var CPU_SP=[0,3.2,4.0,4.9,5.9,7.0];    // cpu paddle max speed per level
+  var PW=12, PH=76, BALL=13, PADX=22;
+  var WIN=11;
+
+  // state
+  var level=1;
+  var state='idle';            // idle | serving | playing | paused | over
+  var s1=0, s2=0;
+  var pointsPlayed=0;          // total puntos jugados (para alternar saque cada 2)
+  var lp, rp, ball, serveTimer=0, winner=0;
+  var cpuErr=0, cpuTimer=0;
+
+  function serverIsP1(){ return Math.floor(pointsPlayed/2)%2===0; }
+
+  function reset(){
+    lp={y:H/2-PH/2, vy:0};
+    rp={y:H/2-PH/2};
+    s1=0; s2=0; pointsPlayed=0; winner=0;
+    newServe();
+  }
+  function newServe(){
+    ball={x:W/2-BALL/2, y:H/2-BALL/2, vx:0, vy:0};
+    state='serving'; serveTimer=48; cpuErr=0; cpuTimer=0;   // ~0.8s
+    updateHUD();
+  }
+  function launch(){
+    var sp=SPEEDS[level];
+    var dir = serverIsP1() ? 1 : -1;          // saca hacia el rival
+    var ang=(Math.random()*0.6-0.3);          // -0.3..0.3 rad
+    ball.vx=dir*sp*Math.cos(ang);
+    ball.vy=sp*Math.sin(ang)*(Math.random()<0.5?-1:1);
+    state='playing';
+  }
+
+  // input
+  var keys={};
+  document.addEventListener('keydown',function(e){
+    var k=e.key.toLowerCase();
+    if(['arrowup','arrowdown',' '].indexOf(e.key.toLowerCase())>=0 || e.key==='ArrowUp'||e.key==='ArrowDown') e.preventDefault();
+    if(e.key==='ArrowUp') keys.up=true;
+    if(e.key==='ArrowDown') keys.down=true;
+    if(k==='s'){
+      if(state==='idle'||state==='over'){ reset(); }
+    }
+    if(k==='p'){
+      if(state==='playing'||state==='serving') state='paused';
+      else if(state==='paused') state='playing';
+    }
+    if(k==='l'){
+      level=level%5+1; updateHUD();
+    }
+  });
+  document.addEventListener('keyup',function(e){
+    if(e.key==='ArrowUp') keys.up=false;
+    if(e.key==='ArrowDown') keys.down=false;
+  });
+
+  function updateHUD(){
+    document.getElementById('hudLevel').textContent=level;
+    document.getElementById('hudServer').textContent= serverIsP1()?'Jugador 1':'Jugador 2';
+  }
+
+  function point(scorer){
+    if(scorer===1) s1++; else s2++;
+    pointsPlayed++;
+    if(s1>=WIN || s2>=WIN){ winner = s1>=WIN?1:2; state='over'; updateHUD(); return; }
+    newServe();
+  }
+
+  function step(){
+    // player paddle
+    if(state==='playing'||state==='serving'){
+      var mv=6.5;
+      lp.vy=0;
+      if(keys.up) lp.vy=-mv;
+      if(keys.down) lp.vy=mv;
+      lp.y+=lp.vy;
+      if(lp.y<0) lp.y=0;
+      if(lp.y>H-PH) lp.y=H-PH;
+    }
+
+    if(state==='serving'){
+      if(--serveTimer<=0) launch();
+    }
+
+    if(state==='playing'){
+      // --- IA jugador 2 con margen de error (ganable) ---
+      var csp=CPU_SP[level];
+      // recalcula el error de puntería cada cierto tiempo (deriva "humana")
+      if(--cpuTimer<=0){
+        cpuTimer = 15 - level + Math.floor(Math.random()*6);       // reacciona con retardo variable
+        cpuErr = (Math.random()*2-1) * (PH*0.5 + (5-level)*9);     // desvío +/- (más grande en niveles bajos)
+      }
+      var target, react;
+      if(ball.vx>0){
+        target = ball.y+BALL/2-PH/2 + cpuErr;                      // sigue la pelota, pero desviado
+        react  = csp*0.9;                                          // a veces no llega a pelotas rápidas
+      } else {
+        target = H/2-PH/2;                                         // si se aleja, vuelve lento al centro
+        react  = csp*0.45;
+      }
+      var dz=9;                                                    // zona muerta (no corrige micro-diferencias)
+      if(rp.y < target-dz) rp.y += Math.min(react, target-rp.y);
+      else if(rp.y > target+dz) rp.y -= Math.min(react, rp.y-target);
+      if(rp.y<0) rp.y=0;
+      if(rp.y>H-PH) rp.y=H-PH;
+
+      // ball
+      ball.x+=ball.vx; ball.y+=ball.vy;
+      // top/bottom walls
+      if(ball.y<=0){ ball.y=0; ball.vy=-ball.vy; }
+      if(ball.y>=H-BALL){ ball.y=H-BALL; ball.vy=-ball.vy; }
+      // left paddle collision
+      if(ball.vx<0 && ball.x<=PADX+PW && ball.x>=PADX-BALL && ball.y+BALL>=lp.y && ball.y<=lp.y+PH){
+        ball.x=PADX+PW;
+        bounce(lp.y);
+      }
+      // right paddle collision
+      if(ball.vx>0 && ball.x+BALL>=W-PADX-PW && ball.x+BALL<=W-PADX+BALL && ball.y+BALL>=rp.y && ball.y<=rp.y+PH){
+        ball.x=W-PADX-PW-BALL;
+        bounce(rp.y);
+      }
+      // scoring
+      if(ball.x+BALL<0){ point(2); }
+      else if(ball.x>W){ point(1); }
+    }
+  }
+
+  function bounce(py){
+    ball.vx=-ball.vx*1.04;               // rebote + leve aceleración
+    var rel=((ball.y+BALL/2)-(py+PH/2))/(PH/2); // -1..1
+    var sp=Math.min(Math.abs(ball.vx)+Math.abs(ball.vy), SPEEDS[level]*2.2);
+    ball.vy=rel*sp*0.7;
+    // cap
+    var max=SPEEDS[level]*1.9;
+    if(ball.vx>max) ball.vx=max; if(ball.vx<-max) ball.vx=-max;
+  }
+
+  function drawNet(){
+    ctx.fillStyle='rgba(240,237,232,.28)';
+    for(var y=8;y<H;y+=28){ ctx.fillRect(W/2-2,y,4,16); }
+  }
+  function drawScore(){
+    ctx.fillStyle=WHITE;
+    ctx.font='bold 72px "JetBrains Mono", Consolas, monospace';
+    ctx.textAlign='center'; ctx.textBaseline='top';
+    ctx.fillText(String(s1), W*0.28, 26);
+    ctx.fillText(String(s2), W*0.72, 26);
+  }
+  function drawPaddles(){
+    ctx.fillStyle=WHITE;
+    ctx.fillRect(PADX, lp.y, PW, PH);
+    ctx.fillRect(W-PADX-PW, rp.y, PW, PH);
+  }
+  function drawBall(){ ctx.fillStyle=WHITE; ctx.fillRect(ball.x, ball.y, BALL, BALL); }
+  function center(txt,sub,y){
+    ctx.fillStyle=GOLD; ctx.textAlign='center';
+    ctx.font='bold 30px "JetBrains Mono",monospace'; ctx.fillText(txt, W/2, y||H/2-30);
+    if(sub){ ctx.fillStyle='rgba(240,237,232,.7)'; ctx.font='15px "JetBrains Mono",monospace'; ctx.fillText(sub, W/2, (y||H/2-30)+40); }
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    drawNet();
+    drawScore();
+    drawPaddles();
+    if(state==='idle'){
+      center('PONG','Presioná  S  para empezar');
+    } else if(state==='serving'){
+      drawBall();
+      ctx.fillStyle='rgba(240,237,232,.6)'; ctx.textAlign='center'; ctx.font='14px "JetBrains Mono",monospace';
+      ctx.fillText('Saca '+(serverIsP1()?'Jugador 1':'Jugador 2'), W/2, H-30);
+    } else if(state==='playing'){
+      drawBall();
+    } else if(state==='paused'){
+      drawBall();
+      center('PAUSA','Presioná  P  para continuar');
+    } else if(state==='over'){
+      center('GANA JUGADOR '+winner, 'Presioná  S  para jugar de nuevo');
+    }
+  }
+
+  function loop(){ step(); draw(); requestAnimationFrame(loop); }
+
+  // init
+  lp={y:H/2-PH/2,vy:0}; rp={y:H/2-PH/2}; ball={x:W/2,y:H/2,vx:0,vy:0};
+  updateHUD();
+  loop();
+})();
+</script>
+</body>
+</html>

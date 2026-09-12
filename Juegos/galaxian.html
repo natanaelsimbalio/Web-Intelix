@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- OWASP Security Headers -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+<title>Galaxian Clone</title>
+<style>
+  body{margin:0;background:#000;display:flex;flex-direction:column;align-items:center;color:#fff;font-family:monospace;}
+  canvas{background:#000;border:2px solid #444;image-rendering:pixelated;}
+  #ui{margin:8px;text-align:center;}
+  #msg{color:#ff0;font-size:20px;height:24px;}
+</style>
+</head>
+<body>
+<style>
+.intelix-back{position:fixed;top:14px;left:14px;z-index:2147483647;display:inline-flex;align-items:center;gap:7px;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1a1208;background:#C9963A;padding:9px 15px;border-radius:9px;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.45);transition:transform .18s,background .18s}
+.intelix-back:hover{background:#E8B455;transform:translateY(-1px)}
+</style>
+<a href="index.html" class="intelix-back">← Volver a Juegos</a>
+
+<div id="ui">
+  <div>PUNTAJE: <span id="score">0</span> &nbsp; VIDAS: <span id="lives">3</span></div>
+  <div id="msg"></div>
+  <div>Flechas: mover | Espacio: disparar | P: pausa</div>
+</div>
+<canvas id="game" width="480" height="600"></canvas>
+<script>
+const cv = document.getElementById('game');
+const ctx = cv.getContext('2d');
+const W = cv.width, H = cv.height;
+
+let score = 0, lives = 3, gameOver = false, paused = false;
+const scoreEl = document.getElementById('score');
+const livesEl = document.getElementById('lives');
+const msgEl = document.getElementById('msg');
+
+// Player
+const player = { x: W/2-16, y: H-50, w:32, h:20, speed:5, alive:true };
+let bullets = []; // player bullets
+let enemyBullets = [];
+let keys = {};
+
+// Enemies
+const ROWS = 5, COLS = 8;
+const enemyW = 28, enemyH = 20, gapX = 12, gapY = 16;
+const gridStartX = (W - (COLS*(enemyW+gapX)-gapX))/2;
+const gridStartY = 60;
+let enemies = [];
+let enemyDir = 1;
+let enemySpeed = 0.6;
+let diveTimer = 0;
+
+const colors = ['#ff3333','#ff9933','#ffff33','#33ff33','#3399ff'];
+
+function initEnemies(){
+  enemies = [];
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      enemies.push({
+        x: gridStartX + c*(enemyW+gapX),
+        y: gridStartY + r*(enemyH+gapY),
+        baseX: gridStartX + c*(enemyW+gapX),
+        baseY: gridStartY + r*(enemyH+gapY),
+        w: enemyW, h: enemyH,
+        alive: true,
+        color: colors[r % colors.length],
+        diving: false,
+        diveT: 0,
+        diveStartX:0, diveStartY:0
+      });
+    }
+  }
+}
+initEnemies();
+
+document.addEventListener('keydown', e=>{
+  keys[e.code]=true;
+  if(e.code==='KeyP') paused=!paused;
+  if(e.code==='Space') e.preventDefault();
+});
+document.addEventListener('keyup', e=>keys[e.code]=false);
+
+function shoot(){
+  if(bullets.length<3 && player.alive){
+    bullets.push({x:player.x+player.w/2-2, y:player.y, w:4, h:12, speed:8});
+  }
+}
+let shootCooldown=0;
+
+function rectsCollide(a,b){
+  return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y;
+}
+
+function resetAfterHit(){
+  lives--;
+  livesEl.textContent = lives;
+  if(lives<=0){
+    gameOver = true;
+    msgEl.textContent = 'GAME OVER - Presiona R para reiniciar';
+  } else {
+    player.x = W/2-16;
+    player.alive = true;
+    bullets = [];
+    enemyBullets = [];
+  }
+}
+
+function update(){
+  if(paused || gameOver) return;
+
+  // player movement
+  if(keys['ArrowLeft']) player.x -= player.speed;
+  if(keys['ArrowRight']) player.x += player.speed;
+  player.x = Math.max(0, Math.min(W-player.w, player.x));
+  if(keys['Space']){
+    if(shootCooldown<=0){ shoot(); shootCooldown=15; }
+  }
+  if(shootCooldown>0) shootCooldown--;
+
+  // bullets
+  bullets.forEach(b=>b.y-=b.speed);
+  bullets = bullets.filter(b=>b.y+b.h>0);
+
+  enemyBullets.forEach(b=>b.y+=b.speed);
+  enemyBullets = enemyBullets.filter(b=>b.y<H);
+
+  // enemy grid movement
+  let edge = false;
+  enemies.forEach(en=>{
+    if(en.alive && !en.diving){
+      en.baseX += enemySpeed*enemyDir;
+      if(en.baseX<=10 || en.baseX+en.w>=W-10) edge=true;
+    }
+  });
+  if(edge) enemyDir *= -1;
+
+  enemies.forEach(en=>{
+    if(en.alive && !en.diving){
+      en.x = en.baseX;
+      en.y = en.baseY;
+    }
+  });
+
+  // random dive
+  diveTimer--;
+  if(diveTimer<=0){
+    const aliveEnemies = enemies.filter(e=>e.alive && !e.diving);
+    if(aliveEnemies.length>0){
+      const diver = aliveEnemies[Math.floor(Math.random()*aliveEnemies.length)];
+      diver.diving = true;
+      diver.diveT = 0;
+      diver.diveStartX = diver.x;
+      diver.diveStartY = diver.y;
+    }
+    diveTimer = 90 + Math.random()*60;
+  }
+
+  // dive movement + enemy shooting
+  enemies.forEach(en=>{
+    if(en.alive && en.diving){
+      en.diveT += 1;
+      en.y = en.diveStartY + en.diveT*3;
+      en.x = en.diveStartX + Math.sin(en.diveT*0.05)*60;
+      if(Math.random()<0.02){
+        enemyBullets.push({x:en.x+en.w/2-2, y:en.y+en.h, w:4, h:10, speed:5});
+      }
+      if(en.y>H){
+        en.diving=false;
+        en.x = en.baseX;
+        en.y = en.baseY;
+      }
+    }
+  });
+
+  // collisions: bullets vs enemies
+  bullets.forEach(b=>{
+    enemies.forEach(en=>{
+      if(en.alive && rectsCollide(b,en)){
+        en.alive=false;
+        b.hit=true;
+        score += en.diving? 150:50;
+        scoreEl.textContent = score;
+      }
+    });
+  });
+  bullets = bullets.filter(b=>!b.hit);
+
+  // collisions: enemy bullets vs player
+  if(player.alive){
+    enemyBullets.forEach(b=>{
+      if(rectsCollide(b, player)){
+        b.hit=true;
+        player.alive=false;
+        resetAfterHit();
+      }
+    });
+    enemyBullets = enemyBullets.filter(b=>!b.hit);
+
+    // collisions: diving enemies vs player
+    enemies.forEach(en=>{
+      if(en.alive && en.diving && rectsCollide(en, player)){
+        en.alive=false;
+        player.alive=false;
+        resetAfterHit();
+      }
+    });
+  }
+
+  // win check
+  if(enemies.every(e=>!e.alive)){
+    msgEl.textContent = '¡GANASTE! Nueva oleada...';
+    setTimeout(()=>{
+      initEnemies();
+      enemySpeed += 0.15;
+      msgEl.textContent = '';
+    }, 1500);
+  }
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+
+  // stars background
+  ctx.fillStyle='#111';
+  for(let i=0;i<40;i++){
+    ctx.fillRect((i*37)%W, (i*53+((Date.now()/20)|0))%H, 2, 2);
+  }
+
+  // player
+  if(player.alive){
+    ctx.fillStyle = '#33ccff';
+    ctx.beginPath();
+    ctx.moveTo(player.x+player.w/2, player.y);
+    ctx.lineTo(player.x, player.y+player.h);
+    ctx.lineTo(player.x+player.w, player.y+player.h);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  // bullets
+  ctx.fillStyle='#fff';
+  bullets.forEach(b=>ctx.fillRect(b.x,b.y,b.w,b.h));
+  ctx.fillStyle='#f33';
+  enemyBullets.forEach(b=>ctx.fillRect(b.x,b.y,b.w,b.h));
+
+  // enemies
+  enemies.forEach(en=>{
+    if(en.alive){
+      ctx.fillStyle = en.color;
+      ctx.fillRect(en.x, en.y, en.w, en.h);
+      ctx.fillStyle = '#000';
+      ctx.fillRect(en.x+6, en.y+6, 4,4);
+      ctx.fillRect(en.x+en.w-10, en.y+6, 4,4);
+    }
+  });
+
+  if(paused && !gameOver){
+    ctx.fillStyle='#fff';
+    ctx.font='30px monospace';
+    ctx.fillText('PAUSA', W/2-50, H/2);
+  }
+}
+
+function loop(){
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+document.addEventListener('keydown', e=>{
+  if(e.code==='KeyR' && gameOver){
+    score=0; lives=3; gameOver=false;
+    scoreEl.textContent=score; livesEl.textContent=lives;
+    enemySpeed=0.6; enemyDir=1;
+    initEnemies();
+    player.x=W/2-16; player.alive=true;
+    bullets=[]; enemyBullets=[];
+    msgEl.textContent='';
+  }
+});
+
+loop();
+</script>
+</body>
+</html>

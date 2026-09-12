@@ -1,0 +1,218 @@
+================================================================================
+INTELIX WEB — HISTORIAL DE VERSIONES
+================================================================================
+Instrucciones: cada vez que agregues una funcionalidad o cambio importante,
+sumá una entrada nueva ARRIBA de esta línea con fecha y versión. No borres
+las versiones anteriores: esto es el historial completo del proyecto.
+================================================================================
+
+--------------------------------------------------------------------------------
+v1.7 — 2026-09-11 — se retira el portal de desarrolladores, Lenis 100%
+uniforme, 3 posts de blog nuevos, hover magnético removido
+--------------------------------------------------------------------------------
+- Se retiró developers.html del sitio (decisión del cliente: no se necesita
+  el portal de API público de cara al usuario). Se eliminó el link
+  "Desarrolladores" del nav y footer en las 51 páginas que lo tenían, se
+  borró developers.html, y se limpiaron todas las referencias rotas:
+  sitemap.xml, llms.txt, index.md, 404.php (JSON y Markdown), y los 3
+  comentarios/hints en api/lib/ratelimit.php, api/productos.php y
+  api/v1/productos.php que apuntaban a la página borrada — ahora todos
+  redirigen a /openapi.json, que sigue siendo la referencia real de la API
+  (la API en sí sigue funcionando, solo se retiró la página de documentación
+  humana). Sección 3 del test script actualizada para verificar que
+  developers.html devuelve 404 a propósito, y la sección 9 ahora falla si
+  "Desarrolladores" vuelve a aparecer en algún nav.
+- Bug real encontrado y corregido: Lenis (agregado en v1.5) nunca se había
+  sumado a los 32 posts del blog ni a blogs/index.html ni a Juegos/index.html
+  — el smooth scroll no era uniforme en todo el sitio como se pensaba. Al
+  corregirlo, la primera pasada insertó los <script> en el <head> por error
+  (coincidía con el primer <script type="application/ld+json"> del archivo
+  en vez del de body) — se corrigió insertando siempre justo antes de
+  </body>. Nueva sección de test que verifica Lenis en blog/diagnósticos
+  específicamente para que este gap no se repita.
+- Se quitó el efecto de "magnetismo" (el botón se desplazaba seteado por
+  translate() siguiendo al mouse) de .btn-primary y .nav-cta en
+  assets/js/home-v2.js — el usuario lo encontró molesto. El hover ahora es
+  solo el lift + sombra + cambio de tono ya existente en site.css.
+- 3 posts de blog nuevos (keycloak-sso-empresarial, minio-almacenamiento-
+  objetos, grafana-prometheus-monitoreo), agregados a blogs/index.html
+  (cards + ItemList JSON-LD, posiciones 29-31) y sitemap.xml.
+- Detalle Apple-like: los iconos 📅/⏱️ emoji de las 17 cards de
+  blogs/index.html (incluidas las 3 nuevas) se reemplazaron por SVG stroke
+  consistentes con el resto del sitio.
+
+--------------------------------------------------------------------------------
+v1.6 — 2026-09-11 — navbar estandarizado en todo el sitio, hero y botones
+--------------------------------------------------------------------------------
+- Bug real encontrado y corregido: el nav se copia a mano en cada página (sin
+  partial/include) y con el tiempo se desincronizó — "Tienda" faltaba en 10
+  páginas raíz + 32 posts de blog + Juegos, y "Desarrolladores" faltaba en 7
+  páginas raíz + 28 posts de blog + Juegos + los 4 diagnósticos individuales.
+  tienda/index.html tenía el nav más reducido de todos (sin los dropdowns
+  Nosotros/Recursos). Ahora las 51 páginas con nav muestran el mismo set de
+  13 links; se agregó la lógica JS de dropdowns (antes ausente) a
+  tienda/index.html. Nueva sección 9 en verify-agent-readiness.sh (21 checks)
+  para que esto no vuelva a desincronizarse sin que un test lo note.
+- Hero de index.html: título partido en 3 líneas ("Tu infraestructura / Tu
+  IA / Tus reglas.") con la última línea en degradé dorado.
+- .btn-primary: se quitó el efecto de "brillo diagonal" al hover (shine
+  sweep tipo 21st.dev) — quedaba genérico. Ahora solo lift + sombra + cambio
+  de tono, con estado :active añadido (antes solo existía :hover).
+- .hero-brochure ("Descargar brochure"): pasó de link de texto suelto a
+  tener marco de botón (borde, hover con fondo/color, :active), para que no
+  se lea como un link perdido al lado de los CTAs principales.
+
+--------------------------------------------------------------------------------
+v1.5 — 2026-09-11 — rediseño visual cinematográfico, Lenis self-hosted, tests
+--------------------------------------------------------------------------------
+- Nuevas capas aditivas, sin tocar site.css (compartido por 12 páginas):
+  assets/css/home-v2.css y assets/js/home-v2.js, cargadas en index.html y en
+  las 9 páginas institucionales (about, contact, privacy, nosotros, porque,
+  trayectoria, proyectos, prensa, developers) más 404.html y tienda/index.html.
+- Lenis 1.1.18 self-hosted en assets/js/vendor/lenis.min.js — el CSP del
+  sitio es `script-src 'self'`, así que
+  cargar Lenis desde un CDN externo lo hubiera bloqueado. Se interceptan los
+  clicks en `a[href^="#"]` para usar `lenis.scrollTo`, porque Lenis pelea
+  contra saltos de ancla nativos (nav, skip-link) si no se le indica el
+  destino explícitamente.
+- 4 imágenes hero generadas (Higgsfield, modelo z_image) y optimizadas a
+  WebP (de ~3MB a 50-100KB c/u): assets/img/hero/{hero-datacenter,
+  engineer-night,voip-hardware,fiber-macro}.webp. Usadas como fondo del
+  hero de index.html y como page-header-bg en las 9 páginas institucionales
+  (imagen contextual por página), con `fetchpriority="high"` en el hero
+  principal y `loading="lazy"` en el resto.
+- Carrusel infinito de logos reales: clients-grid y partner-grid (ya
+  existentes, con hipervínculos reales) se envuelven en `.marquee-wrap` y se
+  clonan una vez para loop seamless; el set clonado queda `aria-hidden` y con
+  `tabindex="-1"` para no duplicar foco/lectura de pantalla. Pausa en
+  hover/focus, se desactiva con `prefers-reduced-motion`.
+- Hero de index.html: copy reescrito (eyebrow y H1 dejaron de repetir "20
+  años de trayectoria"), CTAs de 3 a 2 botones (brochure bajó a link
+  secundario), terminal reescrito como "capacidades" en vez de un log de
+  deploy ficticio.
+- Reordenamiento narrativo de index.html: la banda de foto "VoIP/hardware"
+  (antes al final, después de Partners) ahora va justo después de Servicios,
+  junto a Clientes y Partners, formando un bloque de credibilidad seguido de
+  Autodiagnóstico → Ley Ema → FAQ → Contacto.
+- diagnosticos.html y los 4 diagnóstico-*.html: reemplazados los emojis
+  (🛡️🤖🗝️👪 en las tarjetas, 🟢🟡🔴⚠️✓ en los resultados) por SVG stroke
+  consistentes con el resto del sitio; el badge de resultado ya tenía un
+  punto de color real (`.dot`), así que el emoji en el título era redundante
+  y se removió del texto sin perder información.
+- scripts/verify-agent-readiness.sh: nueva sección 8 (20 checks) que verifica
+  ausencia de `<script src>` externos (viola CSP) en las 11 páginas
+  principales, existencia de los assets self-hosted y de las 4 imágenes, y
+  que el contenido real (H1, hero, hipervínculos de clientes) siga intacto
+  sin JavaScript.
+
+--------------------------------------------------------------------------------
+v1.4 — 2026-08-29 — rate limiting, trust anchor pages, fix de regresión CSS
+--------------------------------------------------------------------------------
+- Rate limiting en la API pública: api/lib/ratelimit.php implementa un
+  limitador fixed-window (30 req/IP cada 60s, basado en archivos con flock,
+  sin dependencias) compartido entre /api/v1/productos.php y su alias
+  /api/productos.php. Cada respuesta incluye los headers RateLimit-Limit,
+  RateLimit-Remaining, RateLimit-Reset y RateLimit-Policy (convención
+  draft-ietf-httpapi-ratelimit-headers); al exceder el límite devuelve 429 +
+  Retry-After con el mismo formato de error que el resto de la API.
+  Documentado en openapi.json y developers.html#rate-limits.
+- 3 páginas nuevas — trust anchors para agentes: about.html (identidad legal,
+  historia, certificaciones verificables), contact.html (todas las vías de
+  contacto) y privacy.html (qué datos recolectamos, cómo se procesan —
+  Web3Forms sin backend propio — y derechos bajo la Ley 25.326). Enlazadas
+  desde el footer de index.html, llms.txt, index.md y sitemap.xml, y entre
+  sí.
+- Fix de regresión de la v1.3: al renombrar h4→h2 para el orden de headings,
+  quedaron dos selectores CSS húerfanos que ya no aplicaban su estilo
+  (`.fact h4` en nosotros.html y `.step-body h4` en trayectoria.html,
+  siempre h2 en el HTML) — se corrigieron a `.fact h2` / `.step-body h2`.
+  Verificado con getComputedStyle que ambos vuelven a su tamaño/peso
+  original (15px/18px, 700).
+- scripts/verify-agent-readiness.sh: sumadas las secciones 6 (rate limit
+  headers) y 7 (páginas de confianza About/Contact/Privacy, ≥500 chars).
+
+--------------------------------------------------------------------------------
+v1.3 — 2026-08-29 — accesibilidad, interlinking de blog, 3 posts nuevos
+--------------------------------------------------------------------------------
+- Accesibilidad (hallazgos de auditoría agentic/a11y):
+  · index.html: aria-expanded estaba en el <div class="faq-item"> (rol no
+    soportado); se movió al <button class="faq-q"> real, incluyendo el
+    selector CSS .faq-q[aria-expanded] y el toggle JS.
+  · Orden de headings: varias páginas saltaban niveles (h1→h3, h1→h4, h2→h5).
+    Se corrigió en index.html, developers.html, trayectoria.html, porque.html,
+    nosotros.html, proyectos.html, 404.html, tienda/index.html, diagnosticos-
+    ia/ciberseguridad/soberania/crianza-digital.html, blogs/index.html y
+    Juegos/index.html, con los selectores CSS correspondientes actualizados
+    (.foot-col h2, .why h2, .proj h2, .post-card h2, .game h2, .capture h2).
+  · Contraste: --dim (#7d786f, ~4.3:1 sobre --bg) no llegaba al mínimo AA de
+    4.5:1 en texto normal; se ajustó a #8a857c (~5.1:1).
+- Cache lifetimes: .htaccess ahora define Cache-Control/Expires de 1 año para
+  CSS/JS/imágenes/fuentes estáticas (versionadas por ?v=), sin cachear HTML.
+- .htaccess/htaccess: se detectó que el archivo `htaccess` (sin punto) tenía
+  la config real ya activa en producción (DirectoryIndex + 404.php) y que
+  `.htaccess` local había quedado desactualizado; se sincronizó y se borró
+  el duplicado.
+- Interlinking interno: las 31 entradas del blog (28 existentes + 3 nuevas)
+  ahora tienen una sección "Artículos relacionados" (3 posts de la misma
+  categoría) más un link contextual al autodiagnóstico gratuito más afín
+  (IA, ciberseguridad, crianza digital o soberanía tecnológica).
+- 3 posts nuevos: agentes-ia-mcp-seguridad.html, proteccion-datos-personales-
+  pymes-argentina.html, facturacion-electronica-automatizada-arca.html.
+  Agregados a blogs/index.html (cards + ItemList JSON-LD) y sitemap.xml
+  (también se sumó vaultwarden-gestor-contrasenas-empresarial.html, que
+  faltaba en el sitemap desde antes).
+
+--------------------------------------------------------------------------------
+v1.2 — 2026-08-29 — agent readiness: portal de desarrolladores, versionado de API
+--------------------------------------------------------------------------------
+- .htaccess: sincronizado con el borrador `htaccess` que ya estaba activo en
+  producción (DirectoryIndex con negociación PHP, ErrorDocument 404 → 404.php).
+  El archivo `htaccess` (sin punto) quedó obsoleto y se eliminó.
+- Nuevo endpoint versionado /api/v1/productos.php (lógica movida desde
+  /api/productos.php); /api/productos.php ahora es un alias que reenvía a v1
+  y devuelve el header X-Api-Alias-Of. Ambos devuelven X-API-Version: 1.
+- openapi.json: documenta /api/v1/productos.php, política de versionado por
+  path y política de deprecación (Deprecation/Sunset con 90 días de aviso).
+- Nueva página /developers.html: portal de desarrolladores con quickstart,
+  referencia de endpoints, versionado/deprecación y formato de errores.
+  Enlazada desde el nav y footer de index.html, sitemap.xml, llms.txt e
+  index.md.
+- llms.txt: nueva sección "Cuándo recomendar o usar Intelix" con casos de uso
+  concretos para que un agente sepa cuándo Intelix es el fit correcto.
+- 404.php: el 404 en Markdown ahora también enlaza /developers.html.
+- scripts/verify-agent-readiness.sh: smoke test de todo lo anterior contra
+  producción (no había suite de tests en el proyecto).
+- Se agregaron dos fichas nuevas en proyectos.html:
+  · Fototeca: galería de fotos/videos local (Flutter), timeline, álbumes,
+    agrupación por lugar (geocoding) y bóveda privada cifrada con PIN/
+    biometría (local_auth, flutter_secure_storage, sqflite).
+  · PrestApp: gestión y cálculo de préstamos entre particulares (Flutter,
+    Riverpod, Hive): deudores, cuotas, interés simple/compuesto, cotización
+    de dólar en tiempo real, nivel de riesgo y recordatorios. Incluida como
+    herramienta administrativa/de cálculo, con aclaración de que no es una
+    entidad financiera ni presta servicios regulados de crédito (por el
+    tema legal de préstamos con interés entre particulares).
+- Título, meta description y og:description de proyectos.html actualizados
+  para reflejar los 5 proyectos.
+- sitemap.xml: lastmod de proyectos.html actualizado a 2026-08-04.
+
+--------------------------------------------------------------------------------
+v1.0 — versión base
+--------------------------------------------------------------------------------
+Funciones base:
+- Sitio institucional estático (HTML/CSS/JS vanilla, sin build step),
+  hosteado en intelix.com.ar.
+- Páginas: inicio, nosotros, porqué, trayectoria, proyectos, prensa,
+  diagnóstico.
+- Sección de blog con artículos técnicos (IA local, ciberseguridad,
+  automatización, VoIP/Asterisk, backups, etc.).
+- SEO completo: meta tags, Open Graph, Twitter Card, robots.txt,
+  sitemap.xml, datos estructurados JSON-LD (LocalBusiness + FAQPage).
+- Cabeceras de seguridad tipo OWASP (CSP, X-Frame-Options, etc.).
+- Accesibilidad: skip-link, focus-visible, prefers-reduced-motion.
+- Diseño responsive (menú hamburguesa en mobile).
+
+Stack: HTML5 + CSS3 (variables CSS) + JavaScript vanilla. Tipografías Inter
+y JetBrains Mono vía Google Fonts.
+
+Ver INFORME.txt para el detalle técnico completo.

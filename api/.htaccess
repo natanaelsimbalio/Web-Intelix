@@ -1,0 +1,6 @@
+# Bloquea acceso web directo a archivos internos del backend de la tienda.
+# El código PHP puede seguir haciendo require/include de estos archivos
+# normalmente; esto solo impide que alguien los pida por URL.
+<FilesMatch "^(config\.php)$">
+  Require all denied
+</FilesMatch>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- OWASP Security Headers -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+  <title>Space Invaders</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+    }
+    canvas {
+      border: 2px solid #33ff33;
+      background: #000;
+    }
+    #overlay {
+      position: absolute;
+      color: #33ff33;
+      font-size: 18px;
+      text-align: center;
+      pointer-events: none;
+      text-shadow: 0 0 10px #33ff33;
+    }
+    #overlay h1 { font-size: 48px; margin-bottom: 20px; letter-spacing: 4px; }
+    #overlay p { margin: 8px 0; color: #aaFFaa; }
+    #overlay .blink { animation: blink 1s infinite; margin-top: 30px; font-size: 22px; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+  </style>
+</head>
+<body>
+<style>
+.intelix-back{position:fixed;top:14px;left:14px;z-index:2147483647;display:inline-flex;align-items:center;gap:7px;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1a1208;background:#C9963A;padding:9px 15px;border-radius:9px;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.45);transition:transform .18s,background .18s}
+.intelix-back:hover{background:#E8B455;transform:translateY(-1px)}
+</style>
+<a href="index.html" class="intelix-back">← Volver a Juegos</a>
+
+  <canvas id="game"></canvas>
+  <div id="overlay">
+    <h1>SPACE INVADERS</h1>
+    <p>← → mover &nbsp;|&nbsp; ESPACIO disparar &nbsp;|&nbsp; S pausar</p>
+    <p class="blink">Presiona ESPACIO para comenzar</p>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+    const overlay = document.getElementById('overlay');
+
+    // Dimensiones
+    const W = 800, H = 600;
+    canvas.width = W;
+    canvas.height = H;
+
+    // Estado del juego
+    let state = 'idle'; // idle, playing, paused, gameover, win
+    let score = 0;
+    let lives = 3;
+    let level = 1;
+    let frameCount = 0;
+
+    // Jugador
+    const player = {
+      x: W / 2 - 20, y: H - 60, w: 40, h: 20, speed: 5, color: '#33ff33'
+    };
+
+    // Disparos
+    let bullets = [];
+    let enemyBullets = [];
+    const bulletSpeed = 8;
+    let lastShot = 0;
+    const shootCooldown = 250; // ms entre disparos
+
+    // Enemigos
+    let enemies = [];
+    const enemyCols = 10;
+    const enemyRows = 5;
+    const enemyW = 36;
+    const enemyH = 24;
+    const enemyGap = 8;
+    const enemyStartX = (W - (enemyCols * (enemyW + enemyGap))) / 2;
+    let enemyDir = 1; // 1 = derecha, -1 = izquierda
+    let enemySpeed = 0.6;
+
+    // Partículas de explosión
+    let particles = [];
+
+    // Input
+    const keys = {};
+    document.addEventListener('keydown', (e) => {
+      keys[e.key] = true;
+
+      if (state === 'idle' || state === 'gameover' || state === 'win') {
+        if (e.key === ' ') {
+          e.preventDefault();
+          startGame();
+          return;
+        }
+      }
+
+      if (e.key === 's' || e.key === 'S') {
+        if (state === 'playing') { state = 'paused'; }
+        else if (state === 'paused') { state = 'playing'; frameCount = 0; }
+        return;
+      }
+
+      if (e.key === ' ') e.preventDefault(); // disparo manejado en game loop
+    });
+    document.addEventListener('keyup', (e) => { keys[e.key] = false; });
+
+    function startGame() {
+      state = 'playing';
+      overlay.style.display = 'none';
+      score = 0; lives = 3; level = 1;
+      player.x = W / 2 - 20;
+      bullets = []; enemyBullets = []; particles = [];
+      createEnemies();
+      enemySpeed = 0.6;
+    }
+
+    function createEnemies() {
+      enemies = [];
+      const totalW = enemyCols * (enemyW + enemyGap) - enemyGap;
+      const startX = (W - totalW) / 2;
+      for (let r = 0; r < enemyRows; r++) {
+        for (let c = 0; c < enemyCols; c++) {
+          enemies.push({
+            x: startX + c * (enemyW + enemyGap),
+            y: 60 + r * (enemyH + enemyGap),
+            w: enemyW, h: enemyH,
+            alive: true,
+            type: r < 1 ? 2 : r < 3 ? 1 : 0 // tipos visuales
+          });
+        }
+      }
+    }
+
+    function createExplosion(x, y, color) {
+      for (let i = 0; i < 12; i++) {
+        particles.push({
+          x, y,
+          vx: (Math.random() - 0.5) * 6,
+          vy: (Math.random() - 0.5) * 6,
+          life: 30 + Math.random() * 20,
+          color,
+          size: 1 + Math.random() * 3
+        });
+      }
+    }
+
+    function drawPlayer() {
+      const p = player;
+      ctx.fillStyle = p.color;
+      // Base de la nave
+      ctx.fillRect(p.x, p.y + p.h - 6, p.w, 6);
+      // Torre
+      ctx.fillRect(p.x + p.w / 2 - 5, p.y, 10, p.h - 6);
+      // Puntero
+      ctx.fillStyle = '#88ff88';
+      ctx.fillRect(p.x + p.w / 2 - 1, p.y - 4, 3, 5);
+    }
+
+    function drawEnemy(e) {
+      const colors = ['#ff6666', '#ffff66', '#66ff66'];
+      ctx.fillStyle = colors[e.type];
+      
+      // Dibujo simple de alien según tipo
+      const x = e.x, y = e.y, w = e.w, h = e.h;
+      if (e.type === 2) {
+        // Tipo calamar: más grande con tentáculos
+        ctx.fillRect(x + 4, y, w - 8, h);
+        ctx.fillRect(x, y + 6, w, h - 12);
+        ctx.fillRect(x + 4, y + h - 8, 6, 8);
+        ctx.fillRect(x + w - 10, y + h - 8, 6, 8);
+      } else if (e.type === 1) {
+        // Tipo cangrejo
+        ctx.fillRect(x + 2, y + 4, w - 4, h - 4);
+        ctx.fillRect(x, y, w, h - 14);
+        ctx.fillRect(x + 4, y + h - 6, 6, 6);
+        ctx.fillRect(x + w - 10, y + h - 6, 6, 6);
+      } else {
+        // Tipo clásico cuadrado
+        ctx.fillRect(x + 2, y, w - 4, h);
+        ctx.fillRect(x, y + 4, w, h - 8);
+        // Ojos
+        ctx.fillStyle = '#000';
+        ctx.fillRect(x + 8, y + 6, 6, 6);
+        ctx.fillRect(x + w - 14, y + 6, 6, 6);
+      }
+      // Ojos de todos los tipos
+      ctx.fillStyle = '#000';
+      const eyeSize = e.type === 2 ? 4 : 3;
+      ctx.fillRect(x + w/2 - eyeSize - 1, y + Math.floor(h/3), eyeSize, eyeSize);
+      ctx.fillRect(x + w/2 + 1, y + Math.floor(h/3), eyeSize, eyeSize);
+    }
+
+    function drawParticles() {
+      particles.forEach(p => {
+        ctx.globalAlpha = p.life / 50;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+      });
+      ctx.globalAlpha = 1;
+    }
+
+    function drawHUD() {
+      ctx.fillStyle = '#33ff33';
+      ctx.font = '16px Courier New';
+      ctx.fillText(`SCORE: ${score}`, 20, 30);
+      ctx.fillText(`LIVES:`, W - 250, 30);
+      for (let i = 0; i < lives; i++) {
+        const lx = W - 160 + i * 45;
+        ctx.fillRect(lx, 18, 20, 3);
+        ctx.fillRect(lx + 7, 12, 6, 6);
+      }
+      ctx.fillText(`LEVEL: ${level}`, W / 2 - 40, 30);
+
+      // Línea verde en el suelo
+      ctx.strokeStyle = '#33ff3355';
+      ctx.setLineDash([8, 4]);
+      ctx.beginPath();
+      ctx.moveTo(0, H - 10);
+      ctx.lineTo(W, H - 10);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      if (state === 'paused') {
+        ctx.fillStyle = '#33ff33';
+        ctx.font = 'bold 36px Courier New';
+        ctx.textAlign = 'center';
+        ctx.fillText('PAUSA — S para continuar', W / 2, H / 2);
+        ctx.textAlign = 'left';
+      }
+    }
+
+    function drawStars() {
+      // Estrellas de fondo generadas una vez visualmente
+      for (let i = 0; i < 60; i++) {
+        const sx = (i * 137.5) % W;
+        const sy = (i * 97.3 + frameCount * 0.02) % H;
+        ctx.fillStyle = `rgba(255,255,255,${0.2 + Math.sin(frameCount * 0.01 + i) * 0.15})`;
+        ctx.fillRect(sx, sy, 1, 1);
+      }
+    }
+
+    function update() {
+      frameCount++;
+
+      if (state !== 'playing') return;
+
+      // Mover jugador
+      if (keys['ArrowLeft']) player.x = Math.max(0, player.x - player.speed);
+      if (keys['ArrowRight']) player.x = Math.min(W - player.w, player.x + player.speed);
+
+      // Disparar
+      const now = Date.now();
+      if (keys[' '] && now - lastShot > shootCooldown) {
+        bullets.push({ x: player.x + player.w / 2 - 1.5, y: player.y - 8, w: 3, h: 10 });
+        lastShot = now;
+      }
+
+      // Actualizar balas jugador
+      bullets.forEach(b => b.y -= bulletSpeed);
+      bullets = bullets.filter(b => b.y > -20);
+
+      // Actualizar balas enemigas
+      enemyBullets.forEach(b => { b.x += b.vx; b.y += b.vy; });
+      enemyBullets = enemyBullets.filter(b => b.y < H + 10 && b.x > -10 && b.x < W + 10);
+
+      // Disparo enemigo aleatorio
+      if (frameCount % Math.max(20, 60 - level * 5) === 0) {
+        const alive = enemies.filter(e => e.alive);
+        if (alive.length > 0) {
+          const shooter = alive[Math.floor(Math.random() * alive.length)];
+          enemyBullets.push({
+            x: shooter.x + shooter.w / 2, y: shooter.y + shooter.h,
+            vx: 0, vy: 3 + level * 0.3
+          });
+        }
+      }
+
+      // Mover enemigos
+      let hitEdge = false;
+      const alive = enemies.filter(e => e.alive);
+      if (alive.length === 0) {
+        // Level completado
+        level++;
+        enemySpeed += 0.15;
+        createEnemies();
+        return;
+      }
+
+      alive.forEach(e => {
+        const newX = e.x + enemySpeed * enemyDir;
+        if (newX <= 5 || newX + e.w >= W - 5) hitEdge = true;
+      });
+
+      if (hitEdge) {
+        enemyDir *= -1;
+        alive.forEach(e => e.y += 8);
+      } else {
+        alive.forEach(e => e.x += enemySpeed * enemyDir);
+      }
+
+      // Enemigos llegan abajo → game over
+      const lowest = Math.max(...alive.map(e => e.y));
+      if (lowest >= player.y - 5) {
+    state = 'gameover';
+    overlay.innerHTML = `<h1>GAME OVER</h1><p>Puntaje: ${score}</p><p class="blink">Presiona ESPACIO para reiniciar</p>`;
+    overlay.style.display = 'block';
+    return;
+  }
+
+      // Colisión bala → enemigo
+      bullets.forEach(b => {
+        alive.forEach(e => {
+          if (e.alive && b.x < e.x + e.w && b.x + b.w > e.x && b.y < e.y + e.h && b.y + b.h > e.y) {
+            e.alive = false;
+            b.y = -999;
+            score += (e.type + 1) * 10;
+            createExplosion(e.x + e.w / 2, e.y + e.h / 2, ['#ff6666', '#ffff66', '#66ff66'][e.type]);
+          }
+        });
+      });
+
+      // Colisión bala enemiga → jugador
+      enemyBullets.forEach(b => {
+        if (b.x < player.x + player.w && b.x + 4 > player.x && b.y < player.y + player.h && b.y + 8 > player.y) {
+          b.y = H + 100; // eliminar
+          lives--;
+          createExplosion(player.x + player.w / 2, player.y + player.h / 2, '#33ff33');
+          if (lives <= 0) {
+            state = 'gameover';
+            overlay.innerHTML = `<h1>GAME OVER</h1><p>Puntaje: ${score}</p><p class="blink">Presiona ESPACIO para reiniciar</p>`;
+            overlay.style.display = 'block';
+          }
+        }
+      });
+
+      // Actualizar partículas
+      particles.forEach(p => { p.x += p.vx; p.y += p.vy; p.life--; });
+      particles = particles.filter(p => p.life > 0);
+    }
+
+    function draw() {
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, W, H);
+
+      drawStars();
+
+      if (state === 'playing' || state === 'paused') {
+        enemies.forEach(e => e.alive && drawEnemy(e));
+        drawPlayer();
+
+        // Balas jugador
+        ctx.fillStyle = '#33ff33';
+        bullets.forEach(b => ctx.fillRect(b.x, b.y, b.w, b.h));
+
+        // Balas enemigas
+        enemyBullets.forEach(b => {
+          ctx.fillStyle = '#ff4444';
+          ctx.fillRect(b.x - 1.5, b.y, 3, 8);
+        });
+
+        drawParticles();
+        drawHUD();
+      } else if (state === 'gameover' || state === 'idle' || state === 'win') {
+        // Solo fondo con estrellas
+        drawStars();
+        drawHUD();
+      }
+    }
+
+    function gameLoop() {
+      update();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop();
+  </script>
+</body>
+</html>

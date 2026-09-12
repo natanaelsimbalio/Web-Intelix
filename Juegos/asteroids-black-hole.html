@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- OWASP Security Headers -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+    <title>Asteroids - Black Hole Edition</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #1a1a2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            color: #eee;
+            overflow: hidden;
+        }
+        .game-container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        canvas {
+            border: 3px solid #e94560;
+            background: #0a0a1a;
+            display: block;
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 200px;
+        }
+        .panel {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            padding: 15px;
+            text-align: center;
+        }
+        .panel h3 {
+            color: #e94560;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        .panel p {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        #start-btn {
+            background: #e94560;
+            border: none;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        #start-btn:hover { background: #c73e54; }
+        .controls {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            padding: 15px;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+        .controls kbd {
+            background: #0f3460;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #e94560;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<style>
+.intelix-back{position:fixed;top:14px;left:14px;z-index:2147483647;display:inline-flex;align-items:center;gap:7px;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1a1208;background:#C9963A;padding:9px 15px;border-radius:9px;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.45);transition:transform .18s,background .18s}
+.intelix-back:hover{background:#E8B455;transform:translateY(-1px)}
+</style>
+<a href="index.html" class="intelix-back">← Volver a Juegos</a>
+
+<div class="game-container">
+    <canvas id="board" width="700" height="560"></canvas>
+
+    <div class="sidebar">
+        <button id="start-btn" onclick="startGame()">Jugar</button>
+
+        <div class="panel">
+            <h3>Puntuación</h3>
+            <p id="score">0</p>
+        </div>
+        <div class="panel">
+            <h3>Vidas</h3>
+            <p id="lives">❤️ ❤️ ❤️</p>
+        </div>
+        <div class="panel">
+            <h3>Oleada</h3>
+            <p id="wave">1</p>
+        </div>
+
+        <div class="panel" style="border-color: #8b5cf6;">
+            <h3>Agujero Negro</h3>
+            <p id="bh-status" style="font-size: 14px; color: #aaa;">🌀 Centro</p>
+            <p id="bh-force" style="font-size: 12px; color: #8b5cf6; margin-top: 5px;">—</p>
+        </div>
+
+        <div class="controls">
+            <kbd>↑</kbd> Acelerar<br>
+            <kbd>←</kbd><kbd>→</kbd> Girar<br>
+            <kbd>Espacio</kbd> Disparar<br>
+            <kbd>P</kbd> Pausa
+        </div>
+    </div>
+</div>
+
+<script>
+// ============ CONFIGURACIÓN ============
+const canvas = document.getElementById('board');
+const ctx = canvas.getContext('2d');
+const W = canvas.width;
+const H = canvas.height;
+const CENTER_X = W / 2;
+const CENTER_Y = H / 2;
+
+// Gravedad del agujero negro
+const BH_GRAVITY = 0.15;          // Fuerza base de atracción
+const BH_EVENT_HORIZON = 35;      // Radio del horizonte de eventos
+const BH_ACRETION_RADIUS = 80;    // Radio del disco de acreción visible
+const BH_PULL_RANGE = 250;        // Distancia máxima donde se siente la atracción
+const BH_SPIT_OUT = 1.3;          // Factor de "escupido" si pasa muy cerca
+
+// ============ ESTADO DEL JUEGO ============
+let ship, bullets, asteroids, particles;
+let score = 0;
+let lives = 3;
+let wave = 1;
+let gameOver = false;
+let paused = false;
+let keys = {};
+let animationId = null;
+let invincibleTimer = 0;
+let comboCount = 0;
+let comboTimer = 0;
+
+// Efectos visuales del agujero negro
+let bhRotationAngle = 0;
+let bhPulsePhase = 0;
+let gravityWarpLines = [];
+
+// ============ ESTRELLAS DE FONDO ============
+function createStars() {
+    stars = [];
+    for (let i = 0; i < 150; i++) {
+        stars.push({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            size: Math.random() * 1.5 + 0.3,
+            twinkleSpeed: Math.random() * 0.02 + 0.005,
+            brightness: Math.random(),
+            // Algunas estrellas son más azules o rojas
+            colorShift: Math.random() > 0.7 ? (Math.random() - 0.5) * 40 : 0
+        });
+    }
+}
+
+function drawStars(time) {
+    stars.forEach(s => {
+        s.brightness += s.twinkleSpeed;
+        const alpha = 0.3 + Math.sin(s.brightness) * 0.3 + 0.2;
+        let color = `rgba(255, 255, 255, ${alpha})`;
+
+        // Si está cerca del agujero negro, distorsionar color (redshift/blueshift)
+        const dToBH = dist(s.x, s.y, CENTER_X, CENTER_Y);
+        if (dToBH < BH_PULL_RANGE) {
+            const shift = (1 - dToBH / BH_PULL_RANGE) * 30;
+            color = `rgba(255, ${200 + shift}, ${180 + shift}, ${alpha})`;
+        }
+
+        ctx.fillStyle = color;
+        ctx.fillRect(s.x, s.y, s.size, s.size);
+    });
+}
+
+// ============ AGUJERO NEGRO (VISUAL) ============
+function drawBlackHole(time) {
+    const pulse = Math.sin(bhPulsePhase) * 0.15 + 1;
+
+    // === Disco de acreción exterior (materia orbitando) ===
+    bhRotationAngle += 0.02;
+    
+    ctx.save();
+    ctx.translate(CENTER_X, CENTER_Y);
+    ctx.rotate(bhRotationAngle * 0.3);
+
+    // Anillo exterior difuso
+    const outerGlow = ctx.createRadialGradient(0, 0, BH_EVENT_HORIZON, 0, 0, BH_ACRETION_RADIUS * pulse);
+    outerGlow.addColorStop(0, 'rgba(139, 92, 246, 0.6)');
+    outerGlow.addColorStop(0.3, 'rgba(59, 130, 246, 0.3)');
+    outerGlow.addColorStop(0.7, 'rgba(233, 69, 96, 0.1)');
+    outerGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+    ctx.fillStyle = outerGlow;
+    ctx.beginPath();
+    ctx.arc(0, 0, BH_ACRETION_RADIUS * pulse, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Anillos de materia orbitando (partículas del disco)
+    for (let i = 0; i < 30; i++) {
+        const angle = (i / 30) * Math.PI * 2 + bhRotationAngle;
+        const radius = BH_ACRETION_RADIUS * (0.5 + Math.random() * 0.4);
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+        
+        // Velocidad angular variable según distancia (más rápido cerca del centro)
+        const speed = 2 / (radius / BH_EVENT_HORIZON + 1);
+        const particleAngle = angle + time * speed * 0.01;
+
+        const px = Math.cos(particleAngle) * radius;
+        const py = Math.sin(particleAngle) * radius;
+
+        // Color variable: de azul a rojo según distancia
+        const distRatio = (radius - BH_EVENT_HORIZON) / (BH_ACRETION_RADIUS - BH_EVENT_HORIZON);
+        const r = Math.floor(139 + distRatio * 94);
+        const g = Math.floor(92 + distRatio * 0);
+        const b = Math.floor(246 - distRatio * 80);
+
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${0.5 + Math.random() * 0.3})`;
+        ctx.beginPath();
+        ctx.arc(px, py, 1.5 + Math.random() * 2, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    // Líneas de distorsión gravitacional (ondas concéntricas)
+    for (let i = 0; i < 4; i++) {
+        const waveRadius = BH_EVENT_HORIZON + ((time * 0.05 + i * 30) % BH_ACRETION_RADIUS);
+        if (waveRadius > BH_EVENT_HORIZON && waveRadius < BH_ACRETION_RADIUS) {
+            ctx.strokeStyle = `rgba(139, 92, 246, ${0.15 * (1 - waveRadius / BH_ACRETION_RADIUS)})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(0, 0, waveRadius, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+    }
+
+    ctx.restore();
+
+    // === Horizonte de eventos (el "agujero" negro) ===
+    
+    // Halo interior brillante
+    const innerHalo = ctx.createRadialGradient(0, 0, BH_EVENT_HORIZON * 0.5, 0, 0, BH_EVENT_HORIZON);
+    innerHalo.addColorStop(0, 'rgba(233, 69, 96, 0.1)');
+    innerHalo.addColorStop(0.7, 'rgba(139, 92, 246, 0.4)');
+    innerHalo.addColorStop(0.95, 'rgba(0, 0, 0, 0.9)');
+    innerHalo.addColorStop(1, 'rgba(0, 0, 0, 1)');
+
+    ctx.fillStyle = innerHalo;
+    ctx.beginPath();
+    ctx.arc(CENTER_X, CENTER_Y, BH_EVENT_HORIZON * pulse, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Centro绝对amente negro
+    const coreBlack = ctx.createRadialGradient(0, 0, 0, 0, 0, BH_EVENT_HORIZON * 0.6);
+    coreBlack.addColorStop(0, 'rgba(0, 0, 0, 1)');
+    coreBlack.addColorStop(1, 'rgba(0, 0, 0, 0.7)');
+
+    ctx.fillStyle = coreBlack;
+    ctx.beginPath();
+    ctx.arc(CENTER_X, CENTER_Y, BH_EVENT_HORIZON * 0.6, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Borde brillante del horizonte de eventos
+    ctx.strokeStyle = `rgba(139, 92, 246, ${0.5 + Math.sin(bhPulsePhase) * 0.2})`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(CENTER_X, CENTER_Y, BH_EVENT_HORIZON, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Anillo de fotones (la última órbita estable)
+    ctx.strokeStyle = `rgba(255, 200, 100, ${0.3 + Math.sin(bhPulsePhase * 1.5) * 0.15})`;
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 6]);
+    ctx.beginPath();
+    ctx.arc(CENTER_X, CENTER_Y, BH_EVENT_HORIZON * 1.3, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    bhPulsePhase += 0.04;
+
+    // Efecto de "lente gravitacional" — distorsión del fondo cerca del agujero
+    drawGravitationalLensing(time);
+}
+
+// Efecto visual: líneas curvas de luz alrededor del agujero
+function drawGravitationalLensing(time) {
+    const numRays = 12;
+    for (let i = 0; i < numRays; i++) {
+        const baseAngle = (i / numRays) * Math.PI * 2 + time * 0.001;
+        
+        ctx.strokeStyle = `rgba(139, 92, 246, ${0.05 + Math.sin(time * 0.003 + i) * 0.03})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+
+        for (let r = BH_EVENT_HORIZON + 5; r < BH_ACRETION_RADIUS; r += 2) {
+            // Curva sinusoidal que simula la distorsión de luz
+            const curveOffset = Math.sin(r * 0.1 + time * 0.01) * (r * 0.1);
+            
+            const x = CENTER_X + Math.cos(baseAngle + curveOffset * 0.02) * r;
+            const y = CENTER_Y + Math.sin(baseAngle + curveOffset * 0.02) * r;
+
+            if (r === BH_EVENT_HORIZON + 5) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+        }
+        ctx.stroke();
+    }
+}
+
+// ============ NAVE ============
+function createShip() {
+    return {
+        x: W / 2 + 100,
+        y: H / 2,
+        angle: -Math.PI / 2,
+        velocity: { x: 0, y: 0 },
+        radius: 15,
+        thrustPower: 0.15,
+        friction: 0.98,
+        rotSpeed: 0.06,
+        engineFlicker: 0
+    };
+}
+
+function drawShip() {
+    if (!ship) return;
+
+    const blink = invincibleTimer > 0 && Math.floor(invincibleTimer / 8) % 2 === 0;
+    if (blink) return;
+
+    const cx = ship.x;
+    const cy = ship.y;
+    const a = ship.angle;
+
+    // Motor (fuego)
+    if (keys['ArrowUp']) {
+        ship.engineFlicker += 0.3;
+        const flickerLen = 12 + Math.sin(ship.engineFlicker) * 5;
+        const exhaustAngle = a + Math.PI;
+
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(exhaustAngle);
+
+        const gradient = ctx.createLinearGradient(-flickerLen, 0, -4, 0);
+        gradient.addColorStop(0, 'rgba(233, 69, 96, 0)');
+        gradient.addColorStop(0.5, 'rgba(255, 120, 0, 0.7)');
+        gradient.addColorStop(1, 'rgba(255, 200, 0, 0.9)');
+
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.moveTo(-4, -5);
+        ctx.lineTo(-flickerLen, 0);
+        ctx.lineTo(-4, 5);
+        ctx.closePath();
+        ctx.fill();
+
+        const coreGrad = ctx.createLinearGradient(-8, 0, -3, 0);
+        coreGrad.addColorStop(0, 'rgba(255, 100, 0, 0)');
+        coreGrad.addColorStop(1, 'rgba(255, 255, 200, 0.9)');
+
+        ctx.fillStyle = coreGrad;
+        ctx.beginPath();
+        ctx.moveTo(-4, -3);
+        ctx.lineTo(-(flickerLen * 0.5), 0);
+        ctx.lineTo(-4, 3);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.restore();
+    } else {
+        ship.engineFlicker = 0;
+    }
+
+    // Dibujar nave (triángulo)
+    const noseX = cx + Math.cos(a) * 18;
+    const noseY = cy + Math.sin(a) * 18;
+    const leftX = cx + Math.cos(a + 2.5) * 14;
+    const leftY = cy + Math.sin(a + 2.5) * 14;
+    const rightX = cx + Math.cos(a - 2.5) * 14;
+    const rightY = cy + Math.sin(a - 2.5) * 14;
+
+    ctx.shadowColor = '#00f5ff';
+    ctx.shadowBlur = 10;
+
+    ctx.strokeStyle = '#00f5ff';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(noseX, noseY);
+    ctx.lineTo(leftX, leftY);
+    ctx.lineTo(cx, cy - 4);
+    ctx.lineTo(rightX, rightY);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.shadowBlur = 0;
+
+    ctx.fillStyle = 'rgba(0, 245, 255, 0.1)';
+    ctx.fill();
+
+    // Indicador de gravedad (si está dentro del rango de atracción)
+    const dToBH = dist(cx, cy, CENTER_X, CENTER_Y);
+    if (dToBH < BH_PULL_RANGE && !gameOver) {
+        const intensity = 1 - dToBH / BH_PULL_RANGE;
+        ctx.strokeStyle = `rgba(139, 92, 246, ${intensity * 0.4})`;
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 5]);
+        // Línea que apunta hacia el agujero negro
+        const angleToBH = Math.atan2(CENTER_Y - cy, CENTER_X - cx);
+        const lineLen = 25;
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(a) * 18, cy + Math.sin(a) * 18);
+        ctx.lineTo(
+            cx + Math.cos(angleToBH) * lineLen,
+            cy + Math.sin(angleToBH) * lineLen
+        );
+        ctx.stroke();
+        ctx.setLineDash([]);
+    }
+}
+
+// ============ BALAS ============
+function shoot() {
+    if (!ship || gameOver || paused) return;
+
+    const speed = 8;
+    bullets.push({
+        x: ship.x + Math.cos(ship.angle) * 18,
+        y: ship.y + Math.sin(ship.angle) * 18,
+        vx: Math.cos(ship.angle) * speed + ship.velocity.x * 0.3,
+        vy: Math.sin(ship.angle) * speed + ship.velocity.y * 0.3,
+        life: 60,
+        trail: []
+    });
+
+    for (let i = 0; i < 4; i++) {
+        particles.push({
+            x: bullets[bullets.length - 1].x,
+            y: bullets[bullets.length - 1].y,
+            vx: Math.cos(ship.angle + (Math.random() - 0.5) * 0.8) * (Math.random() * 2 + 1),
+            vy: Math.sin(ship.angle + (Math.random() - 0.5) * 0.8) * (Math.random() * 2 + 1),
+            life: 12,
+            color: '#ffff64',
+            size: 2
+        });
+    }
+}
+
+function drawBullets() {
+    bullets.forEach(b => {
+        b.trail.push({ x: b.x, y: b.y });
+        if (b.trail.length > 8) b.trail.shift();
+
+        for (let i = 0; i < b.trail.length - 1; i++) {
+            const alpha = (i / b.trail.length) * 0.5;
+            ctx.strokeStyle = `rgba(255, 255, 100, ${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(b.trail[i].x, b.trail[i].y);
+            ctx.lineTo(b.trail[i + 1].x, b.trail[i + 1].y);
+            ctx.stroke();
+        }
+
+        ctx.shadowColor = '#ffff00';
+        ctx.shadowBlur = 8;
+        ctx.fillStyle = '#ffff64';
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.shadowBlur = 0;
+    });
+}
+
+// ============ ASTEROIDES ============
+function createAsteroid(x, y, size) {
+    const speeds = { big: 1.5, medium: 2.5, small: 3.5 };
+    const radii = { big: 30, medium: 18, small: 10 };
+    const points = [];
+    const numPoints = Math.floor(Math.random() * 6) + 7;
+
+    for (let i = 0; i < numPoints; i++) {
+        const angle = (i / numPoints) * Math.PI * 2;
+        const r = radii[size] * (0.7 + Math.random() * 0.3);
+        points.push({ x: Math.cos(angle) * r, y: Math.sin(angle) * r });
+    }
+
+    return {
+        x: x,
+        y: y,
+        vx: (Math.random() - 0.5) * speeds[size] * 2,
+        vy: (Math.random() - 0.5) * speeds[size] * 2,
+        radius: radii[size],
+        size: size,
+        points: points,
+        rotation: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.03,
+        color: `hsl(${Math.floor(Math.random() * 40) + 18}, ${60 + Math.random() * 20}%, ${45 + Math.random() * 15}%)`
+    };
+}
+
+function spawnWave() {
+    asteroids = [];
+    const count = wave + 3;
+    for (let i = 0; i < count; i++) {
+        let x, y;
+        do {
+            x = Math.random() * W;
+            y = Math.random() * H;
+        } while (dist(x, y, CENTER_X, CENTER_Y) < BH_ACRETION_RADIUS + 30);
+
+        asteroids.push(createAsteroid(x, y, 'big'));
+    }
+}
+
+function drawAsteroids() {
+    asteroids.forEach(a => {
+        ctx.save();
+        ctx.translate(a.x, a.y);
+        ctx.rotate(a.rotation);
+
+        // Si está muy cerca del agujero negro, colorear con tonos púrpura (acreción)
+        const dToBH = dist(a.x, a.y, CENTER_X, CENTER_Y);
+        let drawColor = a.color;
+        if (dToBH < BH_ACRETION_RADIUS + 20) {
+            const intensity = 1 - dToBH / (BH_ACRETION_RADIUS + 20);
+            ctx.shadowColor = `rgba(139, 92, 246, ${intensity * 0.5})`;
+        } else {
+            ctx.shadowColor = '#8b7355';
+        }
+        ctx.shadowBlur = dToBH < BH_ACRETION_RADIUS + 20 ? 8 : 4;
+
+        drawColor = a.color;
+        
+        // Si está muy cerca, distorsionar forma (tidal forces)
+        if (dToBH < BH_EVENT_HORIZON * 3) {
+            const tidalStretch = 1 + (1 - dToBH / (BH_EVENT_HORIZON * 3)) * 0.3;
+            ctx.scale(tidalStretch, 1 / tidalStretch);
+        }
+
+        ctx.strokeStyle = drawColor;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(a.points[0].x, a.points[0].y);
+        for (let i = 1; i < a.points.length; i++) {
+            ctx.lineTo(a.points[i].x, a.points[i].y);
+        }
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.fillStyle = `rgba(${hexToRgb(drawColor)}, 0.1)`;
+        ctx.fill();
+
+        ctx.shadowBlur = 0;
+        ctx.restore();
+    });
+}
+
+function hexToRgb(hex) {
+    return '180, 150, 120';
+}
+
+// ============ PARTÍCULAS ============
+function spawnExplosion(x, y, count, color) {
+    for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 4 + 1;
+        particles.push({
+            x: x,
+            y: y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: Math.floor(Math.random() * 30 + 15),
+            color: color || '#ff9464',
+            size: Math.random() * 3 + 1
+        });
+    }
+}
+
+function drawParticles() {
+    particles.forEach(p => {
+        const alpha = p.life / 45;
+        ctx.fillStyle = `rgba(255, ${parseInt(p.color.slice(-6, -3), 16) > 0 ? '200' : '100'}, ${alpha})`;
+        ctx.globalAlpha = Math.min(alpha * 2, 1);
+        ctx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
+    });
+    ctx.globalAlpha = 1;
+}
+
+// Partículas de acreción visual (pequeñas partículas que caen hacia el agujero negro)
+let accretionParticles = [];
+function updateAccretionParticles() {
+    // Generar nuevas partículas ocasionalmente
+    if (Math.random() < 0.3 && accretionParticles.length < 40) {
+        const angle = Math.random() * Math.PI * 2;
+        const radius = BH_ACRETION_RADIUS + Math.random() * 30;
+        accretionParticles.push({
+            x: CENTER_X + Math.cos(angle) * radius,
+            y: CENTER_Y + Math.sin(angle) * radius,
+            angle: angle,
+            radius: radius,
+            speed: (2 / (radius / BH_EVENT_HORIZON)) * 0.5,
+            size: Math.random() * 1.5 + 0.5,
+            life: 60 + Math.random() * 40
+        });
+    }
+
+    // Actualizar y dibujar
+    for (let i = accretionParticles.length - 1; i >= 0; i--) {
+        const p = accretionParticles[i];
+        p.angle += p.speed * 0.05;
+        p.radius -= 0.3 + Math.random() * 0.2;
+        p.life--;
+
+        if (p.radius < BH_EVENT_HORIZON || p.life <= 0) {
+            accretionParticles.splice(i, 1);
+            continue;
+        }
+
+        const px = CENTER_X + Math.cos(p.angle) * p.radius;
+        const py = CENTER_Y + Math.sin(p.angle) * p.radius;
+
+        const alpha = (p.life / 100) * 0.6;
+        ctx.fillStyle = `rgba(255, ${Math.floor(180 - (BH_ACRETION_RADIUS - p.radius) * 0.3)}, ${Math.floor(100 + (BH_ACRETION_RADIUS - p.radius) * 0.5)}, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(px, py, p.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+// ============ HUD COMBO & WAVE ============
+function drawHUD() {
+    if (comboCount > 1 && comboTimer > 0) {
+        const alpha = Math.min(comboTimer / 30, 1);
+        ctx.fillStyle = `rgba(255, 200, 0, ${alpha})`;
+        ctx.font = 'bold 20px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(`${comboCount}x COMBO!`, W / 2, H - 30);
+    }
+
+    ctx.fillStyle = '#eee';
+    ctx.font = 'bold 14px sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(`OLEADA ${wave}`, 15, 25);
+
+    ctx.textAlign = 'right';
+    const scoreText = `SCORE: ${score}`;
+    if (comboCount > 1) {
+        ctx.fillStyle = '#ffff00';
+    } else {
+        ctx.fillStyle = '#eee';
+    }
+    ctx.fillText(scoreText, W - 15, 25);
+
+    // Indicador de invencibilidad
+    if (invincibleTimer > 0) {
+        const alpha = Math.min(invincibleTimer / 90, 1) * 0.3;
+        ctx.strokeStyle = `rgba(0, 245, 255, ${alpha})`;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(ship.x, ship.y, ship.radius + 8, 0, Math.PI * 2);
+        ctx.stroke();
+    }
+
+    // Indicador visual de gravedad en el HUD
+    if (ship && !gameOver) {
+        const dToBH = dist(ship.x, ship.y, CENTER_X, CENTER_Y);
+        const forceIndicator = document.getElementById('bh-force');
+        if (dToBH < BH_PULL_RANGE) {
+            const force = BH_GRAVITY * 100 / (dToBH + 5);
+            forceIndicator.textContent = `Fuerza: ${force.toFixed(2)} N`;
+            const intensity = Math.min((dToBH - BH_EVENT_HORIZON) / (BH_PULL_RANGE - BH_EVENT_HORIZON), 1);
+            if (intensity < 0.3) {
+                forceIndicator.style.color = '#ef4444'; // rojo peligro
+            } else if (intensity < 0.6) {
+                forceIndicator.style.color = '#f97316'; // naranja advertencia
+            } else {
+                forceIndicator.style.color = '#8b5cf6'; // normal
+            }
+
+            const statusEl = document.getElementById('bh-status');
+            if (dToBH < BH_EVENT_HORIZON * 2) {
+                statusEl.textContent = '⚠️ ¡ALTO RIESGO!';
+                statusEl.style.color = '#ef4444';
+            } else if (dToBH < BH_ACRETION_RADIUS + 30) {
+                statusEl.textContent = '🌀 Zona de acreción';
+                statusEl.style.color = '#f97316';
+            } else {
+                statusEl.textContent = '🌀 Centro seguro';
+                statusEl.style.color = '#8b5cf6';
+            }
+        } else {
+            document.getElementById('bh-force').textContent = '—';
+            document.getElementById('bh-status').textContent = '🌀 Centro';
+            document.getElementById('bh-status').style.color = '#aaa';
+        }
+    }
+
+    // Texto de oleada completa
+    if (asteroids.length === 0 && !gameOver) {
+        ctx.fillStyle = '#e94560';
+        ctx.font = 'bold 36px sans-serif';
+        ctx.textAlign = 'center';
+        const pulse = Math.sin(Date.now() * 0.005) * 0.3 + 0.7;
+        ctx.globalAlpha = pulse;
+        ctx.fillText(`¡OLEADA ${wave} COMPLETA!`, W / 2, H / 2);
+        ctx.globalAlpha = 1;
+    }
+}
+
+// ============ UTILIDADES ============
+function dist(x1, y1, x2, y2) {
+    return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+}
+
+function wrapPosition(obj) {
+    if (obj.x < -30) obj.x = W + 30;
+    if (obj.x > W + 30) obj.x = -30;
+    if (obj.y < -30) obj.y = H + 30;
+    if (obj.y > H + 30) obj.y = -30;
+}
+
+// ============ GRAVEDAD DEL AGUJERO NEGRO ============
+function applyBlackHoleGravity(obj, massFactor) {
+    const dx = CENTER_X - obj.x;
+    const dy = CENTER_Y - obj.y;
+    const d = Math.sqrt(dx * dx + dy * dy);
+
+    if (d < 1 || d > BH_PULL_RANGE) return; // No aplicar si está fuera de rango o demasiado cerca
+
+    // Fuerza gravitacional: F = G * mass / r²
+    // Simplificada: aceleración directa hacia el centro
+    const forceMagnitude = BH_GRAVITY * massFactor / (d * 0.1 + 1);
+    
+    // Componentes de la fuerza
+    const ax = (dx / d) * forceMagnitude;
+    const ay = (dy / d) * forceMagnitude;
+
+    // Aplicar aceleración a la velocidad
+    if ('velocity' in obj) {
+        obj.velocity.x += ax;
+        obj.velocity.y += ay;
+        
+        // Si pasa muy cerca del horizonte de eventos, "escupir" radialmente
+        if (d < BH_EVENT_HORIZON * 1.5 && 'radius' in obj) {
+            const spitForce = BH_SPIT_OUT * forceMagnitude * 0.3;
+            obj.velocity.x += (dx / d) * spitForce;
+            obj.velocity.y += (dy / d) * spitForce;
+        }
+    } else if ('vx' in obj && 'vy' in obj) {
+        obj.vx += ax;
+        obj.vy += ay;
+        
+        // Espiritación para asteroides muy cercanos
+        if (d < BH_EVENT_HORIZON * 1.5) {
+            const spitForce = BH_SPIT_OUT * forceMagnitude * 0.2;
+            obj.vx += (dx / d) * spitForce;
+            obj.vy += (dy / d) * spitForce;
+        }
+
+        // Rotación tangencial (efecto de "spiral in")
+        if ('rotation' in obj || true) {
+            const tangentX = -ay;  // perpendicular a la fuerza radial
+            const tangentY = ax;
+            
+            // Añadir un poco de rotación tangencial para efecto orbital
+            if ('vx' in obj && 'vy' in obj) {
+                const currentSpeed = Math.sqrt(obj.vx * obj.vx + obj.vy * obj.vy);
+                if (currentSpeed > 0.5) {
+                    // Suavizar dirección hacia tangencial
+                    const spiralFactor = 0.01;
+                    obj.vx += tangentX * spiralFactor;
+                    obj.vy += tangentY * spiralFactor;
+                }
+            }
+        }
+    }
+
+    // Si entra en el horizonte de eventos, eliminar (tragado)
+    if ('radius' in obj && d < BH_EVENT_HORIZON + 5) {
+        // Pequeña probabilidad de ser "escupido" si es muy masivo (asteroide grande)
+        const escapeChance = obj.size === 'big' ? 0.1 : 0;
+        if (Math.random() < escapeChance) {
+            return 'escaped';
+        }
+        return 'consumed';
+    }
+
+    // Si sale del rango de atracción, eliminar la influencia
+    if (d > BH_PULL_RANGE * 1.5) {
+        return 'out_of_range';
+    }
+
+    return null;
+}
+
+// ============ COLISIONES ============
+function checkCollisions() {
+    // Balas vs Asteroides
+    for (let b = bullets.length - 1; b >= 0; b--) {
+        let bulletHit = false;
+        for (let a = asteroids.length - 1; a >= 0; a--) {
+            if (dist(bullets[b].x, bullets[b].y, asteroids[a].x, asteroids[a].y) < asteroids[a].radius + 5) {
+                const asteroid = asteroids[a];
+
+                spawnExplosion(asteroid.x, asteroid.y, 12, '#ff9464');
+
+                score += asteroid.size === 'big' ? 20 : asteroid.size === 'medium' ? 50 : 100;
+                updateUI();
+
+                comboCount++;
+                comboTimer = 45;
+
+                if (asteroid.size === 'big') {
+                    asteroids.push(createAsteroid(asteroid.x, asteroid.y, 'medium'));
+                    asteroids.push(createAsteroid(asteroid.x, asteroid.y, 'medium'));
+                } else if (asteroid.size === 'medium') {
+                    asteroids.push(createAsteroid(asteroid.x, asteroid.y, 'small'));
+                    asteroids.push(createAsteroid(asteroid.x, asteroid.y, 'small'));
+                }
+
+                asteroids.splice(a, 1);
+                bullets.splice(b, 1);
+                bulletHit = true;
+                break;
+            }
+        }
+    }
+
+    // Nave vs Asteroides (solo si no es invencible)
+    if (invincibleTimer <= 0 && ship) {
+        for (let a = asteroids.length - 1; a >= 0; a--) {
+            if (dist(ship.x, ship.y, asteroids[a].x, asteroids[a].y) < asteroids[a].radius + ship.radius * 0.7) {
+                spawnExplosion(ship.x, ship.y, 25, '#00f5ff');
+                lives--;
+                updateUI();
+
+                if (lives <= 0) {
+                    gameOver = true;
+                } else {
+                    // Reposicionar lejos del agujero negro
+                    let nx, ny;
+                    do {
+                        nx = Math.random() * W;
+                        ny = Math.random() * H;
+                    } while (dist(nx, ny, CENTER_X, CENTER_Y) < BH_ACRETION_RADIUS + 50);
+
+                    ship.x = nx;
+                    ship.y = ny;
+                    ship.velocity = { x: 0, y: 0 };
+                    invincibleTimer = 90;
+                    comboCount = 0;
+                }
+                break;
+            }
+        }
+    }
+
+    // Siguiente oleada
+    if (asteroids.length === 0 && !gameOver) {
+        wave++;
+        comboCount = 0;
+        spawnWave();
+        updateUI();
+    }
+}
+
+// ============ ACTUALIZACIÓN ============
+function update() {
+    if (gameOver || paused) return;
+
+    // Combo timer
+    if (comboTimer > 0) {
+        comboTimer--;
+        if (comboTimer <= 0) comboCount = 0;
+    }
+
+    // Invencibilidad
+    if (invincibleTimer > 0) invincibleTimer--;
+
+    // Rotación de nave
+    const rotSpeed = ship.rotSpeed * 1.2;
+    if (keys['ArrowLeft']) ship.angle -= rotSpeed;
+    if (keys['ArrowRight']) ship.angle += rotSpeed;
+
+    // Aceleración
+    if (keys['ArrowUp']) {
+        ship.velocity.x += Math.cos(ship.angle) * ship.thrustPower;
+        ship.velocity.y += Math.sin(ship.angle) * ship.thrustPower;
+
+        // Partículas de motor
+        if (Math.random() < 0.5) {
+            particles.push({
+                x: ship.x - Math.cos(ship.angle) * 14,
+                y: ship.y - Math.sin(ship.angle) * 14,
+                vx: -Math.cos(ship.angle + Math.PI) * (Math.random() * 2 + 0.5),
+                vy: -Math.sin(ship.angle + Math.PI) * (Math.random() * 2 + 0.5),
+                life: 15,
+                color: '#ff6432',
+                size: Math.random() * 2 + 1
+            });
+        }
+    }
+
+    // Fricción y movimiento de la nave
+    ship.velocity.x *= ship.friction;
+    ship.velocity.y *= ship.friction;
+    ship.x += ship.velocity.x;
+    ship.y += ship.velocity.y;
+    wrapPosition(ship);
+
+    // === APLICAR GRAVEDAD DEL AGUJERO NEGRO A LA NAVE ===
+    const bhEffect = applyBlackHoleGravity(ship, 1.0);
+    if (bhEffect === 'consumed') {
+        spawnExplosion(ship.x, ship.y, 30, '#8b5cf6');
+        lives--;
+        updateUI();
+        if (lives <= 0) {
+            gameOver = true;
+        } else {
+            // Respawn lejos del agujero negro
+            let nx, ny;
+            do {
+                nx = Math.random() * W;
+                ny = Math.random() * H;
+            } while (dist(nx, ny, CENTER_X, CENTER_Y) < BH_ACRETION_RADIUS + 50);
+            ship.x = nx;
+            ship.y = ny;
+            ship.velocity = { x: 0, y: 0 };
+            invincibleTimer = 90;
+        }
+    }
+
+    // Actualizar balas (con gravedad leve del agujero negro)
+    for (let b = bullets.length - 1; b >= 0; b--) {
+        applyBlackHoleGravity(bullets[b], 0.3); // Las balas son ligeras
+        
+        bullets[b].x += bullets[b].vx;
+        bullets[b].y += bullets[b].vy;
+        bullets[b].life--;
+
+        if (bullets[b].life <= 0) {
+            spawnExplosion(bullets[b].x, bullets[b].y, 3, '#ffff64');
+            bullets.splice(b, 1);
+        } else {
+            wrapPosition(bullets[b]);
+        }
+    }
+
+    // Actualizar asteroides (con gravedad del agujero negro)
+    for (let a = asteroids.length - 1; a >= 0; a--) {
+        const bhEffectAsteroid = applyBlackHoleGravity(asteroids[a], 2.0); // Asteroides más masivos
+        
+        if (bhEffectAsteroid === 'consumed') {
+            spawnExplosion(asteroids[a].x, asteroids[a].y, 8, '#8b5cf6');
+            score += 5; // Puntos por ser tragado
+            updateUI();
+            asteroids.splice(a, 1);
+            continue;
+        }
+
+        asteroids[a].x += asteroids[a].vx;
+        asteroids[a].y += asteroids[a].vy;
+        asteroids[a].rotation += asteroids[a].rotSpeed;
+        wrapPosition(asteroids[a]);
+    }
+
+    // Actualizar partículas
+    for (let p = particles.length - 1; p >= 0; p--) {
+        particles[p].x += particles[p].vx;
+        particles[p].y += particles[p].vy;
+        particles[p].vx *= 0.97;
+        particles[p].vy *= 0.97;
+        
+        // Las partículas también son afectadas por la gravedad del agujero negro
+        applyBlackHoleGravity(particles[p], 0.1);
+
+        particles[p].life--;
+        if (particles[p].life <= 0) {
+            particles.splice(p, 1);
+        }
+    }
+
+    // Actualizar partículas de acreción
+    updateAccretionParticles();
+
+    checkCollisions();
+}
+
+// ============ DIBUJO PRINCIPAL ============
+function draw() {
+    ctx.fillStyle = '#0a0a1a';
+    ctx.fillRect(0, 0, W, H);
+
+    // Estrellas (detrás del agujero negro)
+    drawStars(Date.now());
+
+    // Agujero negro (centro visual principal)
+    drawBlackHole(Date.now());
+
+    // Partículas de acreción
+    updateAccretionParticles();
+
+    // Asteroides
+    drawAsteroids();
+
+    // Balas
+    drawBullets();
+
+    // Nave
+    if (ship && !gameOver) {
+        drawShip();
+    }
+
+    // Partículas de explosión
+    drawParticles();
+
+    // HUD
+    drawHUD();
+
+    // Game Over overlay
+    if (gameOver) {
+        ctx.fillStyle = 'rgba(10, 10, 26, 0.85)';
+        ctx.fillRect(0, 0, W, H);
+
+        ctx.shadowColor = '#e94560';
+        ctx.shadowBlur = 20;
+        ctx.fillStyle = '#e94560';
+        ctx.font = 'bold 48px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('GAME OVER', W / 2, H / 2 - 30);
+
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#eee';
+        ctx.font = '22px sans-serif';
+        ctx.fillText(`Puntuación: ${score}`, W / 2, H / 2 + 15);
+        ctx.fillText(`Oleada alcanzada: ${wave}`, W / 2, H / 2 + 45);
+
+        ctx.fillStyle = '#888';
+        ctx.font = '16px sans-serif';
+        ctx.fillText('Pulsa JUGAR para reiniciar', W / 2, H / 2 + 80);
+    }
+
+    // Pausa
+    if (paused && !gameOver) {
+        ctx.fillStyle = 'rgba(10, 10, 26, 0.7)';
+        ctx.fillRect(0, 0, W, H);
+        ctx.shadowColor = '#e94560';
+        ctx.shadowBlur = 15;
+        ctx.fillStyle = '#e94560';
+        ctx.font = 'bold 36px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('⏸ PAUSA', W / 2, H / 2);
+    }
+
+    // Pantalla de inicio
+    if (!ship && !gameOver) {
+        drawStartScreen();
+    }
+}
+
+function drawStartScreen() {
+    ctx.fillStyle = 'rgba(10, 10, 26, 0.85)';
+    ctx.fillRect(0, 0, W, H);
+
+    // Agujero negro estático en la pantalla de inicio
+    const pulse = Math.sin(Date.now() * 0.003) * 0.1 + 1;
+    
+    const glow = ctx.createRadialGradient(W/2, H/2 - 60, 0, W/2, H/2 - 60, 100);
+    glow.addColorStop(0, 'rgba(139, 92, 246, 0.5)');
+    glow.addColorStop(0.5, 'rgba(59, 130, 246, 0.2)');
+    glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(W/2, H/2 - 60, 100 * pulse, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.shadowColor = '#8b5cf6';
+    ctx.shadowBlur = 30;
+    ctx.fillStyle = '#8b5cf6';
+    ctx.font = 'bold 42px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('🕳️ AGUJERO NEGRO', W / 2, H / 2 - 10);
+
+    ctx.fillStyle = '#eee';
+    ctx.font = '20px sans-serif';
+    const pulseAlpha = Math.sin(Date.now() * 0.003) * 0.3 + 0.7;
+    ctx.globalAlpha = pulseAlpha;
+    ctx.fillText('Pulsa JUGAR para comenzar', W / 2, H / 2 + 30);
+    ctx.globalAlpha = 1;
+
+    ctx.fillStyle = '#888';
+    ctx.font = '14px sans-serif';
+    ctx.fillText('↑ Acelerar | ← → Girar | Espacio Disparar', W / 2, H / 2 + 70);
+    
+    ctx.fillStyle = '#aaa';
+    ctx.font = '13px sans-serif';
+    ctx.fillText('⚠️ ¡Cuidado! El agujero negro atrae todo a su alrededor.', W / 2, H / 2 + 95);
+}
+
+// ============ UI ============
+function updateUI() {
+    document.getElementById('score').textContent = score;
+    let heartsStr = '';
+    for (let i = 0; i < lives; i++) heartsStr += '❤️ ';
+    document.getElementById('lives').textContent = heartsStr.trim();
+    document.getElementById('wave').textContent = wave;
+}
+
+// ============ GAME LOOP ============
+function gameLoop() {
+    update();
+    draw();
+    animationId = requestAnimationFrame(gameLoop);
+}
+
+// ============ CONTROLES ============
+document.addEventListener('keydown', (e) => {
+    keys[e.key] = true;
+
+    if (e.key === ' ' && !gameOver) {
+        e.preventDefault();
+        shoot();
+    }
+
+    if ((e.key === 'p' || e.key === 'P') && ship && !gameOver) {
+        paused = !paused;
+    }
+});
+
+document.addEventListener('keyup', (e) => {
+    keys[e.key] = false;
+});
+
+// ============ INICIO ============
+function startGame() {
+    ship = createShip();
+    bullets = [];
+    asteroids = [];
+    particles = [];
+    accretionParticles = [];
+    score = 0;
+    lives = 3;
+    wave = 1;
+    gameOver = false;
+    paused = false;
+    comboCount = 0;
+    comboTimer = 0;
+    invincibleTimer = 60;
+
+    createStars();
+    spawnWave();
+    updateUI();
+
+    if (animationId) cancelAnimationFrame(animationId);
+    gameLoop();
+}
+
+// Pantalla inicial estática
+createStars();
+drawStartScreen();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+# ============================================================
+# Intelix — Apache / cPanel configuration
+# ============================================================
+
+# --- Security headers (real HTTP headers, not <meta> tags) ---
+# The <meta http-equiv> tags in each HTML <head> are kept as a fallback for
+# any environment that ignores this file, but browsers only honor
+# X-Frame-Options, X-Content-Type-Options, CSP's frame-ancestors and HSTS
+# when they arrive as actual response headers — this is what makes them work.
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; upgrade-insecure-requests;"
+  # Only takes effect once the site is served over HTTPS — harmless otherwise.
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# --- Cache lifetimes for static assets ---
+# HTML/PHP/JSON stay uncached (content can change); fingerprint-free static
+# assets get a long max-age since they're versioned via ?v= query strings
+# (site.css?v=20260731) when they change.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType application/json "access plus 0 seconds"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|png|jpe?g|webp|svg|ico|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
+
+# --- Homepage: index.php negotiates Accept: text/markdown vs. text/html ---
+DirectoryIndex index.php index.html
+
+# --- Custom error page ---
+# 404.php negotiates JSON (for /api/* misses) vs. Markdown vs. HTML, and
+# always returns a real 404 status (never a 200 app-shell for unknown paths).
+ErrorDocument 404 /404.php
+
+# --- Force HTTPS ---
+# Uncomment once your SSL certificate is active in cPanel (AutoSSL or custom).
+# Turning this on before HTTPS works will make the site unreachable.
+# <IfModule mod_rewrite.c>
+#   RewriteEngine On
+#   RewriteCond %{HTTPS} off
+#   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# </IfModule>
+
+# --- www vs non-www (pick ONE canonical host, uncomment if desired) ---
+# <IfModule mod_rewrite.c>
+#   RewriteEngine On
+#   RewriteCond %{HTTP_HOST} ^www\.intelix\.com\.ar [NC]
+#   RewriteRule ^ https://intelix.com.ar%{REQUEST_URI} [L,R=301]
+# </IfModule>
