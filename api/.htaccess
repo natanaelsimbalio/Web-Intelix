@@ -4,3 +4,17 @@
 <FilesMatch "^(config\.php)$">
   Require all denied
 </FilesMatch>
+
+# --- Agent-friendly 404s for missing API files ---
+# Sin esto, un .php inexistente (ej. /api/no-existe.php) es resuelto por el
+# handler de PHP-FPM/suPHP del hosting ANTES de que Apache llegue a evaluar
+# ErrorDocument 404, y responde con un "File not found." de texto plano en
+# vez del JSON estructurado de /404.php. Reescribimos acá, en el nivel más
+# temprano posible, cualquier pedido a un archivo que no existe hacia
+# /404.php (que ya detecta el prefijo /api/ y devuelve JSON).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ /404.php [L]
+</IfModule>

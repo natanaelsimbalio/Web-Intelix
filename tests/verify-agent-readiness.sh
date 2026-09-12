@@ -56,38 +56,45 @@ prod_status=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/api/productos.php")
 prod_ct=$(curl -s -o /dev/null -w "%{content_type}" "$BASE/api/productos.php")
 [[ "$prod_ct" == application/json* ]] && pass "/api/productos.php content-type is application/json (got $prod_ct)" || failmsg "/api/productos.php content-type is application/json (got $prod_ct)"
 
-# 4b. REST versioning: /api/v1/ is the canonical path and carries an API-Version header.
+# 4b. REST versioning: /api/v1/ is the canonical path and carries an X-API-Version header.
 v1_status=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/api/v1/productos.php")
 [ "$v1_status" = "200" ] && pass "/api/v1/productos.php responds 200" || failmsg "/api/v1/productos.php responds 200"
 v1_headers=$(curl -sI "$BASE/api/v1/productos.php")
-if grep -qi '^api-version: *v1' <<<"$v1_headers"; then
-  pass "/api/v1/productos.php sends API-Version: v1 header"
+if grep -qi '^x-api-version: *1' <<<"$v1_headers"; then
+  pass "/api/v1/productos.php sends X-API-Version: 1 header"
 else
-  failmsg "/api/v1/productos.php sends API-Version: v1 header"
+  failmsg "/api/v1/productos.php sends X-API-Version: 1 header"
 fi
 alias_headers=$(curl -sI "$BASE/api/productos.php")
-if grep -qi '^api-version: *v1' <<<"$alias_headers"; then
-  pass "/api/productos.php alias also sends API-Version: v1 header"
+if grep -qi '^x-api-version: *1' <<<"$alias_headers"; then
+  pass "/api/productos.php alias also sends X-API-Version: 1 header"
 else
-  failmsg "/api/productos.php alias also sends API-Version: v1 header"
+  failmsg "/api/productos.php alias also sends X-API-Version: 1 header"
 fi
 
-# 4c. Developer portal: reachable and documents versioning/quickstart.
-dev_status=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/developers/")
-[ "$dev_status" = "200" ] && pass "/developers/ is reachable (got $dev_status)" || failmsg "/developers/ is reachable (got $dev_status)"
-dev_body=$(curl -s "$BASE/developers/")
+# 4c'. Rate limit headers (RFC RateLimit-*) so agents can self-throttle.
+if grep -qi '^ratelimit-limit:' <<<"$v1_headers" && grep -qi '^ratelimit-remaining:' <<<"$v1_headers"; then
+  pass "/api/v1/productos.php sends RateLimit-Limit/RateLimit-Remaining headers"
+else
+  failmsg "/api/v1/productos.php sends RateLimit-Limit/RateLimit-Remaining headers"
+fi
+
+# 4d. Developer portal: reachable and documents versioning/quickstart.
+dev_status=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/developers.html")
+[ "$dev_status" = "200" ] && pass "/developers.html is reachable (got $dev_status)" || failmsg "/developers.html is reachable (got $dev_status)"
+dev_body=$(curl -s "$BASE/developers.html")
 if grep -qi 'quickstart\|versionado' <<<"$dev_body"; then
-  pass "/developers/ mentions quickstart or versioning policy"
+  pass "/developers.html mentions quickstart or versioning policy"
 else
-  failmsg "/developers/ mentions quickstart or versioning policy"
+  failmsg "/developers.html mentions quickstart or versioning policy"
 fi
 
-# 4d. Homepage links to the developer portal.
-if grep -qi 'developers/' <<<"$html"; then
-  pass "homepage links to /developers/"
-else
-  failmsg "homepage links to /developers/"
-fi
+# 4e. Trust anchor pages: About/Contact/Privacy exist with substantial content.
+for page in about.html contact.html privacy.html; do
+  body=$(curl -s "$BASE/$page")
+  textlen=$(sed -e 's/<script[^>]*>.*<\/script>//g' -e 's/<style[^>]*>.*<\/style>//g' -e 's/<[^>]*>/ /g' <<<"$body" | tr -s '[:space:]' ' ' | wc -c)
+  [ "$textlen" -gt 500 ] && pass "/$page has 500+ chars of content (got $textlen)" || failmsg "/$page has 500+ chars of content (got $textlen)"
+done
 
 # 5. Markdown content negotiation on the homepage (acceptmarkdown.com).
 md_headers=$(curl -sI -H "Accept: text/markdown" "$BASE/")
@@ -107,6 +114,34 @@ if grep -qi '^content-type: *text/html' <<<"$html_headers"; then
   pass "Default request (no markdown Accept) still returns text/html"
 else
   failmsg "Default request (no markdown Accept) still returns text/html"
+fi
+
+# 6. Performance: hero image ships a responsive srcset (avoids sending the
+# full 1920px asset to small/slow-4G viewports).
+if grep -qo 'hero-datacenter.webp"[^>]*srcset="[^"]*640w' <<<"$html"; then
+  pass "homepage hero image has a responsive srcset (640w variant present)"
+else
+  failmsg "homepage hero image has a responsive srcset (640w variant present)"
+fi
+
+# 6b. Partner logos declare explicit width/height (avoids CLS / Lighthouse
+# "Image elements do not have explicit width and height").
+partner_imgs=$(grep -o '<img src="assets/partners/[^>]*>' <<<"$html")
+if [ -n "$partner_imgs" ] && ! grep -qv 'width="[0-9]*" height="[0-9]*"' <<<"$partner_imgs"; then
+  pass "partner logo <img> tags all declare width/height"
+else
+  failmsg "partner logo <img> tags all declare width/height"
+fi
+
+# 6c. Non-composited animation fix: the eyebrow "pulse" dot must animate
+# transform/opacity, not box-shadow (box-shadow animations force paint on
+# every frame; Lighthouse flags this as "Avoid non-composited animations").
+site_css=$(curl -s "$BASE/assets/css/site.css?v=20260731" || curl -s "$BASE/assets/css/site.css")
+pulse_kf=$(grep -o '@keyframes pulse{[^}]*}[^}]*}[^}]*}' <<<"$site_css")
+if grep -q 'transform:scale' <<<"$pulse_kf" && ! grep -q 'box-shadow' <<<"$pulse_kf"; then
+  pass "pulse keyframes animate transform/opacity, not box-shadow"
+else
+  failmsg "pulse keyframes animate transform/opacity, not box-shadow"
 fi
 
 if [ "$fail" -eq 0 ]; then
