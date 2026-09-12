@@ -1,10 +1,12 @@
 <?php
-// v1 del catálogo público (sin precios — la tienda funciona a consulta).
-// Política de versionado: cambios incompatibles se publican bajo /api/v2/, etc.
-// Antes de retirar una versión, se envía "Deprecation: true" y "Sunset: <fecha>"
-// durante un mínimo de 6 meses. Ver /developers/ para el detalle completo.
+// Catálogo público de productos activos — endpoint versionado (v1).
+// Ver /openapi.json para la política de versionado, deprecación y rate limit.
+// Sin precios ni stock: la tienda funciona a consulta por WhatsApp.
+require __DIR__ . '/../lib/ratelimit.php';
+
 header('Content-Type: application/json; charset=utf-8');
-header('API-Version: v1');
+header('X-API-Version: 1');
+apply_rate_limit(30, 60);
 
 function error_json($code, $status, $message, $hint) {
     http_response_code($code);

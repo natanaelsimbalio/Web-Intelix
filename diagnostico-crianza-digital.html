@@ -161,7 +161,7 @@
   .count b{font-size:22px;font-weight:800}
   .count span{font-size:11px;color:var(--dim);text-align:center;line-height:1.3}
   .capture{padding:30px}
-  .capture h3{font-size:19px;font-weight:700;margin-bottom:6px}
+  .capture h2{font-size:19px;font-weight:700;margin-bottom:6px}
   .capture p{color:var(--muted);font-size:14px;margin-bottom:22px;line-height:1.55}
   .field{margin-bottom:16px}
   .field label{display:block;font-size:13px;font-weight:600;color:var(--white);margin-bottom:7px}
@@ -221,6 +221,7 @@
         </div>
       </div>
       <a href="diagnosticos.html">Diagnóstico</a>
+      <a href="tienda/index.html">Tienda</a>
       <a href="https://wa.me/543412280272" target="_blank" rel="noopener" class="nav-cta"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.945z"/></svg> WhatsApp</a>
     </div>
   </div>
@@ -250,7 +251,7 @@
 
 <div class="wrap">
   <section class="capture capture-pre" id="captureSec" aria-label="Datos para recibir el resultado">
-    <h3>Completá tus datos y recibí tu resultado</h3>
+    <h2>Completá tus datos y recibí tu resultado</h2>
     <p>Al enviar calculamos tu diagnóstico y te lo mandamos por email automáticamente. Una copia llega a nuestro equipo (peritos matriculados) por si querés orientación profesional. Sin compromiso.</p>
     <div class="row2">
       <div class="field"><label for="fNombre">Nombre <span class="req">*</span></label><input type="text" id="fNombre" autocomplete="name" placeholder="Tu nombre"></div>
@@ -299,6 +300,8 @@
   </div>
 </footer>
 
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/home-v2.js"></script>
 <script>
   var QDATA = [
     {"b":"Uso de dispositivos y supervisión","q":"¿A qué edad tus hijos empezaron a usar redes sociales o apps de mensajería con acceso a internet?","o":["Recién ahora, respetando la edad mínima y con supervisión","Antes de los 13 años, pero con algún control","Antes de los 13 años, sin ningún control","No lo sé / no llevo un registro"]},
@@ -378,13 +381,13 @@
     return {counts:counts, idx:idx, letter:best};
   }
   var LEVELS={
-    A:{txt:'Nivel de protección alto',color:'var(--green)',rgb:'95,206,126',title:'🟢 Familia con buenas prácticas digitales',
+    A:{txt:'Nivel de protección alto',color:'var(--green)',rgb:'95,206,126',title:'Familia con buenas prácticas digitales',
        desc:'Hay supervisión, comunicación abierta y buenas prácticas de privacidad. Aun así, conviene repasar las reglas cada tanto: las apps y los riesgos cambian rápido.'},
-    B:{txt:'Nivel intermedio',color:'var(--amber)',rgb:'232,180,85',title:'🟡 Buena base, con brechas para cerrar',
+    B:{txt:'Nivel intermedio',color:'var(--amber)',rgb:'232,180,85',title:'Buena base, con brechas para cerrar',
        desc:'Hay conciencia del tema, pero con huecos concretos en supervisión, privacidad o comunicación familiar. Vale la pena reforzarlos antes de que se conviertan en un problema.'},
-    C:{txt:'Nivel de exposición alto',color:'var(--red)',rgb:'226,105,95',title:'🔴 Exposición significativa',
+    C:{txt:'Nivel de exposición alto',color:'var(--red)',rgb:'226,105,95',title:'Exposición significativa',
        desc:'Tus hijos están expuestos a riesgos concretos de grooming, ciberbullying o sharenting. Se recomienda actuar cuanto antes: conversar en familia y buscar orientación profesional.'},
-    D:{txt:'Riesgo por desconocimiento',color:'var(--amber)',rgb:'232,180,85',title:'⚠️ Puntos ciegos importantes',
+    D:{txt:'Riesgo por desconocimiento',color:'var(--amber)',rgb:'232,180,85',title:'Puntos ciegos importantes',
        desc:'El mayor peligro no es lo que falla, sino lo que no se sabe. Predominan las respuestas "no lo sé": informarte sobre estos temas es el primer paso para proteger a tus hijos.'}
   };
   var lastResult=null;
@@ -469,7 +472,7 @@
       var sb=document.getElementById('sentBanner');
       if(d && d.success){
         sb.style.background='rgba(95,206,126,.08)'; sb.style.color='var(--white)';
-        sb.innerHTML='✓ Listo, '+escapeHtml(nombre.split(" ")[0])+'. Te enviamos el resultado a <strong>'+escapeHtml(email)+'</strong> y una copia llegó a nuestro equipo. Revisá tu bandeja (y el spam, por las dudas).';
+        sb.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Listo, '+escapeHtml(nombre.split(" ")[0])+'. Te enviamos el resultado a <strong>'+escapeHtml(email)+'</strong> y una copia llegó a nuestro equipo. Revisá tu bandeja (y el spam, por las dudas).';
       } else {
         sb.style.background='rgba(226,105,95,.08)'; sb.style.color='var(--white)';
         sb.innerHTML='Tu resultado está abajo, pero no pudimos enviar el email automáticamente. Escribinos a <a href="mailto:contacto@intelix.com.ar" style="color:var(--gold)">contacto@intelix.com.ar</a> y lo resolvemos.';

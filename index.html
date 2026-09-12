@@ -34,6 +34,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="preload" as="image" href="assets/img/hero/hero-datacenter.webp" fetchpriority="high">
 <link rel="canonical" href="https://intelix.com.ar/">
 <!-- Schema.org JSON-LD for LocalBusiness -->
 <script type="application/ld+json">
@@ -130,6 +131,7 @@
 }
 </script>
 <link rel="stylesheet" href="assets/css/site.css?v=20260731">
+<link rel="stylesheet" href="assets/css/home-v2.css?v=20260911">
 </head>
 <body>
 <div class="glow a"></div>
@@ -177,19 +179,22 @@
 <main id="contenido">
 
 <header class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <img src="assets/img/hero/hero-datacenter.webp" alt="" width="1920" height="1080" fetchpriority="high">
+  </div>
   <div class="wrap hero-grid">
     <div class="reveal">
-      <span class="eyebrow"><span class="pulse"></span>Software libre · IA local · +20 años de trayectoria</span>
-      <h1 class="hero-title">Ingeniería con trayectoria, ahora con <span class="hl">IA local y software libre</span>.</h1>
-      <p class="hero-sub">Basados en el microcentro de Rosario, Argentina. Más de 20 años construyendo con tecnología real. Somos especialistas en <strong style="color:var(--white);font-weight:600">software libre</strong> e <strong style="color:var(--white);font-weight:600">inteligencia artificial local</strong> — soluciones que corren en tu propia infraestructura, sin dependencia de terceros ni datos en la nube.</p>
+      <span class="eyebrow"><span class="pulse"></span>Rosario, Argentina · ingeniería real desde 2004</span>
+      <h1 class="hero-title">Tu infraestructura<br>Tu IA<br><span class="hl">Tus reglas.</span></h1>
+      <p class="hero-sub">20 años construyendo software libre y comunicaciones críticas. Hoy sumamos IA local: modelos y agentes que corren en tu propio servidor, no en la nube de un tercero.</p>
       <div class="hero-btns">
         <a href="https://wa.me/543412280272?text=Hola%20Intelix,%20quiero%20agendar%20una%20consulta%20gratuita" target="_blank" rel="noopener" class="btn btn-primary">Agendá una consulta gratuita →</a>
         <a href="proyectos.html" class="btn btn-ghost">Ver proyectos</a>
-        <a href="assets/pdf/brochure-intelix-psyware.pdf" target="_blank" rel="noopener" class="btn btn-ghost">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Descargar Brochure
-        </a>
       </div>
+      <a href="assets/pdf/brochure-intelix-psyware.pdf" target="_blank" rel="noopener" class="hero-brochure">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Descargar brochure (PDF)
+      </a>
       <div class="hero-meta">
         <div class="m"><b>+20</b><span>Años</span></div>
         <div class="m"><b>4</b><span>Países</span></div>
@@ -201,7 +206,7 @@
       <div class="terminal">
         <div class="term-bar">
           <span class="c r"></span><span class="c y"></span><span class="c g"></span>
-          <span class="title">~/intelix — nueva orientación</span>
+          <span class="title">~/intelix — capacidades</span>
         </div>
         <div class="term-body" id="term"></div>
       </div>
@@ -265,30 +270,24 @@
   </div>
 </section>
 
-<section class="diag-band" aria-label="Autodiagnóstico de ciberseguridad">
-  <div class="wrap diag-inner reveal">
-    <div class="diag-txt">
-      <div class="s-label">Autodiagnóstico gratuito</div>
-      <h2>¿Sabés qué tan expuesta está tu empresa a un <span class="hl">ciberataque</span>?</h2>
-      <p>Nuestros peritos informáticos matriculados también hacen auditoría, hardening y forense digital (arriba). Respondé 25 preguntas y recibí una valoración automática y orientativa del estado de tu ciberseguridad. Sin costo y sin registro.</p>
-    </div>
-    <div class="diag-cta">
-      <a href="diagnosticos.html" class="btn">Hacer el autodiagnóstico →</a>
-      <small>25 preguntas · ~5 minutos · gratis</small>
+<section class="photo-band" aria-label="Ingeniería aplicada">
+  <img src="assets/img/hero/engineer-night.webp" alt="" width="1920" height="1080" loading="lazy">
+  <div class="wrap">
+    <div class="photo-band-cap reveal">
+      <div class="s-label">Cómo trabajamos</div>
+      <h2>Ingeniería aplicada, no PowerPoint.</h2>
+      <p>Cada proyecto pasa por manos que también sostienen la operación crítica de nuestros clientes desde hace 20 años. El código que escribimos corre en tu servidor, no en una demo.</p>
     </div>
   </div>
 </section>
 
-<section class="diag-band diag-band--strong" aria-label="Ley Ema — violencia digital en el ámbito educativo">
-  <div class="wrap diag-inner reveal">
-    <div class="diag-txt">
-      <div class="s-label">Compromiso social · Ley Ema</div>
-      <h2>Acompañamos a instituciones educativas y <span class="hl">víctimas de violencia digital</span></h2>
-      <p>La Ley Ema —impulsada en memoria de Ema Bondaruk, adolescente misionera víctima de violencia digital en 2021— busca garantizar entornos digitales seguros en todo el sistema educativo, con protocolos de prevención y acompañamiento ante grooming, sextorsión, deepfakes y ciberacoso. En julio de 2026 Santa Fe fue la primera provincia en aprobar una ley propia contra la violencia digital en las escuelas. Por eso ponemos nuestra experiencia como peritos informáticos matriculados al servicio de colegios, docentes y familias: aseguramiento de evidencia digital, análisis forense, hardening y capacitación en ciberseguridad. Y porque la tecnología sola no alcanza, nuestro equipo de sistemas trabaja junto a un equipo de psicólogos y asistentes para dar una respuesta integral, técnica y humana, ante estas situaciones.</p>
-    </div>
-    <div class="diag-cta">
-      <a href="https://wa.me/543412280272?text=Hola%20Intelix,%20quiero%20consultar%20sobre%20la%20Ley%20Ema%20y%20violencia%20digital" target="_blank" rel="noopener" class="btn">Consultar por la Ley Ema →</a>
-      <small>Instituciones educativas · víctimas · familias</small>
+<section class="photo-band" aria-label="Comunicaciones e infraestructura">
+  <img src="assets/img/hero/voip-hardware.webp" alt="" width="1920" height="1080" loading="lazy">
+  <div class="wrap">
+    <div class="photo-band-cap reveal">
+      <div class="s-label">Comunicaciones unificadas</div>
+      <h2>VoIP, Asterisk y hardware real.</h2>
+      <p>Únicos certificados en Argentina para QueueMetrics y Yeastar. La base sobre la que construimos IA local y software a medida es la misma que sostiene comunicaciones críticas hace dos décadas.</p>
     </div>
   </div>
 </section>
@@ -360,6 +359,34 @@
   </div>
 </section>
 
+<section class="diag-band" aria-label="Autodiagnóstico de ciberseguridad">
+  <div class="wrap diag-inner reveal">
+    <div class="diag-txt">
+      <div class="s-label">Autodiagnóstico gratuito</div>
+      <h2>¿Sabés qué tan expuesta está tu empresa a un <span class="hl">ciberataque</span>?</h2>
+      <p>Nuestros peritos informáticos matriculados también hacen auditoría, hardening y forense digital. Respondé 25 preguntas y recibí una valoración automática y orientativa del estado de tu ciberseguridad. Sin costo y sin registro.</p>
+    </div>
+    <div class="diag-cta">
+      <a href="diagnosticos.html" class="btn">Hacer el autodiagnóstico →</a>
+      <small>25 preguntas · ~5 minutos · gratis</small>
+    </div>
+  </div>
+</section>
+
+<section class="diag-band diag-band--strong" aria-label="Ley Ema — violencia digital en el ámbito educativo">
+  <div class="wrap diag-inner reveal">
+    <div class="diag-txt">
+      <div class="s-label">Compromiso social · Ley Ema</div>
+      <h2>Acompañamos a instituciones educativas y <span class="hl">víctimas de violencia digital</span></h2>
+      <p>La Ley Ema —impulsada en memoria de Ema Bondaruk, adolescente misionera víctima de violencia digital en 2021— busca garantizar entornos digitales seguros en todo el sistema educativo, con protocolos de prevención y acompañamiento ante grooming, sextorsión, deepfakes y ciberacoso. En julio de 2026 Santa Fe fue la primera provincia en aprobar una ley propia contra la violencia digital en las escuelas. Por eso ponemos nuestra experiencia como peritos informáticos matriculados al servicio de colegios, docentes y familias: aseguramiento de evidencia digital, análisis forense, hardening y capacitación en ciberseguridad. Y porque la tecnología sola no alcanza, nuestro equipo de sistemas trabaja junto a un equipo de psicólogos y asistentes para dar una respuesta integral, técnica y humana, ante estas situaciones.</p>
+    </div>
+    <div class="diag-cta">
+      <a href="https://wa.me/543412280272?text=Hola%20Intelix,%20quiero%20consultar%20sobre%20la%20Ley%20Ema%20y%20violencia%20digital" target="_blank" rel="noopener" class="btn">Consultar por la Ley Ema →</a>
+      <small>Instituciones educativas · víctimas · familias</small>
+    </div>
+  </div>
+</section>
+
 <section id="faq">
   <div class="wrap">
     <div class="reveal">
@@ -368,20 +395,20 @@
       <p class="s-desc">Si tu duda no está acá, escribinos por WhatsApp y la resolvemos en minutos.</p>
     </div>
     <div class="faq-list reveal">
-      <div class="faq-item" aria-expanded="false">
-        <button class="faq-q" type="button" aria-controls="faq-1"><span>¿Qué es IA local u on-premise?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-1"><span>¿Qué es IA local u on-premise?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="faq-a" id="faq-1"><p>IA local significa que los modelos de inteligencia artificial corren en tu propia infraestructura, en tu servidor o VPS. Tus datos nunca salen a internet. Es lo opuesto a servicios en la nube como ChatGPT o Claude API, donde envías datos a terceros.</p></div>
       </div>
-      <div class="faq-item" aria-expanded="false">
-        <button class="faq-q" type="button" aria-controls="faq-2"><span>¿Por qué elegir software libre?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-2"><span>¿Por qué elegir software libre?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="faq-a" id="faq-2"><p>El software libre es auditable, sin vendor lock-in y controlable completamente por vos. No dependerás de una empresa para actualizaciones, soporte o cambios de políticas. Es la base de la infraestructura crítica en el mundo.</p></div>
       </div>
-      <div class="faq-item" aria-expanded="false">
-        <button class="faq-q" type="button" aria-controls="faq-3"><span>¿Qué tecnologías usan?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-3"><span>¿Qué tecnologías usan?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="faq-a" id="faq-3"><p>Frontend: React, Next.js, Flutter. Backend: Node.js, Python. IA: Ollama, LLaMA, OpenAI, Groq. Infraestructura: Docker, Linux, VPS, cloud en general. Todo personalizable según necesidad.</p></div>
       </div>
-      <div class="faq-item" aria-expanded="false">
-        <button class="faq-q" type="button" aria-controls="faq-4"><span>¿Están en Argentina?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-4"><span>¿Están en Argentina?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="faq-a" id="faq-4"><p>Sí, basados en el microcentro de Rosario, provincia de Santa Fe. Prestamos servicios en Argentina, Colombia, Estados Unidos y España.</p></div>
       </div>
     </div>
@@ -445,7 +472,7 @@
         <p>Ingeniería con trayectoria, con foco en el software del futuro. Desarrollo a medida, IA local y automatización on-premise desde Rosario, Argentina.</p>
       </div>
       <div class="foot-col">
-        <h5>Navegación</h5>
+        <h2>Navegación</h2>
         <ul>
           <li><a href="#servicios">Servicios</a></li>
           <li><a href="trayectoria.html">Trayectoria</a></li>
@@ -456,16 +483,18 @@
           <li><a href="assets/pdf/brochure-intelix-psyware.pdf" target="_blank" rel="noopener">Descargar Brochure (PDF)</a></li>
           <li><a href="blogs/index.html">Blog</a></li>
           <li><a href="Juegos/index.html">Juegos</a></li>
-          <li><a href="developers/index.html">API para desarrolladores</a></li>
         </ul>
       </div>
       <div class="foot-col">
-        <h5>Contacto</h5>
+        <h2>Contacto</h2>
         <ul>
           <li><a href="https://wa.me/543412280272" target="_blank" rel="noopener">WhatsApp</a></li>
           <li><a href="mailto:contacto@intelix.com.ar">contacto@intelix.com.ar</a></li>
           <li><a href="https://www.linkedin.com/company/intelix-ingenieria-&-telecomunicaciones/" target="_blank" rel="noopener">LinkedIn</a></li>
           <li><a href="https://x.com/fmvillares" target="_blank" rel="noopener">X / Twitter</a></li>
+          <li><a href="about.html">Sobre Intelix</a></li>
+          <li><a href="contact.html">Página de contacto</a></li>
+          <li><a href="privacy.html">Política de privacidad</a></li>
         </ul>
       </div>
     </div>
@@ -480,6 +509,8 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.945zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.612-.916-2.207-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413z"/></svg>
 </a>
 
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/home-v2.js"></script>
 <script>
   // OWASP: ensure all external links have noopener noreferrer
   document.querySelectorAll('a[target="_blank"]').forEach(a=>{a.rel='noopener noreferrer';});
@@ -580,8 +611,8 @@
     btn.addEventListener('click',()=>{
       const item=btn.closest('.faq-item');
       const ans=item.querySelector('.faq-a');
-      const open=item.getAttribute('aria-expanded')==='true';
-      item.setAttribute('aria-expanded',!open);
+      const open=btn.getAttribute('aria-expanded')==='true';
+      btn.setAttribute('aria-expanded',!open);
       ans.style.maxHeight=open?null:ans.scrollHeight+'px';
     });
   });
@@ -589,22 +620,20 @@
   // terminal typing
   const term=document.getElementById('term');
   const lines=[
-    {t:'$ intelix --status',c:'p'},
-    {t:'→ cargando trayectoria de la empresa...',c:'o'},
-    {t:'✓ voip · asterisk · seguridad informática',c:'ok'},
-    {t:'✓ certificaciones: DCAP · ECE · QueueMetrics',c:'ok'},
-    {t:'✓ presencia: AR · CO · US · ES',c:'ok'},
+    {t:'$ whoami',c:'p'},
+    {t:'  Intelix — Rosario, Argentina · desde 2004',c:'o'},
     {t:'',c:'o'},
-    {t:'$ intelix --add module=software+ia',c:'p'},
-    {t:'  sumando: desarrollo · agentes IA · automatización',c:'k'},
-    {t:'  ia_local: ollama · llama · privacidad por diseño',c:'k'},
-    {t:'  software_libre: linux · asterisk · sin vendor lock-in',c:'k'},
-    {t:'✓ nueva orientación activa — listos para construir',c:'ok'},
-    {t:'$ deploy Kioske.AR',c:'p'},
-    {t:'  flutter · stock · pagos · offline',c:'k'},
-    {t:'✓ build exitoso — listo para producción',c:'ok'},
+    {t:'$ intelix --capacidades',c:'p'},
+    {t:'✓ software a medida     react · node · flutter',c:'ok'},
+    {t:'✓ ia local               ollama · llama · rag',c:'ok'},
+    {t:'✓ automatización         workflows · apis',c:'ok'},
+    {t:'✓ voip / telecom         asterisk · yeastar',c:'ok'},
+    {t:'✓ seguridad forense      iso 27001 · hardening',c:'ok'},
     {t:'',c:'o'},
-    {t:'> abiertos a nuevos proyectos_',c:'ok'},
+    {t:'$ intelix --infra',c:'p'},
+    {t:'  100% on-premise · 0% dependencia de terceros',c:'k'},
+    {t:'',c:'o'},
+    {t:'> listos para tu próximo proyecto_',c:'ok'},
   ];
   let li=0,ci=0;
   function type(){

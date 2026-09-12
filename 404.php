@@ -36,7 +36,6 @@ No existe contenido en `{$pathEscaped}`.
 - [Sitemap](https://intelix.com.ar/sitemap.xml)
 - [llms.txt](https://intelix.com.ar/llms.txt)
 - [Documentación de la API](https://intelix.com.ar/openapi.json)
-- [Desarrolladores](https://intelix.com.ar/developers/)
 MD;
     exit;
 }

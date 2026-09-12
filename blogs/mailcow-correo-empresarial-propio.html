@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 <style>
-  :root{--bg:#121110;--gold:#C9963A;--gold-soft:#E8B455;--white:#F0EDE8;--muted:#a8a39a;--line:rgba(240,237,232,0.08)}
+  :root{--bg:#121110;--bg-soft:#181715;--gold:#C9963A;--gold-soft:#E8B455;--white:#F0EDE8;--muted:#a8a39a;--line:rgba(240,237,232,0.08)}
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{background:var(--bg);color:var(--white);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.8;-webkit-font-smoothing:antialiased}
@@ -107,6 +107,8 @@
   #nav .nav-links a:not(.nav-cta)::after{display:none}
   #nav .nav-cta{margin-top:16px;justify-content:center;padding:14px}
 }
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:24px 0}
+  .table-wrap table{margin:0}
 </style>
 <script type="application/ld+json">
 {
@@ -166,6 +168,7 @@
         </div>
       </div>
       <a href="../diagnosticos.html">Diagnóstico</a>
+      <a href="../tienda/index.html">Tienda</a>
       <a href="https://wa.me/543412280272" target="_blank" rel="noopener" class="nav-cta"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.945z"/></svg> WhatsApp</a>
     </div>
   </div>
@@ -189,13 +192,13 @@
       </ul>
       <h2>Lo que hace falta técnicamente para hacerlo bien</h2>
       <p>Operar correo propio de forma confiable no es solo instalar Mailcow: la reputación del dominio depende de una configuración correcta de <strong>SPF, DKIM y DMARC</strong>, de un IP con buena reputación, y de monitoreo activo de listas negras. Sin esto, los correos enviados terminan en spam del lado del receptor, sin importar cuán bien funcione el servidor por dentro.</p>
-      <table>
+      <div class="table-wrap"><table>
         <tr><th>Requisito</th><th>Por qué importa</th></tr>
         <tr><td>SPF / DKIM / DMARC</td><td>Evitan que el correo se marque como spam o suplantación</td></tr>
         <tr><td>IP dedicada con buena reputación</td><td>Una IP "quemada" por spam previo arruina la entregabilidad</td></tr>
         <tr><td>Backups automatizados</td><td>Correo perdido suele ser irrecuperable sin backup propio</td></tr>
         <tr><td>Monitoreo de colas y blacklists</td><td>Detecta problemas de entrega antes de que los reporten los clientes</td></tr>
-      </table>
+      </table></div>
       <h2>¿Es para cualquier empresa?</h2>
       <p>No necesariamente. Tiene más sentido para empresas con volumen de correo estable, que valoran el control sobre sus datos, y que están dispuestas a que alguien —interno o tercerizado— se responsabilice del mantenimiento. Para una operación muy chica sin ningún soporte técnico, un proveedor gestionado puede seguir siendo más simple. El punto de quiebre suele estar en la decena de buzones activos, donde el ahorro de licencias empieza a justificar el mantenimiento.</p>
       <div class="cta-box">
@@ -205,13 +208,27 @@
     </div>
   </div>
 </article>
+<div class="wrap" style="max-width:760px;margin:0 auto 8px;padding:0 28px">
+  <div style="border-top:1px solid var(--line);padding-top:32px;margin-top:8px">
+    <h2 style="font-size:15px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);font-weight:600;margin-bottom:16px">Artículos relacionados</h2>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;margin:0 0 20px">
+      <li><a href="home-assistant-domotica-local.html" style="color:var(--white);font-weight:600">Home Assistant: domótica y automatización local sin depender de la nube</a></li>
+      <li><a href="nextcloud-alternativa-drive.html" style="color:var(--white);font-weight:600">Nextcloud: la alternativa open source a Google Drive y Office 365</a></li>
+      <li><a href="software-libre-empresas.html" style="color:var(--white);font-weight:600">Software Libre para Empresas: Alternativas Open Source que Funcionan</a></li>
+    </ul>
+    <p style="font-size:14px"><a href="../diagnostico-soberania.html" style="color:var(--gold-soft);font-weight:600">→ Autodiagnóstico gratuito de soberanía tecnológica</a></p>
+  </div>
+</div>
 <div class="back-link"><a href="index.html">← Volver al blog</a></div>
 <footer>
   <div class="wrap">
     <p>Intelix Ingeniería &amp; Telecomunicaciones | Rosario, Argentina</p>
+    <p class="mono" style="margin-top:8px">© <span class="hm-year"></span> Intelix Ingeniería &amp; Telecomunicaciones</p>
     <p style="margin-top:8px">Especialistas en IA local, software libre y automatización on-premise.</p>
   </div>
 </footer>
+<script>document.querySelectorAll('.hm-year').forEach(function(el){el.textContent=new Date().getFullYear();});</script>
+
 <script>
 (function(){
   var nav=document.getElementById('nav');
@@ -259,5 +276,7 @@
   }
 })();
 </script>
+<script src="../assets/js/vendor/lenis.min.js"></script>
+<script src="../assets/js/home-v2.js"></script>
 </body>
 </html>

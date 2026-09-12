@@ -1,0 +1,140 @@
+/* ============================================================
+   Intelix — home-v2.css
+   Capa aditiva cargada en index.html y en las páginas institucionales
+   (site.css sigue intacto y compartido por todo el sitio). Agrega: hero
+   cinematográfico con foto real, page-header-bg para headers internos,
+   bandas full-bleed entre secciones (inspiradas en la fotografía
+   editorial de white-desert.com), carrusel de logos reales, estados
+   táctiles y microinteracciones (spotlight ya existía en .serv, se suma
+   magnetismo en CTAs y ripple de click).
+   ============================================================ */
+
+/* ---- Hero: imagen cinematográfica de fondo ---- */
+.hero{ position:relative; overflow:hidden; }
+.hero-bg{
+  position:absolute; inset:0; z-index:0;
+  transform:scale(1.06);
+}
+.hero-bg img{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+.hero-bg::after{
+  content:'';
+  position:absolute; inset:0;
+  background:
+    linear-gradient(180deg, rgba(18,17,16,.55) 0%, rgba(18,17,16,.72) 55%, var(--bg) 100%),
+    linear-gradient(90deg, rgba(18,17,16,.92) 0%, rgba(18,17,16,.55) 42%, rgba(18,17,16,.3) 100%);
+}
+.hero .wrap.hero-grid{ position:relative; z-index:1; }
+
+/* ---- page-header (páginas institucionales): mismo hero con foto real ---- */
+.page-header{ position:relative; overflow:hidden; }
+.page-header-bg{ position:absolute; inset:0; z-index:0; }
+.page-header-bg img{ width:100%; height:100%; object-fit:cover; display:block; }
+.page-header-bg::after{
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(18,17,16,.45) 0%, rgba(18,17,16,.8) 68%, var(--bg) 100%);
+}
+.page-header .wrap{ position:relative; z-index:1; }
+
+/* ---- Bandas full-bleed de foto (entre secciones) ---- */
+.photo-band{
+  position:relative;
+  min-height:56vh;
+  display:flex; align-items:flex-end;
+  overflow:hidden;
+  isolation:isolate;
+  z-index:0;
+}
+.photo-band img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;
+}
+.photo-band::before{
+  content:'';
+  position:absolute; inset:0; z-index:1;
+  background:linear-gradient(180deg, rgba(18,17,16,.15) 0%, rgba(18,17,16,.55) 65%, var(--bg) 100%);
+}
+.photo-band .wrap{
+  position:relative; z-index:2; padding-top:60px; padding-bottom:60px; width:100%;
+}
+.photo-band-cap{
+  max-width:560px;
+}
+.photo-band-cap .s-label{ color:var(--gold-soft); }
+.photo-band-cap h2{
+  font-size:clamp(24px,3.4vw,38px); line-height:1.18; letter-spacing:-.01em;
+  margin:10px 0 12px; font-weight:700; color:var(--white);
+}
+.photo-band-cap p{ color:var(--white); opacity:.86; font-size:15.5px; line-height:1.6; max-width:48ch; }
+
+@media (max-width:720px){
+  .photo-band{ min-height:44vh; }
+}
+
+/* ---- Brochure: fuera de la fila de CTAs principal, pero con marco
+   de botón (menor jerarquía que btn-primary/btn-ghost, no un link suelto) ---- */
+.hero-brochure{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:13.5px; font-weight:600; color:var(--dim); margin-top:18px;
+  padding:9px 16px; border-radius:9px; border:1px solid var(--line);
+  transition:color .2s, border-color .2s, background .2s, transform .2s var(--ease);
+}
+.hero-brochure:hover{ color:var(--white); border-color:var(--gold-line); background:rgba(201,150,58,.05); transform:translateY(-1px); }
+.hero-brochure:active{ transform:translateY(0) scale(.97); }
+
+/* ---- Tactile feedback on all buttons (site.css defines .btn-primary:active;
+   esto cubre el resto, ej. .btn-ghost) ---- */
+.btn{ will-change:transform; }
+.btn-ghost:active,
+.btn-ghost-gold:active{ transform:scale(.96) translateY(0); }
+
+/* ---- Magnetic pull on primary CTAs (desktop, fine pointer only) ---- */
+@media (hover:hover) and (pointer:fine){
+  .btn-primary, .nav-cta{ transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .22s, background .22s; }
+}
+
+/* ---- Ripple click effect ---- */
+.btn{ isolation:isolate; }
+.btn .ripple{
+  position:absolute; border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle, rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 70%);
+  transform:translate(-50%,-50%) scale(0);
+  width:20px; height:20px;
+  animation:btn-ripple .6s ease-out forwards;
+  z-index:0;
+}
+@keyframes btn-ripple{
+  to{ transform:translate(-50%,-50%) scale(9); opacity:0; }
+}
+
+/* ---- Carrusel de logos (clientes / partners): mismas cards reales de
+   site.css (foto + hipervínculo), solo se anima el contenedor en loop ---- */
+.marquee-wrap{
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+}
+.marquee-wrap .clients-grid,
+.marquee-wrap .partner-grid{
+  display:flex; flex-wrap:nowrap; width:max-content; gap:16px;
+  animation:marquee-scroll 46s linear infinite;
+}
+.marquee-wrap:hover .clients-grid,
+.marquee-wrap:hover .partner-grid,
+.marquee-wrap:focus-within .clients-grid,
+.marquee-wrap:focus-within .partner-grid{
+  animation-play-state:paused;
+}
+.marquee-wrap .clients-grid__logo{ flex:0 0 auto; width:156px; }
+.marquee-wrap .partner-grid__logo{ flex:0 0 auto; width:128px; }
+@keyframes marquee-scroll{ to{ transform:translateX(-50%); } }
+
+@media (prefers-reduced-motion:reduce){
+  .hero-bg{ transform:none; }
+  .btn .ripple{ display:none; }
+  .marquee-wrap .clients-grid,
+  .marquee-wrap .partner-grid{
+    animation:none; overflow-x:auto; width:100%; scroll-snap-type:x proximity;
+  }
+}

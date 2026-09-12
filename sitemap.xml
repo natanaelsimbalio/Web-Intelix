@@ -9,6 +9,27 @@
     <mobile:mobile/>
   </url>
   <url>
+    <loc>https://intelix.com.ar/about.html</loc>
+    <lastmod>2026-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://intelix.com.ar/contact.html</loc>
+    <lastmod>2026-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://intelix.com.ar/privacy.html</loc>
+    <lastmod>2026-08-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
     <loc>https://intelix.com.ar/trayectoria.html</loc>
     <lastmod>2026-07-28</lastmod>
     <changefreq>monthly</changefreq>
@@ -39,13 +60,6 @@
   <url>
     <loc>https://intelix.com.ar/prensa.html</loc>
     <lastmod>2026-07-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <mobile:mobile/>
-  </url>
-  <url>
-    <loc>https://intelix.com.ar/developers/</loc>
-    <lastmod>2026-08-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -266,6 +280,48 @@
   <url>
     <loc>https://intelix.com.ar/blogs/mailcow-correo-empresarial-propio.html</loc>
     <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://intelix.com.ar/blogs/vaultwarden-gestor-contrasenas-empresarial.html</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://intelix.com.ar/blogs/agentes-ia-mcp-seguridad.html</loc>
+    <lastmod>2026-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://intelix.com.ar/blogs/proteccion-datos-personales-pymes-argentina.html</loc>
+    <lastmod>2026-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://intelix.com.ar/blogs/facturacion-electronica-automatizada-arca.html</loc>
+    <lastmod>2026-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://intelix.com.ar/blogs/keycloak-sso-empresarial.html</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://intelix.com.ar/blogs/minio-almacenamiento-objetos.html</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://intelix.com.ar/blogs/grafana-prometheus-monitoreo.html</loc>
+    <lastmod>2026-09-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

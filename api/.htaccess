@@ -1,20 +1,6 @@
-Options -Indexes
-
 # Bloquea acceso web directo a archivos internos del backend de la tienda.
 # El código PHP puede seguir haciendo require/include de estos archivos
 # normalmente; esto solo impide que alguien los pida por URL.
 <FilesMatch "^(config\.php)$">
   Require all denied
 </FilesMatch>
-
-# El handler PHP del hosting (suPHP/FastCGI) intercepta las rutas .php
-# inexistentes antes que el ErrorDocument de Apache, devolviendo un
-# "File not found." de texto plano en vez del JSON de /404.php. Esta regla
-# redirige internamente cualquier request bajo /api/ que no exista como
-# archivo real hacia el 404 central, para que agentes reciban JSON siempre.
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^ /404.php [L]
-</IfModule>

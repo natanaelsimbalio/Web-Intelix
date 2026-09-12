@@ -27,13 +27,15 @@ Autodiagnóstico de exposición a ciberataques, disponible en [/diagnosticos.htm
 - [Blog](https://intelix.com.ar/blogs/index.html)
 - [Diagnóstico](https://intelix.com.ar/diagnosticos.html)
 - [Tienda](https://intelix.com.ar/tienda/index.html)
+- [Sobre Intelix](https://intelix.com.ar/about.html)
+- [Contacto](https://intelix.com.ar/contact.html)
+- [Política de Privacidad](https://intelix.com.ar/privacy.html)
 
 ## Recursos para agentes
 
-- [llms.txt](https://intelix.com.ar/llms.txt) — índice de contenido para agentes de IA.
+- [llms.txt](https://intelix.com.ar/llms.txt) — índice de contenido para agentes de IA, incluye guía de cuándo recomendar Intelix.
 - [sitemap.xml](https://intelix.com.ar/sitemap.xml) — mapa completo del sitio.
-- [openapi.json](https://intelix.com.ar/openapi.json) — especificación de la API pública.
-- [Desarrolladores](https://intelix.com.ar/developers/) — documentación, quickstart y sandbox de la API pública.
+- [openapi.json](https://intelix.com.ar/openapi.json) — especificación de la API pública. Endpoint versionado: `GET /api/v1/productos.php`.
 
 ## Contacto
 

@@ -30,6 +30,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="assets/css/site.css?v=20260731">
+<link rel="stylesheet" href="assets/css/home-v2.css?v=20260911">
 </head>
 <body>
 <div class="glow a"></div>
@@ -65,6 +66,7 @@
         </div>
       </div>
       <a href="diagnosticos.html">Diagnóstico</a>
+      <a href="tienda/index.html">Tienda</a>
       <a href="https://wa.me/543412280272" target="_blank" rel="noopener" class="nav-cta">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.945z"/></svg>
         WhatsApp
@@ -76,6 +78,7 @@
 <main id="contenido">
 
 <header class="page-header">
+  <div class="page-header-bg" aria-hidden="true"><img src="assets/img/hero/voip-hardware.webp" alt="" width="1920" height="1080" loading="eager"></div>
   <div class="wrap">
     <div class="s-label" style="justify-content:center">Proyectos</div>
     <h1>Lo que ya estamos <span class="hl">construyendo</span>.</h1>
@@ -94,7 +97,7 @@
               <span class="proj-cat">Inteligencia Artificial · App Mobile</span>
               <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a3 3 0 0 0-3 3 3 3 0 0 0-2.6 4.5A3 3 0 0 0 7 16a3 3 0 0 0 5 2 3 3 0 0 0 5-2 3 3 0 0 0 .6-5.5A3 3 0 0 0 15 6a3 3 0 0 0-3-3Z"/><path d="M12 3v15"/></svg></div>
             </div>
-            <h3>EstudIAr</h3>
+            <h2>EstudIAr</h2>
             <p class="d">App educativa que genera resúmenes estructurados, flashcards, modo examen autoevaluado y planes de estudio completos a partir de apuntes — incluyendo fotos procesadas por un modelo de visión. Pomodoro, calendario y sistema de rachas integrados.</p>
             <div class="stack"><span>Flutter</span><span>Dart</span><span>Groq API</span><span>Llama 3.3 70B</span><span>Riverpod</span><span>Hive</span></div>
             <div class="result"><span class="arrow">↗</span> IA generativa de extremo a extremo: resumen, examen y planificación automática</div>
@@ -118,7 +121,7 @@
               <span class="proj-cat">Aplicación Móvil · Comercios · Pagos</span>
               <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 4 4h16l1 5M4 9v10a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9M3 9h18M9 13h6"/></svg></div>
             </div>
-            <h3>Kioske.AR</h3>
+            <h2>Kioske.AR</h2>
             <p class="d">Aplicación para celular desarrollada por Intelix para gestión integral del negocio: control de stock en tiempo real, registro de ventas y cobros con efectivo y Mercado Pago integrado. Funciona sin conexión y sincroniza automáticamente al recuperar red. Ya en producción con clientes reales.</p>
             <div class="stack">
               <span>Flutter</span><span>Dart</span><span>SQLite</span><span>Mercado Pago</span><span>Riverpod</span>
@@ -144,7 +147,7 @@
               <span class="proj-cat">Desarrollo Web · Diseño a medida</span>
               <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20Z"/></svg></div>
             </div>
-            <h3>Diseño web a medida</h3>
+            <h2>Diseño web a medida</h2>
             <p class="d">Sitios institucionales, landing pages y soluciones web a medida con diseño propio, SEO trabajado a fondo (datos estructurados, sitemap, metadatos por página) y foco en velocidad de carga. Desde sitios corporativos con diagnósticos interactivos y blog técnico hasta landings para negocios locales, adaptados a cada rubro.</p>
             <div class="stack"><span>HTML5</span><span>CSS</span><span>JavaScript</span><span>SEO</span><span>A medida</span></div>
             <div class="result"><span class="arrow">↗</span> Diseño propio, SEO técnico y velocidad de carga en cada entrega</div>
@@ -166,7 +169,7 @@
           <span class="proj-cat">SaaS · Gestión</span>
           <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></div>
         </div>
-        <h3>FactuPsyware</h3>
+        <h2>FactuPsyware</h2>
         <p class="d">Sistema de facturación y administración comercial de Intelix: emisión de comprobantes, gestión de clientes, control de stock y seguimiento de cobros en un panel ejecutivo unificado. Pensado para PyMEs que necesitan orden y trazabilidad sin depender de la nube.</p>
         <div class="stack"><span>React</span><span>Node.js</span><span>PostgreSQL</span><span>APIs</span></div>
         <div class="result"><span class="arrow">↗</span> Facturación y administración centralizadas, trazables y on-premise</div>
@@ -178,7 +181,7 @@
           <span class="proj-cat">Aplicación Móvil · Privacidad</span>
           <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M3 12s3.5-7 9-7 9 7 9 7-3.5 7-9 7-9-7-9-7Z"/></svg></div>
         </div>
-        <h3>Fototeca</h3>
+        <h2>Fototeca</h2>
         <p class="d">Galería de fotos y videos 100% local para Android e iOS: línea de tiempo, álbumes y agrupación automática por lugar (geocoding). Incluye una bóveda privada con PIN/biometría y cifrado para ocultar fotos sensibles del carrete común, sin subir nada a la nube.</p>
         <div class="stack"><span>Flutter</span><span>Dart</span><span>SQLite</span><span>local_auth</span><span>Secure Storage</span></div>
         <div class="result"><span class="arrow">↗</span> Gestión de fotos privada y local, con bóveda cifrada para contenido sensible</div>
@@ -190,7 +193,7 @@
           <span class="proj-cat">Aplicación Móvil · Finanzas Personales</span>
           <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
         </div>
-        <h3>PrestApp</h3>
+        <h2>PrestApp</h2>
         <p class="d">Herramienta de gestión y cálculo para préstamos entre particulares: seguimiento de deudores, cuotas y pagos, cálculo de interés (simple/compuesto), cotización del dólar en tiempo real, nivel de riesgo por deudor y recordatorios de cobro. Uso administrativo y de cálculo — no es una entidad financiera ni presta servicios regulados de crédito.</p>
         <div class="stack"><span>Flutter</span><span>Riverpod</span><span>Hive</span><span>fl_chart</span></div>
         <div class="result"><span class="arrow">↗</span> Orden y cálculo de préstamos personales, sin depender de planillas sueltas</div>
@@ -202,7 +205,7 @@
           <span class="proj-cat">SaaS · CRM Comercial</span>
           <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
         </div>
-        <h3>CRM a medida</h3>
+        <h2>CRM a medida</h2>
         <p class="d">Sistemas de CRM propios para gestión comercial: prospectos, clientes, actividades (visitas, llamados, WhatsApp) y cotizaciones con PDF, todo en un panel unificado. Se integran con el ERP o la base existente cuando hace falta, y se adaptan al proceso de venta real de cada equipo — sin licenciamiento por usuario ni dependencia de plataformas de terceros.</p>
         <div class="stack"><span>Python</span><span>Django</span><span>Next.js</span><span>PostgreSQL</span></div>
         <div class="result"><span class="arrow">↗</span> Gestión comercial propia, trazable y sin costos de licencia por usuario</div>
@@ -214,7 +217,7 @@
           <span class="proj-cat">Fintech Educativa · Simulación</span>
           <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22M6 15h4"/></svg></div>
         </div>
-        <h3>Simulador de billetera virtual</h3>
+        <h2>Simulador de billetera virtual</h2>
         <p class="d">Billetera virtual simulada para red local, con tarjeta prepaga virtual, estética liquid glass, transferencias P2P, cobro por QR y panel de administración. Incluye un libro mayor forense append-only con hash SHA-256 encadenado: cualquier alteración de un movimiento rompe la cadena y queda detectada. Proyecto educativo/demo, no mueve dinero real.</p>
         <div class="stack"><span>Node.js</span><span>Socket.io</span><span>JWT</span><span>bcrypt</span></div>
         <div class="result"><span class="arrow">↗</span> Trazabilidad forense de cada movimiento mediante hash encadenado</div>
@@ -226,7 +229,7 @@
           <span class="proj-cat">Psicología Forense · Web Interactiva</span>
           <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
         </div>
-        <h3>M.A.T. — Test de Anticipación de Movimiento</h3>
+        <h2>M.A.T. — Test de Anticipación de Movimiento</h2>
         <p class="d">Simulador psicotécnico web que mide la capacidad de anticipación de movimiento: un estímulo se desplaza y se oculta, y el usuario debe estimar el momento exacto en que llegaría a destino. Pensado como herramienta de apoyo para evaluación cognitivo-conductual, sin backend ni recolección de datos — corre entero en el navegador.</p>
         <div class="stack"><span>HTML5</span><span>CSS</span><span>JavaScript</span></div>
         <div class="result"><span class="arrow">↗</span> Evaluación de tiempos de reacción y anticipación, lista para usar sin instalación</div>
@@ -238,7 +241,7 @@
           <span class="proj-cat">Aplicación Móvil · Telemetría</span>
           <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg></div>
         </div>
-        <h3>Dashboard BeamNG.drive</h3>
+        <h2>Dashboard BeamNG.drive</h2>
         <p class="d">Dashboard móvil de telemetría en tiempo real para el simulador de conducción BeamNG.drive: un bridge por WebSocket conecta la PC donde corre el juego con una app Android que muestra velocidad, RPM, marcha y demás datos del vehículo en vivo, ideal como segunda pantalla.</p>
         <div class="stack"><span>Capacitor</span><span>Node.js</span><span>WebSocket</span></div>
         <div class="result"><span class="arrow">↗</span> Segunda pantalla en tiempo real para simulación de conducción</div>
@@ -271,7 +274,7 @@
         <p>Ingeniería con trayectoria, con foco en el software del futuro. Desarrollo a medida, IA local y automatización on-premise desde Rosario, Argentina.</p>
       </div>
       <div class="foot-col">
-        <h5>Navegación</h5>
+        <h2>Navegación</h2>
         <ul>
           <li><a href="index.html#servicios">Servicios</a></li>
           <li><a href="trayectoria.html">Trayectoria</a></li>
@@ -285,7 +288,7 @@
         </ul>
       </div>
       <div class="foot-col">
-        <h5>Contacto</h5>
+        <h2>Contacto</h2>
         <ul>
           <li><a href="https://wa.me/543412280272" target="_blank" rel="noopener">WhatsApp</a></li>
           <li><a href="mailto:contacto@intelix.com.ar">contacto@intelix.com.ar</a></li>
@@ -305,6 +308,8 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.945zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.612-.916-2.207-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413z"/></svg>
 </a>
 
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/home-v2.js"></script>
 <script>
   document.querySelectorAll('a[target="_blank"]').forEach(a=>{a.rel='noopener noreferrer';});
   var yearEl=document.getElementById('year'); if(yearEl) yearEl.textContent=new Date().getFullYear();

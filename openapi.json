@@ -2,31 +2,35 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Intelix Ingeniería — API pública",
-    "description": "API pública de solo lectura del sitio de Intelix Ingeniería & Telecomunicaciones. Actualmente expone el catálogo de productos y servicios de la tienda (sin precios: la tienda funciona a consulta por WhatsApp). No requiere autenticación ni API key. Versionado por path (/api/v1/, /api/v2/, ...); ver /developers/ para la política completa de versionado y deprecación.",
+    "description": "API pública de solo lectura del sitio de Intelix Ingeniería & Telecomunicaciones. Actualmente expone el catálogo de productos y servicios de la tienda (sin precios: la tienda funciona a consulta por WhatsApp).\n\n**Versionado**: la API usa versionado por path (`/api/v1/...`). La versión activa se confirma en la respuesta con el header `X-API-Version`. `/api/productos.php` (sin versión en el path) es un alias que siempre resuelve a la última versión estable y devuelve `X-Api-Alias-Of` apuntando al endpoint versionado real — para integraciones estables, usá siempre el path con versión.\n\n**Deprecación**: cuando una versión quede obsoleta, sus respuestas incluirán los headers `Deprecation: true` y `Sunset: <fecha HTTP>` durante un período de aviso mínimo de 90 días antes de removerla. Hoy no hay versiones deprecadas.\n\n**Rate limiting**: 30 solicitudes por IP cada 60 segundos, compartido entre `/api/v1/productos.php` y su alias `/api/productos.php`. Cada respuesta incluye los headers `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset` y `RateLimit-Policy` (convención `draft-ietf-httpapi-ratelimit-headers`). Al exceder el límite, la respuesta es `429` con header `Retry-After` en segundos y el mismo formato de error JSON que el resto de la API.",
     "version": "1.0.0",
     "contact": {
       "name": "Intelix Ingeniería & Telecomunicaciones",
       "email": "contacto@intelix.com.ar",
-      "url": "https://intelix.com.ar/developers/"
+      "url": "https://intelix.com.ar"
     }
   },
   "servers": [
-    { "url": "https://intelix.com.ar", "description": "Producción — v1" }
+    { "url": "https://intelix.com.ar", "description": "Producción" }
   ],
   "paths": {
     "/api/v1/productos.php": {
       "get": {
         "operationId": "listarProductosV1",
         "summary": "Listar catálogo público de productos activos (v1)",
-        "description": "Devuelve los productos y servicios activos de la tienda, sin precios ni datos de stock. Versión actual: v1, sin fecha de deprecación planeada. La respuesta incluye el header `API-Version: v1`.",
+        "description": "Devuelve los productos y servicios activos de la tienda, sin precios ni datos de stock. Endpoint versionado — estable mientras la respuesta incluya `X-API-Version: 1` sin headers `Deprecation`/`Sunset`.",
         "responses": {
           "200": {
             "description": "Catálogo de productos activos",
             "headers": {
-              "API-Version": {
-                "description": "Versión de la API que respondió (v1).",
-                "schema": { "type": "string", "example": "v1" }
-              }
+              "X-API-Version": {
+                "description": "Versión de la API que respondió.",
+                "schema": { "type": "string", "example": "1" }
+              },
+              "RateLimit-Limit": { "$ref": "#/components/headers/RateLimit-Limit" },
+              "RateLimit-Remaining": { "$ref": "#/components/headers/RateLimit-Remaining" },
+              "RateLimit-Reset": { "$ref": "#/components/headers/RateLimit-Reset" },
+              "RateLimit-Policy": { "$ref": "#/components/headers/RateLimit-Policy" }
             },
             "content": {
               "application/json": {
@@ -34,6 +38,48 @@
               }
             }
           },
+          "429": { "$ref": "#/components/responses/RateLimited" },
+          "500": {
+            "description": "Error interno al leer el catálogo",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/productos.php": {
+      "get": {
+        "operationId": "listarProductos",
+        "summary": "Listar catálogo público de productos activos (alias, última versión)",
+        "description": "Alias sin versión en el path: siempre reenvía a la última versión estable (hoy /api/v1/productos.php) y devuelve el header `X-Api-Alias-Of` con el endpoint versionado real. Para integraciones que dependen de un contrato estable, preferí llamar directamente a /api/v1/productos.php.",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Catálogo de productos activos",
+            "headers": {
+              "X-API-Version": {
+                "description": "Versión de la API que respondió.",
+                "schema": { "type": "string", "example": "1" }
+              },
+              "X-Api-Alias-Of": {
+                "description": "Endpoint versionado al que resuelve este alias.",
+                "schema": { "type": "string", "example": "/api/v1/productos.php" }
+              },
+              "RateLimit-Limit": { "$ref": "#/components/headers/RateLimit-Limit" },
+              "RateLimit-Remaining": { "$ref": "#/components/headers/RateLimit-Remaining" },
+              "RateLimit-Reset": { "$ref": "#/components/headers/RateLimit-Reset" },
+              "RateLimit-Policy": { "$ref": "#/components/headers/RateLimit-Policy" }
+            },
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CatalogoResponse" }
+              }
+            }
+          },
+          "429": { "$ref": "#/components/responses/RateLimited" },
           "500": {
             "description": "Error interno al leer el catálogo",
             "content": {
@@ -47,6 +93,44 @@
     }
   },
   "components": {
+    "headers": {
+      "RateLimit-Limit": {
+        "description": "Máximo de solicitudes permitidas por ventana.",
+        "schema": { "type": "integer", "example": 30 }
+      },
+      "RateLimit-Remaining": {
+        "description": "Solicitudes restantes en la ventana actual.",
+        "schema": { "type": "integer", "example": 27 }
+      },
+      "RateLimit-Reset": {
+        "description": "Segundos hasta que se reinicie la ventana.",
+        "schema": { "type": "integer", "example": 42 }
+      },
+      "RateLimit-Policy": {
+        "description": "Política de rate limit aplicada, formato `<límite>;w=<ventana en segundos>`.",
+        "schema": { "type": "string", "example": "30;w=60" }
+      },
+      "Retry-After": {
+        "description": "Segundos a esperar antes de reintentar (solo en 429).",
+        "schema": { "type": "integer", "example": 42 }
+      }
+    },
+    "responses": {
+      "RateLimited": {
+        "description": "Límite de solicitudes excedido.",
+        "headers": {
+          "Retry-After": { "$ref": "#/components/headers/Retry-After" },
+          "RateLimit-Limit": { "$ref": "#/components/headers/RateLimit-Limit" },
+          "RateLimit-Remaining": { "$ref": "#/components/headers/RateLimit-Remaining" },
+          "RateLimit-Reset": { "$ref": "#/components/headers/RateLimit-Reset" }
+        },
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+          }
+        }
+      }
+    },
     "schemas": {
       "Producto": {
         "type": "object",
