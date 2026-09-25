@@ -31,6 +31,8 @@
   :root{--bg:#121110;--bg-soft:#181715;--gold:#C9963A;--gold-soft:#E8B455;--white:#F0EDE8;--muted:#a8a39a;--line:rgba(240,237,232,0.08)}
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
+  html.lenis,html.lenis body{height:auto}
+  html.lenis.lenis-smooth{scroll-behavior:auto!important}
   body{background:var(--bg);color:var(--white);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.8;-webkit-font-smoothing:antialiased}
   a{color:var(--gold);text-decoration:none}
   .wrap{max-width:760px;margin:0 auto;padding:0 28px}

@@ -16,6 +16,12 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
+/* Lenis toma el control del scroll vía rAF; si el navegador además anima
+   con scroll-behavior:smooth nativo, ambos pelean por la misma posición
+   y en Chrome eso se ve como tirones/saltos. Lenis marca <html> con estas
+   clases mientras está activo: ahí apagamos el smooth nativo. */
+html.lenis,html.lenis body{height:auto}
+html.lenis.lenis-smooth{scroll-behavior:auto!important}
 body{
   background:var(--bg);
   color:var(--white);
