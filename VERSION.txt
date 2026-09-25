@@ -75,12 +75,13 @@ v1.5 — 2026-09-11 — rediseño visual cinematográfico, Lenis self-hosted, te
   clicks en `a[href^="#"]` para usar `lenis.scrollTo`, porque Lenis pelea
   contra saltos de ancla nativos (nav, skip-link) si no se le indica el
   destino explícitamente.
-- 4 imágenes hero generadas (Higgsfield, modelo z_image) y optimizadas a
+- 3 imágenes hero generadas (Higgsfield, modelo z_image) y optimizadas a
   WebP (de ~3MB a 50-100KB c/u): assets/img/hero/{hero-datacenter,
-  engineer-night,voip-hardware,fiber-macro}.webp. Usadas como fondo del
+  engineer-night,fiber-macro}.webp. Usadas como fondo del
   hero de index.html y como page-header-bg en las 9 páginas institucionales
   (imagen contextual por página), con `fetchpriority="high"` en el hero
-  principal y `loading="lazy"` en el resto.
+  principal y `loading="lazy"` en el resto. (Se retiró voip-hardware por
+  quedar mal generada por IA; las páginas que la usaban pasaron a fiber-macro.)
 - Carrusel infinito de logos reales: clients-grid y partner-grid (ya
   existentes, con hipervínculos reales) se envuelven en `.marquee-wrap` y se
   clonan una vez para loop seamless; el set clonado queda `aria-hidden` y con

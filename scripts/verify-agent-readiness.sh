@@ -132,7 +132,7 @@ check "assets/js/home-v2.js existe" "$homejs_code" "200"
 homecss_code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/assets/css/home-v2.css")
 check "assets/css/home-v2.css existe" "$homecss_code" "200"
 
-for img in hero-datacenter engineer-night voip-hardware fiber-macro; do
+for img in hero-datacenter engineer-night fiber-macro; do
   img_code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/assets/img/hero/$img.webp")
   check "assets/img/hero/$img.webp existe" "$img_code" "200"
 done

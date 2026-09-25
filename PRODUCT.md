@@ -93,10 +93,11 @@ de startup.
 - Contenido textual completo real (nav, hero, servicios, autodiagnósticos, Ley Ema, listado
   real de 18 clientes y 12 partners tecnológicos con logo + hipervínculo real, FAQ, datos de
   contacto) — ver `index.html`, `llms.txt`, `INFORME.txt`.
-- 4 imágenes hero generadas con IA (Higgsfield, modelo z_image) ya integradas y optimizadas
-  a WebP en `assets/img/hero/` (hero-datacenter, engineer-night, voip-hardware, fiber-macro)
+- 3 imágenes hero generadas con IA (Higgsfield, modelo z_image) ya integradas y optimizadas
+  a WebP en `assets/img/hero/` (hero-datacenter, engineer-night, fiber-macro)
   — usadas como fondo del hero y de los headers institucionales. No fabricar más fotos de
-  stock genéricas sin indicación explícita de qué sección lo necesita.
+  stock genéricas sin indicación explícita de qué sección lo necesita. (La cuarta, voip-hardware,
+  se retiró por quedar mal generada por IA; las páginas que la usaban pasaron a fiber-macro.)
 - Brochure PDF real descargable (`assets/pdf/brochure-intelix-psyware.pdf`).
 - Sin testimonios ni casos de estudio con citas reales disponibles más allá del listado de
   nombres de clientes — no inventar citas ni métricas de resultados.
